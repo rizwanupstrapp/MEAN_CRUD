@@ -1,0 +1,41 @@
+{
+  "name": "wallet-system",
+  "version": "1.0.0",
+  "description": "a payment gateway system for transaction history",
+  "main": "app.js",
+  "scripts": {
+    "seed": "node utils/seeder.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Rizwan Shaikh",
+  "license": "ISC",
+  "dependencies": {
+    "aws-sdk": "^2.908.0",
+    "bcrypt": "^5.0.1",
+    "bcryptjs": "^2.4.3",
+    "bluebird": "^3.7.2",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "crypto-js": "^4.0.0",
+    "debug": "^4.3.1",
+    "dotenv": "^9.0.2",
+    "elasticsearch": "^16.7.2",
+    "express": "^4.17.1",
+    "express-fileupload": "^1.2.1",
+    "express-validation": "^3.0.8",
+    "http-status": "^1.5.0",
+    "jsonwebtoken": "^8.5.1",
+    "lodash": "^4.17.21",
+    "moment": "^2.29.1",
+    "mongoosastic": "^4.6.0",
+    "mongoose": "^5.12.9",
+    "nodemailer": "^6.6.0",
+    "pusher": "^5.0.0",
+    "qrcode": "^1.4.4",
+    "socket.io": "^4.1.2",
+    "stripe": "^8.149.0",
+    "uuid": "^8.3.2",
+    "uuidv4": "^6.2.8",
+    "valid-url": "^1.0.9"
+  }
+}

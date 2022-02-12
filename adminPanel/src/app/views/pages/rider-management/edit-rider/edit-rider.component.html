@@ -1,0 +1,436 @@
+<div class="kt-portlet">
+    <div class="kt-portlet__head">
+        <div class="kt-portlet__head-label">
+            <h3 class="kt-portlet__head-title">{{'RIDER.EDIT' | translate }} </h3>
+        </div>
+        <div class="btn kt-portlet__head-label">
+            <a href="javascript:;" routerLink="/rider-management/list" class="btn btn-brand btn-elevate btn-icon-sm"><i
+                    class="la la-left-arrow"></i>{{'BUTTONS.BACK' | translate }}</a>
+        </div>
+    </div>
+    <div class="kt-portlet__body">
+        <div class="example-preview">
+            <ul class="nav nav-tabs" id="myTab1" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link" [ngClass]="{ 'active': navObj.link == 'personal' }" id="persnol_detail-tab-1" data-toggle="tab" href="javascript:;" (click)="clickLink('personal')">
+                        <span class="nav-icon"><i class="flaticon-avatar"></i></span>
+                        <span class="nav-text">{{'RIDER.TAB.PERSONAL' | translate }}</span>
+                    </a>
+                </li>
+            </ul>
+            <div class="tab-content mt-5" id="myTabContent1">
+                <!-- ------------------------ tab1 -->
+                <div class="tab-pane fade" [ngClass]="{ 'active show': navObj.link === 'personal' }" id="persnol_detail" *ngIf=" navObj.link === 'personal'" role="tabpanel" aria-labelledby="persnol_detail-tab-1">
+                    <form class="kt-form kt-form__group" name="addRiderForm1" [formGroup]="addRiderForm1">
+
+                        <div class="form-group row">
+                            <div class="col-lg-6">
+                                <div class="col-lg-12">
+                                    <label for="example-text-input" class="col-form-label">
+                                        {{'RIDER.LABEL.USER_PROFILE_IMAGE' | translate }}
+                                    </label>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="kt-avatar" id="kt_user_avatar_2">
+                                        <div class="kt-avatar__holder" [style.background-image]="'url('+url+')'">
+                                        </div>
+                                        <label class="kt-avatar__upload" data-toggle="kt-tooltip" title="User Image" *ngIf="url && url=='../../../../../assets/media/newMedia/add.png'" data-original-title="Change avatar">
+                                            <i class="fa fa-pen"></i>
+                                            <input type="file" name="profile_avatar" accept=".png, .jpg, .jpeg"
+                                                (change)="onSelectUserImage($event)">
+                                        </label>
+                                        <span class="kt-avatar__cancel" *ngIf="url && url!='../../../../../assets/media/newMedia/add.png'" style="display:flex;" data-toggle="kt-tooltip" title="" (click)="removeUserImage()" data-original-title="Remove Image">
+                                            <i class="fa fa-times"></i>
+                                        </span>
+                                    </div>
+                                    <span class="form-text text-muted">{{'DRIVER.NOTES.IMAGE'|translate}}
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <div class="col-lg-12">
+                                    <label for="example-text-input" class="col-form-label">
+                                        {{'RIDER.LABEL.USER_ID_PROOF_IMAGE' | translate }}
+                                    </label>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="kt-avatar" id="kt_user_avatar_2">
+                                        <div class="kt-avatar__holder" [style.background-image]="'url('+url1+')'">
+                                        </div>
+                                        <label class="kt-avatar__upload" data-toggle="kt-tooltip" title="User Id Proof" *ngIf="url1 && url1=='../../../../../assets/media/newMedia/add.png'" data-original-title="Change avatar">
+                                            <i class="fa fa-pen"></i>
+                                            <input type="file" name="profile_avatar" accept=".png, .jpg, .jpeg"
+                                                (change)="onSelectUserIdProofImage($event)">
+                                        </label>
+                                        <span class="kt-avatar__cancel" *ngIf="url1 && url1!='../../../../../assets/media/newMedia/add.png'" style="display:flex;" data-toggle="kt-tooltip" title="" (click)="removeUserIdProofImage()" data-original-title="Remove Image">
+                                            <i class="fa fa-times"></i>
+                                        </span>
+                                    </div>
+                                    <span class="form-text text-muted">{{'DRIVER.NOTES.IMAGE'|translate}}
+                                    </span>
+                                </div>
+                            </div>
+                         <!-- User Name -->
+                         <div class="col-lg-6">
+                            <div class="col-lg-12">
+                                <label for="example-text-input" class="col-form-label">
+                                    {{'RIDER.LABEL.USER_NAME' | translate }} *
+                                </label>
+                            </div>
+                            <div class="col-lg-12">
+                                <input class="form-control m-input m-login__form-input--last" placeholder="{{'RIDER.PLACEHOLDERS.USER_NAME'|translate}}" type="text" formControlName="user_userName" [ngClass]="{ 'is-invalid': submitted && addRiderForm1.controls.user_userName.errors }">
+                                <div *ngIf="submitted && addRiderForm1.controls.user_userName.errors" class="form-control-feedback" style="color: red">
+                                    <p *ngIf="submitted && addRiderForm1.controls.user_userName.errors?.required">
+                                        {{'RIDER.VALIDATION.FIELD_REQUIRED' | translate}}</p>
+                                    <p *ngIf="addRiderForm1.controls.user_userName.errors?.minlength && !addRiderForm1.controls.user_userName.errors?.pattern" class="lbl-err"> {{'RIDER.VALIDATION.MIN_CHARACTER' | translate}}</p>
+                                    <p *ngIf="addRiderForm1.controls.user_userName.errors?.maxlength && !addRiderForm1.controls.user_userName.errors?.pattern" class="lbl-err"> {{'RIDER.VALIDATION.MAX_CHARACTER' | translate}}</p>
+                                    <p *ngIf="submitted && addRiderForm1.controls.user_userName.errors?.pattern">
+                                        {{'RIDER.VALIDATION.USERNAME_INVALID'|translate}} </p>
+                                </div>
+                            </div>
+                           </div>
+                        </div>
+
+                        <!-- ---first & last Name -->
+                        <div class="form-group  row">
+                            <div class="col-lg-6">
+                                <div class="col-lg-12">
+                                    <label for="example-text-input" class="col-form-label">
+                                        {{'RIDER.LABEL.FIRST_NAME' | translate }} *
+                                    </label>
+                                </div>
+                                <div class="col-lg-12">
+                                    <input class="form-control m-input m-login__form-input--last" placeholder="{{'RIDER.PLACEHOLDERS.FIRST_NAME' | translate}}" type="text" formControlName="user_firstName" [ngClass]="{ 'is-invalid': submitted && addRiderForm1.controls.user_firstName.errors }">
+                                    <div *ngIf="submitted && addRiderForm1.controls.user_firstName.errors" class="form-control-feedback" style="color: red">
+                                        <p *ngIf="submitted && addRiderForm1.controls.user_firstName.errors?.required">
+                                            {{'RIDER.VALIDATION.FIELD_REQUIRED' | translate }}
+                                        </p>
+                                        <p *ngIf="addRiderForm1.controls.user_firstName.errors?.minlength && !addRiderForm1.controls.user_firstName.errors?.pattern" class="lbl-err">
+                                            {{'RIDER.VALIDATION.MIN_CHARACTER' | translate }}
+                                        </p>
+                                        <p *ngIf="addRiderForm1.controls.user_firstName.errors?.maxlength && !addRiderForm1.controls.user_firstName.errors?.pattern" class="lbl-err">
+                                            {{'RIDER.VALIDATION.MAX_CHARACTER' | translate }}
+                                        </p>
+                                        <p *ngIf="submitted && addRiderForm1.controls.user_firstName.errors?.pattern">
+                                            {{'RIDER.VALIDATION.FIRSTNAME_INVALID' | translate }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="col-lg-12">
+                                    <label for="example-text-input" class="col-form-label">
+                                        {{'RIDER.LABEL.LAST_NAME' | translate }} *
+                                    </label>
+                                </div>
+                                <div class="col-lg-12">
+                                    <input class="form-control m-input m-login__form-input--last" placeholder="{{'RIDER.PLACEHOLDERS.LAST_NAME' | translate}}" type="text" formControlName="user_lastName" [ngClass]="{ 'is-invalid': submitted && addRiderForm1.controls.user_lastName.errors }">
+                                    <div *ngIf="submitted && addRiderForm1.controls.user_lastName.errors" class="form-control-feedback" style="color: red">
+                                        <p *ngIf="submitted && addRiderForm1.controls.user_lastName.errors?.required">
+                                            {{'RIDER.VALIDATION.FIELD_REQUIRED' | translate }}
+                                        </p>
+                                        <p *ngIf="addRiderForm1.controls.user_lastName.errors?.minlength && !addRiderForm1.controls.user_lastName.errors?.pattern" class="lbl-err">
+                                            {{'RIDER.VALIDATION.MIN_CHARACTER' | translate }}
+                                        </p>
+                                        <p *ngIf="addRiderForm1.controls.user_lastName.errors?.maxlength && !addRiderForm1.controls.user_lastName.errors?.pattern" class="lbl-err">
+                                            {{'RIDER.VALIDATION.MAX_CHARACTER' | translate }}
+                                        </p>
+                                        <p *ngIf="submitted && addRiderForm1.controls.user_lastName.errors?.pattern">
+                                            {{'RIDER.VALIDATION.LASTNAME_INVALID' | translate }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- email -- phone & isd-->
+                        <div class="form-group  row">
+                            <div class="col-lg-6">
+                                <div class="col-lg-12">
+                                    <label for="example-text-input" class="col-form-label">
+                                        {{'RIDER.LABEL.EMAIL' | translate }} *
+                                    </label>
+                                </div>
+                                <div class="col-lg-12">
+                                    <input class="form-control m-input m-login__form-input--last" placeholder="{{'RIDER.PLACEHOLDERS.USER_EMAIL' | translate}}" type="text" formControlName="user_email" [ngClass]="{ 'is-invalid': submitted && addRiderForm1.controls.user_email.errors }">
+                                    <div *ngIf="submitted && addRiderForm1.controls.user_email.errors" class="form-control-feedback" style="color: red">
+                                        <p *ngIf="submitted && addRiderForm1.controls.user_email.errors?.required">
+                                            {{'RIDER.VALIDATION.FIELD_REQUIRED' | translate }}
+                                        </p>
+                                        <p *ngIf="submitted && addRiderForm1.controls.user_email.errors?.pattern">
+                                            {{'RIDER.VALIDATION.EMAIL_INVALID' | translate }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <div class="col-lg-12">
+                                    <label for="example-text-input" class="col-form-label">
+                                        {{'RIDER.LABEL.ZIPCODE' | translate }} *
+                                    </label>
+                                </div>
+                                <div class="col-lg-12">
+                                    <input class="form-control m-input m-login__form-input--last" placeholder="{{'RIDER.PLACEHOLDERS.ZIPCODE' | translate}}" type="text" formControlName="user_zipCode" [ngClass]="{ 'is-invalid': submitted && addRiderForm1.controls.user_zipCode.errors }">
+                                    <div *ngIf="submitted && addRiderForm1.controls.user_zipCode.errors" class="form-control-feedback" style="color: red">
+                                        <p *ngIf="submitted && addRiderForm1.controls.user_zipCode.errors?.required">
+                                            {{'RIDER.VALIDATION.FIELD_REQUIRED' | translate }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- verified -- Status -->
+                        <!---- invitation code & DOB------->
+                        <div class="form-group  row">
+                            <div class="col-lg-6">
+                                <div class="col-lg-12">
+                                    <label for="example-text-input" class="col-form-label">
+                                        {{'RIDER.LABEL.INVITATION_CODE' | translate }} 
+                                    </label>
+                                </div>
+                                <div class="col-lg-12">
+                                    <input class="form-control m-input m-login__form-input--last" placeholder="{{'RIDER.PLACEHOLDERS.INVITATION_CODE' | translate}}" type="text" formControlName="user_invitationCode" [ngClass]="{ 'is-invalid': submitted && addRiderForm1.controls.user_invitationCode.errors }">
+                                    <div *ngIf="submitted && addRiderForm1.controls.user_invitationCode.errors" class="form-control-feedback" style="color: red">
+                                        <p *ngIf="submitted && addRiderForm1.controls.user_invitationCode.errors?.required">
+                                            {{'RIDER.VALIDATION.FIELD_REQUIRED' | translate }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="col-lg-12">
+                                    <label for="example-text-input" class="col-form-label">
+                                        {{'RIDER.LABEL.DATE_OF_BIRTH' | translate }} *
+                                    </label>
+                                </div>
+                                <div class="col-lg-12">
+                                    <!-- <input class="form-control m-input m-login__form-input--last" placeholder="{{'DRIVER.PLACEHOLDERS.EXPIRY_DATE' | translate}}"
+                                        type="text" formControlName="user_dob" [ngClass]="{ 'is-invalid': submitted && addRiderForm1.controls.user_dob.errors }"> -->
+                                    <input class="form-control m-input m-login__form-input--last" placeholder="{{'RIDER.PLACEHOLDERS.DATE_OF_BIRTH' | translate}}" type="text" name="user_dob" formControlName="user_dob" bsDatepicker [ngClass]="{ 'is-invalid': submitted && addRiderForm1.controls.user_dob.errors }">
+                                    <div *ngIf="submitted && addRiderForm1.controls.user_dob.errors" class="form-control-feedback" style="color: red">
+                                        <p *ngIf="submitted && addRiderForm1.controls.user_dob.errors?.required">
+                                            {{'DRIVER.VALIDATION.FIELD_REQUIRED' | translate }}
+                                        </p>
+                                        <p *ngIf="addRiderForm1.controls.user_dob.errors?.minlength && !addRiderForm1.controls.user_dob.errors?.pattern" class="lbl-err">
+                                            {{'DRIVER.VALIDATION.MIN_CHARACTER' | translate }}
+                                        </p>
+                                        <p *ngIf="addRiderForm1.controls.user_dob.errors?.maxlength && !addRiderForm1.controls.user_dob.errors?.pattern" class="lbl-err">
+                                            {{'DRIVER.VALIDATION.MAX_CHARACTER' | translate }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- <div class="col-lg-6">
+                                <div class="col-lg-12">
+                                    <label for="example-text-input" class="col-form-label">
+                                        {{'RIDER.LABEL.PREMIUM_USER' | translate }} *
+                                    </label>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="col-lg-12">
+                                        <select class="form-control m-input" formControlName="user_premiumUser"
+                                            [ngClass]="{ 'is-invalid': submitted && addRiderForm1.controls.user_premiumUser.errors }">
+                                            <option value="0">{{'RIDER.LABEL.YES'|translate}}</option>
+                                            <option value="1">{{'RIDER.LABEL.NO'|translate}}</option>
+                                        </select>
+                                        <div *ngIf="submitted && addRiderForm1.controls.user_premiumUser.errors"
+                                            class="form-control-feedback" style="color: red">
+                                            <p
+                                                *ngIf="submitted && addRiderForm1.controls.user_premiumUser.errors?.required">
+                                                {{'RIDER.VALIDATION.FIELD_REQUIRED' | translate }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> -->
+
+                        </div>
+                        <!-- <div class="form-group  row"> -->
+                        <!-- ---- country -->
+                        <!-- <div class="col-lg-6">
+                                <div class="col-lg-12">
+                                    <label for="example-text-input" class="col-form-label">
+                                        {{'RIDER.LABEL.COUNTRY' | translate }}*
+                                    </label>
+                                </div>
+                                <div class="col-lg-12">
+                                    <select class="form-control m-input m-login__form-input--last"
+                                         formControlName="user_countryId">
+                                        <option value=""> {{'RIDER.PLACEHOLDERS.COUNTRY' | translate }}</option>
+                                        <option *ngFor="let code of countryList" [value]="code._id">
+                                            {{code.country_name}}</option>
+                                    </select>
+                                    <div *ngIf="submitted && addRiderForm1.controls.user_countryId.errors"
+                                        class="form-control-feedback" style="color: red">
+                                        <p *ngIf="submitted && addRiderForm1.controls.user_countryId.errors?.required">
+                                            {{'RIDER.VALIDATION.FIELD_REQUIRED' | translate }}
+                                        </p>
+                                        <p *ngIf="addRiderForm1.controls.user_countryId.errors?.minlength && !addRiderForm1.controls.user_countryId.errors?.pattern"
+                                            class="lbl-err">
+                                            {{'RIDER.VALIDATION.MIN_CHARACTER' | translate }}
+                                        </p>
+                                        <p *ngIf="addRiderForm1.controls.user_countryId.errors?.maxlength && !addRiderForm1.controls.user_countryId.errors?.pattern"
+                                            class="lbl-err">
+                                            {{'RIDER.VALIDATION.MAX_CHARACTER' | translate }}
+                                        </p>
+                                        <p *ngIf="submitted && addRiderForm1.controls.user_countryId.errors?.pattern">
+                                            {{'RIDER.VALIDATION.COUNTRY_INVALID' | translate }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div> -->
+
+                        <!-- </div> -->
+
+                        <!--- Mobile number alt number-->
+                        <div class="form-group row">
+
+                            <div class="col-lg-6">
+                                <div class="col-lg-12">
+                                    <label for="example-text-input" class="col-form-label">
+                                        {{'RIDER.LABEL.MOBILENO' | translate }} *
+                                    </label>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="d-flex mbl-sct">
+                                        <!-- <select class="form-control m-input m-login__form-input--last" formControlName="user_isdCode">
+                                            <option *ngFor="let code of countryList" [value]="code.country_isd">
+                                                {{code.country_code}}({{code.country_isd}})</option>
+                                        </select> -->
+
+                                        <!-- <select class="form-control m-input m-login__form-input--last" formControlName="user_isdCode"> -->
+                                        <!-- <option *ngFor="let code of countryList" [value]="code.country_isd">
+                                            {{code.country_code}}({{code.country_isd}})</option> -->
+                                        <!-- <option [selected] [value]="+964">
+                                            +964</option> -->
+                                        <!-- </select> -->
+                                        <div class="col-lg-3">
+                                            <input class="form-control m-input m-login__form-input--last" placeholder="{{'RIDER.PLACEHOLDERS.ISD_CODE'|translate}}" type="text" formControlName="user_isdCode" [ngClass]="{ 'is-invalid': submitted1 && addRiderForm1.controls.user_isdCode.errors }">
+                                        </div>
+                                        <div class="col-lg-9">
+                                            <input class="form-control m-input m-login__form-input--last" placeholder="{{'RIDER.PLACEHOLDERS.USER_MOBILE' | translate}}" type="text" formControlName="user_phoneNumber" [ngClass]="{ 'is-invalid': submitted && addRiderForm1.controls.user_phoneNumber.errors }">
+                                        </div>
+                                    </div>
+                                    <div *ngIf="submitted && addRiderForm1.controls.user_phoneNumber.errors" class="form-control-feedback" style="color: red">
+                                        <p *ngIf="submitted && addRiderForm1.controls.user_phoneNumber.errors?.required">
+                                            {{'RIDER.VALIDATION.FIELD_REQUIRED' | translate }}
+                                        </p>
+                                        <p *ngIf="submitted && addRiderForm1.controls.user_phoneNumber.errors?.pattern">
+                                            {{'RIDER.VALIDATION.MOBILENO_INVALID' | translate }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <div class="col-lg-12">
+                                    <label for="example-text-input" class="col-form-label">
+                                        {{'RIDER.LABEL.ALT_NUMBER' | translate }} *
+                                    </label>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="d-flex mbl-sct">
+                                        <!-- <select class="form-control m-input m-login__form-input--last" formControlName="user_isdCode"> -->
+                                        <!-- <option *ngFor="let code of countryList" [value]="code.country_isd">
+                                        {{code.country_code}}({{code.country_isd}})</option> -->
+                                        <!-- <option [selected] [value]="+964">
+                                                +964</option>
+                                        </select> -->
+                                        <div class="col-lg-3">
+                                            <input class="form-control m-input m-login__form-input--last" placeholder="{{'RIDER.PLACEHOLDERS.ISD_CODE'|translate}}" type="text" formControlName="user_alternatenumber_isdCode" [ngClass]="{ 'is-invalid': submitted1 && addRiderForm1.controls.user_alternatenumber_isdCode.errors }">
+                                        </div>
+                                        <div class="col-lg-9">
+                                            <input class="form-control m-input m-login__form-input--last" placeholder="{{'RIDER.PLACEHOLDERS.ALT_NUMBER' | translate}}" type="text" formControlName="user_alternatePhoneNumber" [ngClass]="{ 'is-invalid': submitted && addRiderForm1.controls.user_alternatePhoneNumber.errors }">
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <!-- city & state -->
+                        <div class="form-group row">
+
+                            <div class="col-lg-6">
+                                <div class="col-lg-12">
+                                    <label for="example-text-input" class="col-form-label">
+                                        {{'RIDER.LABEL.STATE' | translate }} *
+                                    </label>
+                                </div>
+                                <div class="col-lg-12">
+                                    <select class="form-control m-input" id="user_stateId" formControlName="user_stateId" (change)="changeState($event.target.value)" [ngClass]="{ 'is-invalid': submitted && addRiderForm1.controls.user_stateId.errors }">
+                                            <option value="" >{{'RIDER.PLACEHOLDERS.SELECT_STATE' | translate }}</option>
+                                            <option value="{{state._id}}" *ngFor="let state of stateList">{{state.state_name}}</option>
+                                    </select>
+                                    <div *ngIf="submitted && addRiderForm1.controls.user_stateId.errors" class="form-control-feedback" style="color: red">
+                                        <p *ngIf="submitted && addRiderForm1.controls.user_stateId.errors?.required">
+                                            {{'RIDER.VALIDATION.FIELD_REQUIRED' | translate }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <div class="col-lg-12">
+                                    <label for="example-text-input" class="col-form-label">
+                                        {{'RIDER.LABEL.CITY' | translate }} *
+                                    </label>
+                                </div>
+                                <div class="col-lg-12">
+                                    <select class="form-control m-input" id="user_cityId" formControlName="user_cityId" [ngClass]=" { 'is-invalid': submitted && addRiderForm1.controls.user_cityId.errors } ">
+                                            <option value=" " >{{'RIDER.PLACEHOLDERS.SELECT_CITY' | translate }}</option>
+                                            <option value="{{city._id}}" *ngFor="let city of cityList ">{{city.city_name}}</option>
+                                    </select>
+                                    <div *ngIf="submitted && addRiderForm1.controls.user_cityId.errors " class="form-control-feedback " style="color: red ">
+                                        <p *ngIf="submitted && addRiderForm1.controls.user_cityId.errors?.required ">
+                                            {{'RIDER.VALIDATION.FIELD_REQUIRED' | translate }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row ">
+                            <div class="col-lg-6 ">
+                                <div class="col-lg-12 ">
+                                    <label for="example-text-input " class="col-form-label ">
+                                        {{'RIDER.LABEL.STATUS' | translate }}*
+                                    </label>
+                                </div>
+                                <div class="col-lg-12 ">
+                                    <select class="form-control m-input " formControlName="user_status" [ngClass]="{ 'is-invalid': submitted && addRiderForm1.controls.user_status.errors } ">
+                                        <option value="ACTIVE">{{'RIDER.LABEL.ACTIVE'|translate}}</option>
+                                        <option value="INACTIVE">{{'RIDER.LABEL.INACTIVE'|translate}}</option>
+                                    </select>
+                                    <div *ngIf="submitted && addRiderForm1.controls.user_status.errors " class="form-control-feedback " style="color: red ">
+                                        <p *ngIf="submitted && addRiderForm1.controls.user_status.errors?.required ">
+                                            {{'RIDER.VALIDATION.FIELD_REQUIRED' | translate }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <!-- buttons -->
+                        <div class="form-group row ">
+                            <div class="col-lg-12 ">
+                                <div class="col-lg-12 ">
+                                    <button type="button " routerLink="/rider-management/list " class="btn btn-secondary btn-elevate btn-icon-sm mr-3 ">
+                                        {{'BUTTONS.CANCEL' | translate }}
+                                    </button>
+                                    <button type="submit " (click)="savePersonalDetail() " class="btn btn-brand btn-elevate btn-icon-sm bt-right mr-3 ">
+                                        {{'BUTTONS.SUBMIT' | translate }}
+                                    </button>
+
+                                    <button type="button" (click)="regeneratedAndSendPassword() " class="btn btn-brand btn-elevate btn-icon-sm bt-right ">
+                                        {{'BUTTONS.REGENERATED_SENDPASSWORD' | translate }}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

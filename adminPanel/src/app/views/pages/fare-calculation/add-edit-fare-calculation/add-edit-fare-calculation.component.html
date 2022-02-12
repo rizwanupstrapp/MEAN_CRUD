@@ -1,0 +1,867 @@
+<div class="kt-portlet">
+    <div class="kt-portlet__head">
+        <div class="kt-portlet__head-label">
+            <h3 class="kt-portlet__head-title" *ngIf="isAdd">{{'FARECALCULATION.ADD' | translate }} </h3>
+            <h3 class="kt-portlet__head-title" *ngIf="!isAdd">{{'FARECALCULATION.EDIT' | translate }}</h3>
+        </div>
+        <div class="btn kt-portlet__head-label">
+            <a href="javascript:;" routerLink="/fare-calculation/list" class="btn btn-brand btn-elevate btn-icon-sm">
+                <i class="la la-left-arrow"></i>{{'BUTTONS.BACK' | translate }}</a>
+        </div>
+    </div>
+    <div class="kt-portlet__body">
+        <form class="kt-form kt-form__group" name="addEditFareCalculationForm" [formGroup]="addEditFareCalculationForm">
+            <div class="kt-portlet__body">
+                <!-- country & city -->
+                <div class="form-group  row">
+                    <!-- <div class="col-lg-6">
+                        <div class="col-lg-6">
+                            <label for="example-text-input" class="col-form-label">
+                                {{'FARECALCULATION.LABEL.COUNTRY' | translate }} *
+                            </label>
+                        </div>
+                        <div class="col-lg-12">
+                            <select class="form-control m-input" id="country" (change)="changeCountry($event.target.value)" formControlName="fareCalculation_countryId"
+                                [ngClass]="{ 'is-invalid': submitted && addEditFareCalculationForm.controls.fareCalculation_countryId.errors }">
+                                <option value="">{{'FARECALCULATION.PLACEHOLDERS.SELECT_COUNTRY' | translate}}</option>
+                                <option value="{{country._id}}" *ngFor="let country of countries">
+                                    {{country.country_name }}</option>
+                            </select>
+                            <div *ngIf="submitted && addEditFareCalculationForm.controls.fareCalculation_countryId.errors" class="form-control-feedback"
+                                style="color: red">
+                                <p *ngIf="submitted && addEditFareCalculationForm.controls.fareCalculation_countryId.errors?.required">
+                                    {{'FARECALCULATION.VALIDATION.FIELD_REQUIRED' | translate }}
+                                </p>
+                            </div>
+                        </div>
+                    </div> -->
+                    <div class="col-lg-6">
+                        <div class="col-lg-6">
+                            <label for="example-text-input" class="col-form-label">
+                                {{'FARECALCULATION.LABEL.CITY' | translate }} *
+                            </label>
+                        </div>
+                        <div class="col-lg-12">
+                            <select *ngIf="isAdd" class="form-control m-input" id="city" formControlName="fareCalculation_cityId" (change)="changeCity($event.target.value)"
+                                [ngClass]="{ 'is-invalid': submitted && addEditFareCalculationForm.controls.fareCalculation_cityId.errors }">
+                                <option value="">{{'FARECALCULATION.PLACEHOLDERS.SELECT_CITY' | translate}}</option>
+                                <option value="{{city._id}}" *ngFor="let city of cities">{{city.city_name}}
+                                </option>
+                            </select>
+                            <select *ngIf="!isAdd" class="form-control m-input" id="city" formControlName="fareCalculation_cityId" (change)="changeCity($event.target.value)"
+                                [ngClass]="{ 'is-invalid': submitted && addEditFareCalculationForm.controls.fareCalculation_cityId.errors }"
+                                disabled>
+                                <option value="">{{'FARECALCULATION.PLACEHOLDERS.SELECT_CITY' | translate}}</option>
+                                <option value="{{city._id}}" *ngFor="let city of cities">{{city.city_name}}
+                                </option>
+                            </select>
+                            <div *ngIf="submitted && addEditFareCalculationForm.controls.fareCalculation_cityId.errors" class="form-control-feedback"
+                                style="color: red">
+                                <p *ngIf="submitted && addEditFareCalculationForm.controls.fareCalculation_cityId.errors?.required">
+                                    {{'FARECALCULATION.VALIDATION.FIELD_REQUIRED' | translate }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- </div> -->
+                    <!-- franchises & time frames -->
+                    <!-- <div class="form-group  row"> -->
+                    <div class="col-lg-6">
+                        <div class="col-lg-6">
+                            <label for="example-text-input" class="col-form-label">
+                                {{'FARECALCULATION.LABEL.FRANCHISE' | translate }} *
+                            </label>
+                        </div>
+                        <div class="col-lg-12">
+                            <select *ngIf="isAdd" class="form-control m-input" id="operatorName" formControlName="fareCalculation_franchiseId" (change)="operatorChange()" [ngClass]="{ 'is-invalid': submitted && addEditFareCalculationForm.controls.fareCalculation_franchiseId.errors }">
+                                <option value="">{{'FARECALCULATION.LABEL.SELECT_OPERATOR' | translate}}</option>
+                                <option value="{{operator._id}}" *ngFor="let operator of operators">
+                                    {{operator.operatorName}}</option>
+                            </select>
+                            <select *ngIf="!isAdd" class="form-control m-input" id="operatorName" formControlName="fareCalculation_franchiseId" [ngClass]="{ 'is-invalid': submitted && addEditFareCalculationForm.controls.fareCalculation_franchiseId.errors }"
+                                disabled>
+                                <option value="">{{'FARECALCULATION.LABEL.SELECT_OPERATOR' | translate}}</option>
+                                <option value="{{operator._id}}" *ngFor="let operator of operators">
+                                    {{operator.operatorName}}</option>
+                            </select>
+                            <div *ngIf="submitted && addEditFareCalculationForm.controls.fareCalculation_franchiseId.errors" class="form-control-feedback"
+                                style="color: red">
+                                <p *ngIf="submitted && addEditFareCalculationForm.controls.fareCalculation_franchiseId.errors?.required">
+                                    {{'FARECALCULATION.VALIDATION.FIELD_REQUIRED' | translate }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group  row">
+                    <div class="col-lg-6">
+                        <div class="col-lg-6">
+                            <label for="example-text-input" class="col-form-label">
+                                {{'FARECALCULATION.LABEL.TIME_FRAME' | translate }} *
+                            </label>
+                        </div>
+                        <div class="col-lg-12">
+                            <select *ngIf="isAdd" class="form-control m-input" id="TimeFrame" formControlName="fareCalculation_timeFrameId" [ngClass]="{ 'is-invalid': submitted && addEditFareCalculationForm.controls.fareCalculation_timeFrameId.errors }">
+                                <option value="">{{'FARECALCULATION.PLACEHOLDERS.SELECT_TIMEFRAME' | translate }}
+                                </option>
+                                <option value="{{timeFrameRange._id}}" *ngFor="let timeFrameRange of timeFrameRanges">{{timeFrameRange.timeFrame_range}} </option>
+                            </select>
+                            <select *ngIf="!isAdd" class="form-control m-input" id="TimeFrame" formControlName="fareCalculation_timeFrameId" [ngClass]="{ 'is-invalid': submitted && addEditFareCalculationForm.controls.fareCalculation_timeFrameId.errors }"
+                                disabled>
+                                <option value="">{{'FARECALCULATION.PLACEHOLDERS.SELECT_TIMEFRAME' | translate }}
+                                </option>
+                                <option value="{{timeFrameRange._id}}" *ngFor="let timeFrameRange of timeFrameRanges">{{timeFrameRange.timeFrame_range}} </option>
+                            </select>
+                            <div *ngIf="submitted && addEditFareCalculationForm.controls.fareCalculation_timeFrameId.errors" class="form-control-feedback"
+                                style="color: red">
+                                <p *ngIf="submitted && addEditFareCalculationForm.controls.fareCalculation_timeFrameId.errors?.required">
+                                    {{'FARECALCULATION.VALIDATION.FIELD_REQUIRED' | translate }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- </div> -->
+                    <!-- Status -->
+                    <!-- <div class="form-group  row"> -->
+                    <div class="col-lg-6">
+                        <div class="col-lg-12">
+                            <label for="example-text-input" class="col-form-label">
+                                {{'FARECALCULATION.LABEL.STATUS' | translate}}*
+                            </label>
+                        </div>
+                        <div class="col-lg-12">
+                            <select class="form-control m-input" id="fareCalculation_status" formControlName="fareCalculation_status" [ngClass]="{ 'is-invalid': submitted && addEditFareCalculationForm.controls.fareCalculation_status.errors }">
+                                <option value="{{'FARECALCULATION.PLACEHOLDERS.ACTIVE' | translate}}" selected>{{'FARECALCULATION.LABEL.ACTIVE' | translate}}</option>
+                                <option value="{{'FARECALCULATION.PLACEHOLDERS.INACTIVE' | translate}}">{{'FARECALCULATION.LABEL.INACTIVE' | translate}}</option>
+                            </select>
+                            <div *ngIf="submitted && addEditFareCalculationForm.controls.fareCalculation_status.errors" class="form-control-feedback"
+                                style="color: red">
+                                <p *ngIf="submitted && addEditFareCalculationForm.controls.fareCalculation_status.errors?.required">
+                                    {{'FARECALCULATION.VALIDATION.FIELD_REQUIRED' |translate}}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="addEditFareCalculationForm.value.fareCalculation_franchiseId">
+                    <!-- <div> -->
+                    <ul class="nav nav-tabs" id="myTab1" role="tablist">
+                        <li class="nav-item" *ngFor="let serviceType of serviceTypes">
+                            <a class="nav-link" [ngClass]="{ 'active': navObj.link == serviceType.serviceType_name }" id="persnol_detail-tab-1" data-toggle="tab"
+                                href="javascript:;" (click)="clickLink(serviceType.serviceType_name)">
+                                <span class="nav-text">{{serviceType.serviceType_name}}</span>
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="tab-content mt-5" id="myTabContent1" *ngIf='serviceTypes'>
+                        <div formArrayName="fareCalculation_service_types">
+                            <div *ngFor="let fareCalculation_service_type of fareCalculation_service_types.controls; let i = index;">
+                                <div [formGroupName]="i">
+                                    <div class="tab-pane fade" [ngClass]="{ 'active show': navObj.link === serviceTypes[i].serviceType_name }" id="persnol_detail"
+                                        *ngIf=" navObj.link === serviceTypes[i].serviceType_name" role="tabpanel" aria-labelledby="persnol_detail-tab-1">
+                                        <input type="hidden" class="form-control" formControlName="fareCalculation_service_type_id">
+                                        <!-- Payment Method -->
+                                        <div class="form-group  row">
+                                            <div class="col-lg-6">
+                                                <div class="col-lg-12">
+                                                    <label for="example-text-input" class="col-form-label">
+                                                        {{'FARECALCULATION.LABEL.PAYMENT_METHOD' | translate}} : {{'FARECALCULATION.LABEL.COIN' | translate}}
+                                                        <!-- : {{'FARECALCULATION.LABEL.COIN' | translate}}* -->
+
+                                                    </label>
+                                                </div>
+                                                <!-- <div class="col-lg-12 multiselect_drpdwn">
+                                                    <angular2-multiselect [data]="paymentMethods" [settings]="dropdownSettingsPaymentMethod" (onSelect)="onItemPaymentMethodSelect($event)"
+                                                        (onDeSelect)="onItemPaymentMethodDeSelect($event)" (onSelectAll)="onPaymentMethodSelectAll($event)"
+                                                        (onDeSelectAll)="onPaymentMethodDeSelectAll($event)" formControlName="fareCalculation_payment_method">
+                                                    </angular2-multiselect>
+                                                    <div *ngIf="submitted && fareCalculation_service_type.controls.fareCalculation_payment_method.errors" class="form-control-feedback"
+                                                        style="color: red">
+                                                        <p *ngIf="submitted && fareCalculation_service_type.controls.fareCalculation_payment_method.errors?.required">
+                                                            {{'FARECALCULATION.VALIDATION.FIELD_REQUIRED' |translate}}
+                                                        </p>
+                                                    </div>
+                                                
+                                                </div> -->
+
+
+                                            </div>
+                                        </div>
+                                        <!-- Select -->
+                                        <!-- <div class="form-group  row">
+                                            <div class="col-lg-6">
+                                                <div class="col-lg-3">
+                                                    <label for="example-text-input" class="col-form-label">
+                                                        {{'FARECALCULATION.LABEL.SELECT' | translate }} *
+                                                    </label>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <div class="kt-radio-inline">
+                                                        <label class="kt-radio kt-radio--bold kt-radio--brand">
+                                                            <input type="radio" value="RADIUS" formControlName="fareCalculation_select"> Radius
+                                                            <span></span>
+                                                        </label>
+                                                        <label class="kt-radio kt-radio--bold kt-radio--brand">
+                                                            <input type="radio" value="ACTUALDISTANCE" formControlName="fareCalculation_select"> Actual Distance
+                                                            <span></span>
+                                                        </label>
+                                                    </div>
+                                                    <div *ngIf="submitted && fareCalculation_service_type.controls.fareCalculation_select.errors" class="form-control-feedback"
+                                                        style="color: red">
+                                                        <p *ngIf="submitted && fareCalculation_service_type.controls.fareCalculation_select.errors?.required">
+                                                            This field is required.
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div> -->
+                                        <!-- Free KM and Pickup Free Time -->
+                                        <div class="form-group  row">
+                                            <div class="col-lg-6">
+                                                <div class="col-lg-12">
+                                                    <label for="example-text-input" class="col-form-label">
+                                                        {{'FARECALCULATION.LABEL.FREE_KM' | translate}}*
+                                                    </label>
+                                                </div>
+                                                <div class="col-lg-12">
+                                                    <input class="form-control m-input m-login__form-input--last" min="0" formControlName="fareCalculation_free_km" type="number" [ngClass]="{ 'is-invalid': submitted && fareCalculation_service_type.controls.fareCalculation_free_km.errors }">
+                                                    <div *ngIf="submitted && fareCalculation_service_type.controls.fareCalculation_free_km.errors" class="form-control-feedback"
+                                                        style="color: red">
+                                                        <p *ngIf="submitted && fareCalculation_service_type.controls.fareCalculation_free_km.errors?.required">
+                                                            {{'FARECALCULATION.VALIDATION.FIELD_REQUIRED' | translate}}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="col-lg-12">
+                                                    <label for="example-text-input" class="col-form-label">
+                                                        {{'FARECALCULATION.LABEL.PICKUP_FREE_TIME' | translate}}*
+                                                    </label>
+                                                </div>
+                                                <div class="col-lg-12">
+                                                    <input class="form-control m-input m-login__form-input--last" min="0" formControlName="fareCalculation_pickup_free_time" type="number"
+                                                        [ngClass]="{ 'is-invalid': submitted && fareCalculation_service_type.controls.fareCalculation_pickup_free_time.errors }">
+                                                    <div *ngIf="submitted && fareCalculation_service_type.controls.fareCalculation_pickup_free_time.errors" class="form-control-feedback"
+                                                        style="color: red">
+                                                        <p *ngIf="submitted && fareCalculation_service_type.controls.fareCalculation_pickup_free_time.errors?.required">
+                                                            {{'FARECALCULATION.VALIDATION.FIELD_REQUIRED' | translate}}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group  row">
+                                            <div class="col-lg-6">
+                                                <div class="col-lg-12">
+                                                    <label for="example-text-input" class="col-form-label">
+                                                        {{'FARECALCULATION.LABEL.CONGESTION_FREE_TIME' | translate}}*
+                                                    </label>
+                                                </div>
+                                                <div class="col-lg-12">
+                                                    <input class="form-control m-input m-login__form-input--last" min="0" formControlName="fareCalculation_congestion_free_time" type="number"
+                                                        [ngClass]="{ 'is-invalid': submitted && fareCalculation_service_type.controls.fareCalculation_congestion_free_time.errors }">
+                                                    <div *ngIf="submitted && fareCalculation_service_type.controls.fareCalculation_congestion_free_time.errors" class="form-control-feedback"
+                                                        style="color: red">
+                                                        <p *ngIf="submitted && fareCalculation_service_type.controls.fareCalculation_congestion_free_time.errors?.required">
+                                                            {{'FARECALCULATION.VALIDATION.FIELD_REQUIRED' | translate}}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="col-lg-12">
+                                                    <label for="example-text-input" class="col-form-label">
+                                                        {{'FARECALCULATION.LABEL.COMPLETE_STOP_FREE_TIME' | translate}}*
+                                                    </label>
+                                                </div>
+                                                <div class="col-lg-12">
+                                                    <input class="form-control m-input m-login__form-input--last" min="0" formControlName="fareCalculation_complete_stop_free_time" type="number"
+                                                        [ngClass]="{ 'is-invalid': submitted && fareCalculation_service_type.controls.fareCalculation_complete_stop_free_time.errors }">
+                                                    <div *ngIf="submitted && fareCalculation_service_type.controls.fareCalculation_complete_stop_free_time.errors" class="form-control-feedback"
+                                                        style="color: red">
+                                                        <p *ngIf="submitted && fareCalculation_service_type.controls.fareCalculation_complete_stop_free_time.errors?.required">
+                                                            {{'FARECALCULATION.VALIDATION.FIELD_REQUIRED' | translate}}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Tax -->
+                                        <div class="form-group  row">
+                                            <div class="col-lg-6">
+                                                <div class="col-lg-12">
+                                                    <label for="example-text-input" class="col-form-label">
+                                                        {{'FARECALCULATION.LABEL.TAX' | translate}}*
+                                                    </label>
+                                                </div>
+                                                <div class="col-lg-12">
+                                                    {{creds | json}}
+                                                    <input class="form-control m-input m-login__form-input--last" min="0" formControlName="fareCalculation_tax" type="number" [ngClass]="{ 'is-invalid': submitted && fareCalculation_service_type.controls.fareCalculation_tax.errors }">
+                                                    <div *ngIf="submitted && fareCalculation_service_type.controls.fareCalculation_tax.errors" class="form-control-feedback"
+                                                        style="color: red">
+                                                        <p *ngIf="submitted && fareCalculation_service_type.controls.fareCalculation_tax.errors?.required">
+                                                            {{'FARECALCULATION.VALIDATION.FIELD_REQUIRED' | translate}}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <table style="width:100%">
+                                            <tr>
+                                                <th></th>
+                                                <th>
+                                                    <label>Distributed On (%)</label>
+                                                </th>
+                                            </tr>
+                                            <tr>
+                                                <th>
+                                                    <label>Fare Component</label>
+                                                </th>
+                                                <th>
+                                                    <label>Coin</label>
+                                                </th>
+                                                <!-- <th>
+                                                    <label>Driver (%)</label>
+                                                </th>
+                                                <th>
+                                                    <label>Admin (%)</label>
+                                                </th> -->
+                                            </tr>
+                                            <tr>
+                                                <th>
+                                                    <label for="example-text-input" class="col-form-label">
+                                                        {{'FARECALCULATION.LABEL.BASE_FARE' | translate }} *
+                                                    </label>
+                                                </th>
+                                                <th>
+                                                    <input class="form-control m-input m-login__form-input--last" min="0" formControlName="fareCalculation_base_fare_coin" type="number"
+                                                        [ngClass]="{ 'is-invalid': submitted && fareCalculation_service_type.controls.fareCalculation_base_fare_coin.errors }">
+                                                    <div *ngIf="submitted && fareCalculation_service_type.controls.fareCalculation_base_fare_coin.errors" class="form-control-feedback"
+                                                        style="color: red">
+                                                        <p *ngIf="submitted && fareCalculation_service_type.controls.fareCalculation_base_fare_coin.errors?.required">
+                                                            {{'FARECALCULATION.VALIDATION.FIELD_REQUIRED' | translate}}
+                                                        </p>
+                                                        <p *ngIf="fareCalculation_service_type.controls.fareCalculation_base_fare_coin.errors?.min && !fareCalculation_service_type.controls.fareCalculation_base_fare_coin.errors?.pattern"
+                                                            class="lbl-err">
+                                                            {{'FARECALCULATION.VALIDATION.MIN_VALUE' | translate }}
+                                                        </p>
+                                                        <p *ngIf="fareCalculation_service_type.controls.fareCalculation_base_fare_coin.errors?.max && !fareCalculation_service_type.controls.fareCalculation_base_fare_coin.errors?.pattern"
+                                                            class="lbl-err">
+                                                            {{'FARECALCULATION.VALIDATION.MAX_VALUE' | translate }}
+                                                        </p>
+                                                        <p *ngIf="submitted && fareCalculation_service_type.controls.fareCalculation_base_fare_coin.errors?.pattern">
+                                                            {{'FARECALCULATION.VALIDATION.INVALID_FIELD_VALUE' | translate }}
+                                                        </p>
+                                                    </div>
+                                                </th>
+                                                <th>
+
+                                                    <!-- <th>
+>>>>>>> origin/M1_ADMIN_FARE_CALCULATION_MANAGEMENT
+                                                    <input class="form-control m-input m-login__form-input--last" formControlName="fareCalculation_base_fare_driver" type="number"
+                                                        [ngClass]="{ 'is-invalid': submitted && fareCalculation_service_type.controls.fareCalculation_base_fare_driver.errors }">
+                                                    <div *ngIf="submitted && fareCalculation_service_type.controls.fareCalculation_base_fare_driver.errors" class="form-control-feedback"
+                                                        style="color: red">
+                                                        <p *ngIf="submitted && fareCalculation_service_type.controls.fareCalculation_base_fare_driver.errors?.required">
+                                                            {{'FARECALCULATION.VALIDATION.FIELD_REQUIRED' | translate}}
+                                                        </p>
+                                                    </div>
+                                                </th> -->
+                                                    <!-- <th>
+                                                    <input class="form-control m-input m-login__form-input--last" formControlName="fareCalculation_base_fare_admin" type="number"
+                                                        [ngClass]="{ 'is-invalid': submitted && fareCalculation_service_type.controls.fareCalculation_base_fare_admin.errors }">
+                                                    <div *ngIf="submitted && fareCalculation_service_type.controls.fareCalculation_base_fare_admin.errors" class="form-control-feedback"
+                                                        style="color: red">
+                                                        <p *ngIf="submitted && fareCalculation_service_type.controls.fareCalculation_base_fare_admin.errors?.required">
+                                                            {{'FARECALCULATION.VALIDATION.FIELD_REQUIRED' | translate}}
+                                                        </p>
+                                                    </div>
+                                                </th> -->
+                                            </tr>
+                                            <tr>
+                                                <th>
+                                                    <label for="example-text-input" class="col-form-label">
+                                                        {{'FARECALCULATION.LABEL.BOOKING_FEE' | translate }} *
+                                                    </label>
+                                                </th>
+                                                <th>
+                                                    <input class="form-control m-input m-login__form-input--last" min="0" formControlName="fareCalculation_booking_fee_coin" type="number"
+                                                        [ngClass]="{ 'is-invalid': submitted && fareCalculation_service_type.controls.fareCalculation_booking_fee_coin.errors }">
+                                                    <div *ngIf="submitted && fareCalculation_service_type.controls.fareCalculation_booking_fee_coin.errors" class="form-control-feedback"
+                                                        style="color: red">
+                                                        <p *ngIf="submitted && fareCalculation_service_type.controls.fareCalculation_booking_fee_coin.errors?.required">
+                                                            {{'FARECALCULATION.VALIDATION.FIELD_REQUIRED' | translate}}
+                                                        </p>
+                                                        <p *ngIf="fareCalculation_service_type.controls.fareCalculation_booking_fee_coin.errors?.min && !fareCalculation_service_type.controls.fareCalculation_booking_fee_coin.errors?.pattern"
+                                                            class="lbl-err">
+                                                            {{'FARECALCULATION.VALIDATION.MIN_VALUE' | translate }}
+                                                        </p>
+                                                        <p *ngIf="fareCalculation_service_type.controls.fareCalculation_booking_fee_coin.errors?.max && !fareCalculation_service_type.controls.fareCalculation_booking_fee_coin.errors?.pattern"
+                                                            class="lbl-err">
+                                                            {{'FARECALCULATION.VALIDATION.MAX_VALUE' | translate }}
+                                                        </p>
+                                                        <p *ngIf="submitted && fareCalculation_service_type.controls.fareCalculation_booking_fee_coin.errors?.pattern">
+                                                            {{'FARECALCULATION.VALIDATION.INVALID_FIELD_VALUE' | translate }}
+                                                        </p>
+                                                    </div>
+                                                </th>
+                                                <th>
+
+                                                    <!-- <th>
+>>>>>>> origin/M1_ADMIN_FARE_CALCULATION_MANAGEMENT
+                                                    <input class="form-control m-input m-login__form-input--last" formControlName="fareCalculation_booking_fee_driver" type="number"
+                                                        [ngClass]="{ 'is-invalid': submitted && fareCalculation_service_type.controls.fareCalculation_booking_fee_driver.errors }">
+                                                    <div *ngIf="submitted && fareCalculation_service_type.controls.fareCalculation_booking_fee_driver.errors" class="form-control-feedback"
+                                                        style="color: red">
+                                                        <p *ngIf="submitted && fareCalculation_service_type.controls.fareCalculation_booking_fee_driver.errors?.required">
+                                                            {{'FARECALCULATION.VALIDATION.FIELD_REQUIRED' | translate}}
+                                                        </p>
+                                                    </div>
+                                                </th>
+                                                <th>
+                                                    <input class="form-control m-input m-login__form-input--last" formControlName="fareCalculation_booking_fee_admin" type="number"
+                                                        [ngClass]="{ 'is-invalid': submitted && fareCalculation_service_type.controls.fareCalculation_booking_fee_admin.errors }">
+                                                    <div *ngIf="submitted && fareCalculation_service_type.controls.fareCalculation_booking_fee_admin.errors" class="form-control-feedback"
+                                                        style="color: red">
+                                                        <p *ngIf="submitted && fareCalculation_service_type.controls.fareCalculation_booking_fee_admin.errors?.required">
+                                                            {{'FARECALCULATION.VALIDATION.FIELD_REQUIRED' | translate}}
+                                                        </p>
+                                                    </div>
+                                                </th> -->
+                                            </tr>
+                                            <tr>
+                                                <th>
+                                                    <label for="example-text-input" class="col-form-label">
+                                                        {{'FARECALCULATION.LABEL.PER_KM_FEE' | translate }} *
+                                                    </label>
+                                                </th>
+                                                <th>
+                                                    <input class="form-control m-input m-login__form-input--last" min="0" formControlName="fareCalculation_per_km_fee_coin" type="number"
+                                                        [ngClass]="{ 'is-invalid': submitted && fareCalculation_service_type.controls.fareCalculation_per_km_fee_coin.errors }">
+                                                    <div *ngIf="submitted && fareCalculation_service_type.controls.fareCalculation_per_km_fee_coin.errors" class="form-control-feedback"
+                                                        style="color: red">
+                                                        <p *ngIf="submitted && fareCalculation_service_type.controls.fareCalculation_per_km_fee_coin.errors?.required">
+                                                            {{'FARECALCULATION.VALIDATION.FIELD_REQUIRED' | translate}}
+                                                        </p>
+                                                        <p *ngIf="fareCalculation_service_type.controls.fareCalculation_per_km_fee_coin.errors?.min && !fareCalculation_service_type.controls.fareCalculation_per_km_fee_coin.errors?.pattern"
+                                                            class="lbl-err">
+                                                            {{'FARECALCULATION.VALIDATION.MIN_VALUE' | translate }}
+                                                        </p>
+                                                        <p *ngIf="fareCalculation_service_type.controls.fareCalculation_per_km_fee_coin.errors?.max && !fareCalculation_service_type.controls.fareCalculation_per_km_fee_coin.errors?.pattern"
+                                                            class="lbl-err">
+                                                            {{'FARECALCULATION.VALIDATION.MAX_VALUE' | translate }}
+                                                        </p>
+                                                        <p *ngIf="submitted && fareCalculation_service_type.controls.fareCalculation_per_km_fee_coin.errors?.pattern">
+                                                            {{'FARECALCULATION.VALIDATION.INVALID_FIELD_VALUE' | translate }}
+                                                        </p>
+                                                    </div>
+                                                </th>
+                                                <th>
+
+                                                    <!-- <th>
+>>>>>>> origin/M1_ADMIN_FARE_CALCULATION_MANAGEMENT
+                                                    <input class="form-control m-input m-login__form-input--last" formControlName="fareCalculation_per_km_fee_driver" type="number"
+                                                        [ngClass]="{ 'is-invalid': submitted && fareCalculation_service_type.controls.fareCalculation_per_km_fee_driver.errors }">
+                                                    <div *ngIf="submitted && fareCalculation_service_type.controls.fareCalculation_per_km_fee_driver.errors" class="form-control-feedback"
+                                                        style="color: red">
+                                                        <p *ngIf="submitted && fareCalculation_service_type.controls.fareCalculation_per_km_fee_driver.errors?.required">
+                                                            {{'FARECALCULATION.VALIDATION.FIELD_REQUIRED' | translate}}
+                                                        </p>
+                                                    </div>
+                                                </th>
+                                                <th>
+                                                    <input class="form-control m-input m-login__form-input--last" formControlName="fareCalculation_per_km_fee_admin" type="number"
+                                                        [ngClass]="{ 'is-invalid': submitted && fareCalculation_service_type.controls.fareCalculation_per_km_fee_admin.errors }">
+                                                    <div *ngIf="submitted && fareCalculation_service_type.controls.fareCalculation_per_km_fee_admin.errors" class="form-control-feedback"
+                                                        style="color: red">
+                                                        <p *ngIf="submitted && fareCalculation_service_type.controls.fareCalculation_per_km_fee_admin.errors?.required">
+                                                            {{'FARECALCULATION.VALIDATION.FIELD_REQUIRED' | translate}}
+                                                        </p>
+                                                    </div>
+                                                </th> -->
+                                            </tr>
+                                            <tr>
+                                                <th>
+                                                    <label for="example-text-input" class="col-form-label">
+                                                        {{'FARECALCULATION.LABEL.PER_MIN_FEE' | translate }} *
+                                                    </label>
+                                                </th>
+                                                <th>
+                                                    <input class="form-control m-input m-login__form-input--last" min="0" formControlName="fareCalculation_per_min_fee_coin" type="number"
+                                                        [ngClass]="{ 'is-invalid': submitted && fareCalculation_service_type.controls.fareCalculation_per_min_fee_coin.errors }">
+                                                    <div *ngIf="submitted && fareCalculation_service_type.controls.fareCalculation_per_min_fee_coin.errors" class="form-control-feedback"
+                                                        style="color: red">
+                                                        <p *ngIf="submitted && fareCalculation_service_type.controls.fareCalculation_per_min_fee_coin.errors?.required">
+                                                            {{'FARECALCULATION.VALIDATION.FIELD_REQUIRED' | translate}}
+                                                        </p>
+                                                        <p *ngIf="fareCalculation_service_type.controls.fareCalculation_per_min_fee_coin.errors?.min && !fareCalculation_service_type.controls.fareCalculation_per_min_fee_coin.errors?.pattern"
+                                                            class="lbl-err">
+                                                            {{'FARECALCULATION.VALIDATION.MIN_VALUE' | translate }}
+                                                        </p>
+                                                        <p *ngIf="fareCalculation_service_type.controls.fareCalculation_per_min_fee_coin.errors?.max && !fareCalculation_service_type.controls.fareCalculation_per_min_fee_coin.errors?.pattern"
+                                                            class="lbl-err">
+                                                            {{'FARECALCULATION.VALIDATION.MAX_VALUE' | translate }}
+                                                        </p>
+                                                        <p *ngIf="submitted && fareCalculation_service_type.controls.fareCalculation_per_min_fee_coin.errors?.pattern">
+                                                            {{'FARECALCULATION.VALIDATION.INVALID_FIELD_VALUE' | translate }}
+                                                        </p>
+                                                    </div>
+                                                </th>
+                                                <th>
+
+                                                    <!-- <th>
+>>>>>>> origin/M1_ADMIN_FARE_CALCULATION_MANAGEMENT
+                                                    <input class="form-control m-input m-login__form-input--last" formControlName="fareCalculation_per_min_fee_driver" type="number"
+                                                        [ngClass]="{ 'is-invalid': submitted && fareCalculation_service_type.controls.fareCalculation_per_min_fee_driver.errors }">
+                                                    <div *ngIf="submitted && fareCalculation_service_type.controls.fareCalculation_per_min_fee_driver.errors" class="form-control-feedback"
+                                                        style="color: red">
+                                                        <p *ngIf="submitted && fareCalculation_service_type.controls.fareCalculation_per_min_fee_driver.errors?.required">
+                                                            {{'FARECALCULATION.VALIDATION.FIELD_REQUIRED' | translate}}
+                                                        </p>
+                                                    </div>
+                                                </th>
+                                                <th>
+                                                    <input class="form-control m-input m-login__form-input--last" formControlName="fareCalculation_per_min_fee_admin" type="number"
+                                                        [ngClass]="{ 'is-invalid': submitted && fareCalculation_service_type.controls.fareCalculation_per_min_fee_admin.errors }">
+                                                    <div *ngIf="submitted && fareCalculation_service_type.controls.fareCalculation_per_min_fee_admin.errors" class="form-control-feedback"
+                                                        style="color: red">
+                                                        <p *ngIf="submitted && fareCalculation_service_type.controls.fareCalculation_per_min_fee_admin.errors?.required">
+                                                            {{'FARECALCULATION.VALIDATION.FIELD_REQUIRED' | translate}}
+                                                        </p>
+                                                    </div>
+                                                </th> -->
+                                            </tr>
+                                            <tr>
+                                                <th>
+                                                    <label for="example-text-input" class="col-form-label">
+                                                        {{'FARECALCULATION.LABEL.PICKUP_WAITING_FEE' | translate }} *
+                                                    </label>
+                                                </th>
+                                                <th>
+                                                    <input class="form-control m-input m-login__form-input--last" min="0" formControlName="fareCalculation_pickup_waiting_fee_coin" type="number"
+                                                        [ngClass]="{ 'is-invalid': submitted && fareCalculation_service_type.controls.fareCalculation_pickup_waiting_fee_coin.errors }">
+                                                    <div *ngIf="submitted && fareCalculation_service_type.controls.fareCalculation_pickup_waiting_fee_coin.errors" class="form-control-feedback"
+                                                        style="color: red">
+                                                        <p *ngIf="submitted && fareCalculation_service_type.controls.fareCalculation_pickup_waiting_fee_coin.errors?.required">
+                                                            {{'FARECALCULATION.VALIDATION.FIELD_REQUIRED' | translate}}
+                                                        </p>
+                                                        <p *ngIf="fareCalculation_service_type.controls.fareCalculation_pickup_waiting_fee_coin.errors?.min && !fareCalculation_service_type.controls.fareCalculation_pickup_waiting_fee_coin.errors?.pattern"
+                                                            class="lbl-err">
+                                                            {{'FARECALCULATION.VALIDATION.MIN_VALUE' | translate }}
+                                                        </p>
+                                                        <p *ngIf="fareCalculation_service_type.controls.fareCalculation_pickup_waiting_fee_coin.errors?.max && !fareCalculation_service_type.controls.fareCalculation_pickup_waiting_fee_coin.errors?.pattern"
+                                                            class="lbl-err">
+                                                            {{'FARECALCULATION.VALIDATION.MAX_VALUE' | translate }}
+                                                        </p>
+                                                        <p *ngIf="submitted && fareCalculation_service_type.controls.fareCalculation_pickup_waiting_fee_coin.errors?.pattern">
+                                                            {{'FARECALCULATION.VALIDATION.INVALID_FIELD_VALUE' | translate }}
+                                                        </p>
+                                                    </div>
+                                                </th>
+                                                <th>
+
+                                                    <!-- <th>
+>>>>>>> origin/M1_ADMIN_FARE_CALCULATION_MANAGEMENT
+                                                    <input class="form-control m-input m-login__form-input--last" formControlName="fareCalculation_pickup_waiting_fee_driver"
+                                                        type="number" [ngClass]="{ 'is-invalid': submitted && fareCalculation_service_type.controls.fareCalculation_pickup_waiting_fee_driver.errors }">
+                                                    <div *ngIf="submitted && fareCalculation_service_type.controls.fareCalculation_pickup_waiting_fee_driver.errors" class="form-control-feedback"
+                                                        style="color: red">
+                                                        <p *ngIf="submitted && fareCalculation_service_type.controls.fareCalculation_pickup_waiting_fee_driver.errors?.required">
+                                                            {{'FARECALCULATION.VALIDATION.FIELD_REQUIRED' | translate}}
+                                                        </p>
+                                                    </div>
+                                                </th>
+                                                <th>
+                                                    <input class="form-control m-input m-login__form-input--last" formControlName="fareCalculation_pickup_waiting_fee_admin"
+                                                        type="number" [ngClass]="{ 'is-invalid': submitted && fareCalculation_service_type.controls.fareCalculation_pickup_waiting_fee_admin.errors }">
+                                                    <div *ngIf="submitted && fareCalculation_service_type.controls.fareCalculation_pickup_waiting_fee_admin.errors" class="form-control-feedback"
+                                                        style="color: red">
+                                                        <p *ngIf="submitted && fareCalculation_service_type.controls.fareCalculation_pickup_waiting_fee_admin.errors?.required">
+                                                            {{'FARECALCULATION.VALIDATION.FIELD_REQUIRED' | translate}}
+                                                        </p>
+                                                    </div>
+                                                </th> -->
+                                            </tr>
+                                            <tr>
+                                                <th>
+                                                    <label for="example-text-input" class="col-form-label">
+                                                        {{'FARECALCULATION.LABEL.STOP_WAITING_FEE' | translate }} *
+                                                    </label>
+                                                </th>
+                                                <th>
+                                                    <input class="form-control m-input m-login__form-input--last" min="0" formControlName="fareCalculation_stop_waiting_fee_coin" type="number"
+                                                        [ngClass]="{ 'is-invalid': submitted && fareCalculation_service_type.controls.fareCalculation_stop_waiting_fee_coin.errors }">
+                                                    <div *ngIf="submitted && fareCalculation_service_type.controls.fareCalculation_stop_waiting_fee_coin.errors" class="form-control-feedback"
+                                                        style="color: red">
+                                                        <p *ngIf="submitted && fareCalculation_service_type.controls.fareCalculation_stop_waiting_fee_coin.errors?.required">
+                                                            {{'FARECALCULATION.VALIDATION.FIELD_REQUIRED' | translate}}
+                                                        </p>
+                                                        <p *ngIf="fareCalculation_service_type.controls.fareCalculation_stop_waiting_fee_coin.errors?.min && !fareCalculation_service_type.controls.fareCalculation_stop_waiting_fee_coin.errors?.pattern"
+                                                            class="lbl-err">
+                                                            {{'FARECALCULATION.VALIDATION.MIN_VALUE' | translate }}
+                                                        </p>
+                                                        <p *ngIf="fareCalculation_service_type.controls.fareCalculation_stop_waiting_fee_coin.errors?.max && !fareCalculation_service_type.controls.fareCalculation_stop_waiting_fee_coin.errors?.pattern"
+                                                            class="lbl-err">
+                                                            {{'FARECALCULATION.VALIDATION.MAX_VALUE' | translate }}
+                                                        </p>
+                                                        <p *ngIf="submitted && fareCalculation_service_type.controls.fareCalculation_stop_waiting_fee_coin.errors?.pattern">
+                                                            {{'FARECALCULATION.VALIDATION.INVALID_FIELD_VALUE' | translate }}
+                                                        </p>
+                                                    </div>
+                                                </th>
+                                                <th>
+
+                                                    <!-- <th>
+>>>>>>> origin/M1_ADMIN_FARE_CALCULATION_MANAGEMENT
+                                                    <input class="form-control m-input m-login__form-input--last" formControlName="fareCalculation_stop_waiting_fee_driver" type="number"
+                                                        [ngClass]="{ 'is-invalid': submitted && fareCalculation_service_type.controls.fareCalculation_stop_waiting_fee_driver.errors }">
+                                                    <div *ngIf="submitted && fareCalculation_service_type.controls.fareCalculation_stop_waiting_fee_driver.errors" class="form-control-feedback"
+                                                        style="color: red">
+                                                        <p *ngIf="submitted && fareCalculation_service_type.controls.fareCalculation_stop_waiting_fee_driver.errors?.required">
+                                                            {{'FARECALCULATION.VALIDATION.FIELD_REQUIRED' | translate}}
+                                                        </p>
+                                                    </div>
+                                                </th>
+                                                <th>
+                                                    <input class="form-control m-input m-login__form-input--last" formControlName="fareCalculation_stop_waiting_fee_admin" type="number"
+                                                        [ngClass]="{ 'is-invalid': submitted && fareCalculation_service_type.controls.fareCalculation_stop_waiting_fee_admin.errors }">
+                                                    <div *ngIf="submitted && fareCalculation_service_type.controls.fareCalculation_stop_waiting_fee_admin.errors" class="form-control-feedback"
+                                                        style="color: red">
+                                                        <p *ngIf="submitted && fareCalculation_service_type.controls.fareCalculation_stop_waiting_fee_admin.errors?.required">
+                                                            {{'FARECALCULATION.VALIDATION.FIELD_REQUIRED' | translate}}
+                                                        </p>
+                                                    </div>
+                                                </th> -->
+                                            </tr>
+                                            <tr>
+                                                <th>
+                                                    <label for="example-text-input" class="col-form-label">
+                                                        {{'FARECALCULATION.LABEL.CONGESTION_FEE' | translate }} *
+                                                    </label>
+                                                </th>
+                                                <th>
+                                                    <input class="form-control m-input m-login__form-input--last" min="0" formControlName="fareCalculation_congestion_fee_coin" type="number"
+                                                        [ngClass]="{ 'is-invalid': submitted && fareCalculation_service_type.controls.fareCalculation_congestion_fee_coin.errors }">
+                                                    <div *ngIf="submitted && fareCalculation_service_type.controls.fareCalculation_congestion_fee_coin.errors" class="form-control-feedback"
+                                                        style="color: red">
+                                                        <p *ngIf="submitted && fareCalculation_service_type.controls.fareCalculation_congestion_fee_coin.errors?.required">
+                                                            {{'FARECALCULATION.VALIDATION.FIELD_REQUIRED' | translate}}
+                                                        </p>
+                                                        <p *ngIf="fareCalculation_service_type.controls.fareCalculation_congestion_fee_coin.errors?.min && !fareCalculation_service_type.controls.fareCalculation_congestion_fee_coin.errors?.pattern"
+                                                            class="lbl-err">
+                                                            {{'FARECALCULATION.VALIDATION.MIN_VALUE' | translate }}
+                                                        </p>
+                                                        <p *ngIf="fareCalculation_service_type.controls.fareCalculation_congestion_fee_coin.errors?.max && !fareCalculation_service_type.controls.fareCalculation_congestion_fee_coin.errors?.pattern"
+                                                            class="lbl-err">
+                                                            {{'FARECALCULATION.VALIDATION.MAX_VALUE' | translate }}
+                                                        </p>
+                                                        <p *ngIf="submitted && fareCalculation_service_type.controls.fareCalculation_congestion_fee_coin.errors?.pattern">
+                                                            {{'FARECALCULATION.VALIDATION.INVALID_FIELD_VALUE' | translate }}
+                                                        </p>
+                                                    </div>
+                                                </th>
+                                                <th>
+
+                                                    <!-- <th>
+>>>>>>> origin/M1_ADMIN_FARE_CALCULATION_MANAGEMENT
+                                                    <input class="form-control m-input m-login__form-input--last" formControlName="fareCalculation_congestion_fee_driver" type="number"
+                                                        [ngClass]="{ 'is-invalid': submitted && fareCalculation_service_type.controls.fareCalculation_congestion_fee_driver.errors }">
+                                                    <div *ngIf="submitted && fareCalculation_service_type.controls.fareCalculation_congestion_fee_driver.errors" class="form-control-feedback"
+                                                        style="color: red">
+                                                        <p *ngIf="submitted && fareCalculation_service_type.controls.fareCalculation_congestion_fee_driver.errors?.required">
+                                                            {{'FARECALCULATION.VALIDATION.FIELD_REQUIRED' | translate}}
+                                                        </p>
+                                                    </div>
+                                                </th>
+                                                <th>
+                                                    <input class="form-control m-input m-login__form-input--last" formControlName="fareCalculation_congestion_fee_admin" type="number"
+                                                        [ngClass]="{ 'is-invalid': submitted && fareCalculation_service_type.controls.fareCalculation_congestion_fee_admin.errors }">
+                                                    <div *ngIf="submitted && fareCalculation_service_type.controls.fareCalculation_congestion_fee_admin.errors" class="form-control-feedback"
+                                                        style="color: red">
+                                                        <p *ngIf="submitted && fareCalculation_service_type.controls.fareCalculation_congestion_fee_admin.errors?.required">
+                                                            {{'FARECALCULATION.VALIDATION.FIELD_REQUIRED' | translate}}
+                                                        </p>
+                                                    </div>
+                                                </th> -->
+                                            </tr>
+                                            <tr>
+                                                <th>
+                                                    <label for="example-text-input" class="col-form-label">
+                                                        {{'FARECALCULATION.LABEL.DESTINATION_CHANGE_FEE' | translate }} *
+                                                    </label>
+                                                </th>
+                                                <th>
+                                                    <input class="form-control m-input m-login__form-input--last" min="0" formControlName="fareCalculation_destination_change_fee_coin"
+                                                        type="number" [ngClass]="{ 'is-invalid': submitted && fareCalculation_service_type.controls.fareCalculation_destination_change_fee_coin.errors }">
+                                                    <div *ngIf="submitted && fareCalculation_service_type.controls.fareCalculation_destination_change_fee_coin.errors" class="form-control-feedback"
+                                                        style="color: red">
+                                                        <p *ngIf="submitted && fareCalculation_service_type.controls.fareCalculation_destination_change_fee_coin.errors?.required">
+                                                            {{'FARECALCULATION.VALIDATION.FIELD_REQUIRED' | translate}}
+                                                        </p>
+                                                        <p *ngIf="fareCalculation_service_type.controls.fareCalculation_destination_change_fee_coin.errors?.min && !fareCalculation_service_type.controls.fareCalculation_destination_change_fee_coin.errors?.pattern"
+                                                            class="lbl-err">
+                                                            {{'FARECALCULATION.VALIDATION.MIN_VALUE' | translate }}
+                                                        </p>
+                                                        <p *ngIf="fareCalculation_service_type.controls.fareCalculation_destination_change_fee_coin.errors?.max && !fareCalculation_service_type.controls.fareCalculation_destination_change_fee_coin.errors?.pattern"
+                                                            class="lbl-err">
+                                                            {{'FARECALCULATION.VALIDATION.MAX_VALUE' | translate }}
+                                                        </p>
+                                                        <p *ngIf="submitted && fareCalculation_service_type.controls.fareCalculation_destination_change_fee_coin.errors?.pattern">
+                                                            {{'FARECALCULATION.VALIDATION.INVALID_FIELD_VALUE' | translate }}
+                                                        </p>
+                                                    </div>
+                                                </th>
+                                                <th>
+
+                                                    <!-- <th>
+>>>>>>> origin/M1_ADMIN_FARE_CALCULATION_MANAGEMENT
+                                                    <input class="form-control m-input m-login__form-input--last" formControlName="fareCalculation_destination_change_fee_driver"
+                                                        type="number" [ngClass]="{ 'is-invalid': submitted && fareCalculation_service_type.controls.fareCalculation_destination_change_fee_driver.errors }">
+                                                    <div *ngIf="submitted && fareCalculation_service_type.controls.fareCalculation_destination_change_fee_driver.errors" class="form-control-feedback"
+                                                        style="color: red">
+                                                        <p *ngIf="submitted && fareCalculation_service_type.controls.fareCalculation_destination_change_fee_driver.errors?.required">
+                                                            {{'FARECALCULATION.VALIDATION.FIELD_REQUIRED' | translate}}
+                                                        </p>
+                                                    </div>
+                                                </th>
+                                                <th>
+                                                    <input class="form-control m-input m-login__form-input--last" formControlName="fareCalculation_destination_change_fee_admin"
+                                                        type="number" [ngClass]="{ 'is-invalid': submitted && fareCalculation_service_type.controls.fareCalculation_destination_change_fee_admin.errors }">
+                                                    <div *ngIf="submitted && fareCalculation_service_type.controls.fareCalculation_destination_change_fee_admin.errors" class="form-control-feedback"
+                                                        style="color: red">
+                                                        <p *ngIf="submitted && fareCalculation_service_type.controls.fareCalculation_destination_change_fee_admin.errors?.required">
+                                                            {{'FARECALCULATION.VALIDATION.FIELD_REQUIRED' | translate}}
+                                                        </p>
+                                                    </div>
+                                                </th> -->
+                                            </tr>
+                                            <tr>
+                                                <th>
+                                                    <label for="example-text-input" class="col-form-label">
+                                                        {{'FARECALCULATION.LABEL.GOVERNMENTAL_FEE' | translate }} *
+                                                    </label>
+                                                </th>
+                                                <th>
+                                                    <input class="form-control m-input m-login__form-input--last" min="0" formControlName="fareCalculation_governmental_fee_coin" type="number"
+                                                        [ngClass]="{ 'is-invalid': submitted && fareCalculation_service_type.controls.fareCalculation_governmental_fee_coin.errors }">
+                                                    <div *ngIf="submitted && fareCalculation_service_type.controls.fareCalculation_governmental_fee_coin.errors" class="form-control-feedback"
+                                                        style="color: red">
+                                                        <p *ngIf="submitted && fareCalculation_service_type.controls.fareCalculation_governmental_fee_coin.errors?.required">
+                                                            {{'FARECALCULATION.VALIDATION.FIELD_REQUIRED' | translate}}
+                                                        </p>
+                                                        <p *ngIf="fareCalculation_service_type.controls.fareCalculation_governmental_fee_coin.errors?.min && !fareCalculation_service_type.controls.fareCalculation_governmental_fee_coin.errors?.pattern"
+                                                            class="lbl-err">
+                                                            {{'FARECALCULATION.VALIDATION.MIN_VALUE' | translate }}
+                                                        </p>
+                                                        <p *ngIf="fareCalculation_service_type.controls.fareCalculation_governmental_fee_coin.errors?.max && !fareCalculation_service_type.controls.fareCalculation_governmental_fee_coin.errors?.pattern"
+                                                            class="lbl-err">
+                                                            {{'FARECALCULATION.VALIDATION.MAX_VALUE' | translate }}
+                                                        </p>
+                                                        <p *ngIf="submitted && fareCalculation_service_type.controls.fareCalculation_governmental_fee_coin.errors?.pattern">
+                                                            {{'FARECALCULATION.VALIDATION.INVALID_FIELD_VALUE' | translate }}
+                                                        </p>
+                                                    </div>
+                                                </th>
+                                                <th>
+
+                                                    <!-- <th>
+>>>>>>> origin/M1_ADMIN_FARE_CALCULATION_MANAGEMENT
+                                                    <input class="form-control m-input m-login__form-input--last" formControlName="fareCalculation_governmental_fee_driver" type="number"
+                                                        [ngClass]="{ 'is-invalid': submitted && fareCalculation_service_type.controls.fareCalculation_governmental_fee_driver.errors }">
+                                                    <div *ngIf="submitted && fareCalculation_service_type.controls.fareCalculation_governmental_fee_driver.errors" class="form-control-feedback"
+                                                        style="color: red">
+                                                        <p *ngIf="submitted && fareCalculation_service_type.controls.fareCalculation_governmental_fee_driver.errors?.required">
+                                                            {{'FARECALCULATION.VALIDATION.FIELD_REQUIRED' | translate}}
+                                                        </p>
+                                                    </div>
+                                                </th>
+                                                <th>
+                                                    <input class="form-control m-input m-login__form-input--last" formControlName="fareCalculation_governmental_fee_admin" type="number"
+                                                        [ngClass]="{ 'is-invalid': submitted && fareCalculation_service_type.controls.fareCalculation_governmental_fee_admin.errors }">
+                                                    <div *ngIf="submitted && fareCalculation_service_type.controls.fareCalculation_governmental_fee_admin.errors" class="form-control-feedback"
+                                                        style="color: red">
+                                                        <p *ngIf="submitted && fareCalculation_service_type.controls.fareCalculation_governmental_fee_admin.errors?.required">
+                                                            {{'FARECALCULATION.VALIDATION.FIELD_REQUIRED' | translate}}
+                                                        </p>
+                                                    </div>
+                                                </th> -->
+                                            </tr>
+                                            <tr>
+
+                                                <th>
+
+                                                    <!-- <th>
+>>>>>>> origin/M1_ADMIN_FARE_CALCULATION_MANAGEMENT
+                                                    <input class="form-control m-input m-login__form-input--last" formControlName="fareCalculation_cancellation_fee_driver" type="number"
+                                                        [ngClass]="{ 'is-invalid': submitted && fareCalculation_service_type.controls.fareCalculation_cancellation_fee_driver.errors }">
+                                                    <div *ngIf="submitted && fareCalculation_service_type.controls.fareCalculation_cancellation_fee_driver.errors" class="form-control-feedback"
+                                                        style="color: red">
+                                                        <p *ngIf="submitted && fareCalculation_service_type.controls.fareCalculation_cancellation_fee_driver.errors?.required">
+                                                            {{'FARECALCULATION.VALIDATION.FIELD_REQUIRED' | translate}}
+                                                        </p>
+                                                    </div>
+                                                </th>
+                                                <th>
+                                                    <input class="form-control m-input m-login__form-input--last" formControlName="fareCalculation_cancellation_fee_admin" type="number"
+                                                        [ngClass]="{ 'is-invalid': submitted && fareCalculation_service_type.controls.fareCalculation_cancellation_fee_admin.errors }">
+                                                    <div *ngIf="submitted && fareCalculation_service_type.controls.fareCalculation_cancellation_fee_admin.errors" class="form-control-feedback"
+                                                        style="color: red">
+                                                        <p *ngIf="submitted && fareCalculation_service_type.controls.fareCalculation_cancellation_fee_admin.errors?.required">
+                                                            {{'FARECALCULATION.VALIDATION.FIELD_REQUIRED' | translate}}
+                                                        </p>
+                                                    </div>
+                                                </th> -->
+                                            </tr>
+                                            <tr>
+
+                                                <th>
+
+                                                    <!-- <th>
+>>>>>>> origin/M1_ADMIN_FARE_CALCULATION_MANAGEMENT
+                                                    <input class="form-control m-input m-login__form-input--last" formControlName="fareCalculation_driver_tip_driver" type="number"
+                                                        [ngClass]="{ 'is-invalid': submitted && fareCalculation_service_type.controls.fareCalculation_driver_tip_driver.errors }">
+                                                    <div *ngIf="submitted && fareCalculation_service_type.controls.fareCalculation_driver_tip_driver.errors" class="form-control-feedback"
+                                                        style="color: red">
+                                                        <p *ngIf="submitted && fareCalculation_service_type.controls.fareCalculation_driver_tip_driver.errors?.required">
+                                                            {{'FARECALCULATION.VALIDATION.FIELD_REQUIRED' | translate}}
+                                                        </p>
+                                                    </div>
+                                                </th>
+                                                <th>
+                                                    <input class="form-control m-input m-login__form-input--last" formControlName="fareCalculation_driver_tip_admin" type="number"
+                                                        [ngClass]="{ 'is-invalid': submitted && fareCalculation_service_type.controls.fareCalculation_driver_tip_admin.errors }">
+                                                    <div *ngIf="submitted && fareCalculation_service_type.controls.fareCalculation_driver_tip_admin.errors" class="form-control-feedback"
+                                                        style="color: red">
+                                                        <p *ngIf="submitted && fareCalculation_service_type.controls.fareCalculation_driver_tip_admin.errors?.required">
+                                                            {{'FARECALCULATION.VALIDATION.FIELD_REQUIRED' | translate}}
+                                                        </p>
+                                                    </div>
+                                                </th> -->
+                                            </tr>
+                                        </table>
+
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group  row">
+                    <div class="col-xl-12">
+                        <div class="col-xl-12">
+                            <button type="button" routerLink="/fare-calculation/list" class="btn btn-secondary btn-elevate btn-icon-sm mr-3">{{'BUTTONS.CANCEL' | translate }}</button>
+                            <button type="submit" (click)="onSubmit()" class="btn btn-brand btn-elevate btn-icon-sm bt-right"> {{'BUTTONS.SUBMIT' | translate }}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

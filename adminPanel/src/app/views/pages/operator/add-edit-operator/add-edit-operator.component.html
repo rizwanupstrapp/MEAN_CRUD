@@ -1,0 +1,841 @@
+<div class="kt-portlet">
+    <div class="kt-portlet__head">
+        <div class="kt-portlet__head-label">
+            <h3 class="kt-portlet__head-title">{{'OPERATOR.ADD' | translate }} </h3>
+        </div>
+        <div class="btn kt-portlet__head-label">
+            <a href="javascript:;" routerLink="/operator/operator-management/list" (click)="back()" class="btn btn-brand btn-elevate btn-icon-sm">
+                <i class="la la-left-arrow"></i>{{'BUTTONS.BACK' | translate }}</a>
+        </div>
+    </div>
+    <div class="kt-portlet__body">
+
+        <div class="example-preview">
+            <ul class="nav nav-tabs" id="myTab1" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link" [ngClass]="{ 'active': navObj.link == 'personal' }" id="persnol_detail-tab-1" data-toggle="tab" href="javascript:;" (click)="clickLink('personal')">
+                        <span class="nav-icon">
+                            <i class="flaticon-avatar"></i>
+                        </span>
+                        <span class="nav-text">{{'OPERATOR.TAB.PERSONAL' | translate }}</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" *ngIf="submitStep.step !='0'" [ngClass]="{ 'active': navObj.link == 'operator' }" id="subscription_detail-tab-1" data-toggle="tab" href="javascript:;" (click)="clickLink('operator')" aria-controls="profile">
+                        <span class="nav-icon">
+                            <i class="flaticon-avatar"></i>
+                        </span>
+                        <span class="nav-text">{{'OPERATOR.TAB.OPERATOR' | translate }}</span>
+                    </a>
+                </li>
+                <!-- *ngIf="submitStep.step !='1'" -->
+                <li class="nav-item">
+                    <a class="nav-link" *ngIf="submitStep.step !='0'" [ngClass]="{ 'active': navObj.link == 'bank' }" id="bank_detail-tab-1" data-toggle="tab" href="javascript:;" (click)="clickLink('bank')" aria-controls="profile">
+                        <span class="nav-icon">
+                            <i class="flaticon-notepad"></i>
+                        </span>
+                        <span class="nav-text">{{'OPERATOR.TAB.BANK' | translate }}</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" *ngIf="submitStep.step !='0'" [ngClass]="{ 'active': navObj.link == 'commission' }" id="commission_detail-tab-1" data-toggle="tab" href="javascript:;" (click)="clickLink('commission')" aria-controls="profile">
+                        <span class="nav-icon">
+                            <i class="flaticon-coins"></i>
+                        </span>
+                        <span class="nav-text">{{'OPERATOR.TAB.COMMISSION' | translate }}</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" *ngIf="submitStep.step !='0'" [ngClass]="{ 'active': navObj.link == 'invoice' }" id="invoice_detail-tab-1" data-toggle="tab" href="javascript:;" (click)="clickLink('invoice')" aria-controls="profile">
+                        <span class="nav-icon">
+                            <i class="fas fa-file-invoice"></i>
+                        </span>
+                        <span class="nav-text">{{'OPERATOR.TAB.INVOICE' | translate }}</span>
+                    </a>
+                </li>
+            </ul>
+            <div class="tab-content mt-5" id="myTabContent1">
+                <!-- ------------------------ tab1 -->
+                <div class="tab-pane fade" [ngClass]="{ 'active show': navObj.link === 'personal' }" id="persnol_detail" *ngIf=" navObj.link === 'personal'" role="tabpanel" aria-labelledby="persnol_detail-tab-1">
+
+                    <form class="kt-form kt-form__group" name="addOperatorForm1" [formGroup]="addOperatorForm1">
+                        <div class="form-group row">
+                            <div class="col-lg-6">
+                                <div class="col-lg-12">
+                                    <label for="example-text-input" class="col-form-label">
+                                        {{'OPERATOR.LABEL.USER_PROFILE_IMAGE' | translate }}*
+                                    </label>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="kt-avatar" id="kt_user_avatar_2">
+                                        <div class="kt-avatar__holder" [style.background-image]="'url('+userUrl+')'">
+                                        </div>
+                                        <label class="kt-avatar__upload" data-toggle="kt-tooltip" title="User Image" *ngIf="userUrl && userUrl=='../../../../../assets/media/newMedia/add.png'" data-original-title="Change avatar">
+                                            <i class="fa fa-pen"></i>
+                                            <input type="file" name="profile_avatar" accept=".png, .jpg, .jpeg" (change)="onSelectUserImage($event)">
+                                        </label>
+                                        <span class="kt-avatar__cancel" *ngIf="userUrl && userUrl!='../../../../../assets/media/newMedia/add.png'" style="display:flex;" data-toggle="kt-tooltip" title="" (click)="removeUserImage()" data-original-title="Remove Image">
+                                            <i class="fa fa-times"></i>
+                                        </span>
+                                    </div>
+                                    <span class="form-text text-muted">{{'DRIVER.NOTES.IMAGE'|translate}}
+                                    </span>
+                                </div>
+                            </div>
+                            <!-- User Name -->
+                            <div class="col-lg-6">
+                                <div class="col-lg-12">
+                                    <label for="example-text-input" class="col-form-label">
+                                        {{'OPERATOR.LABEL.USER_NAME' | translate }} *
+                                    </label>
+                                </div>
+                                <div class="col-lg-12">
+                                    <input class="form-control m-input m-login__form-input--last" placeholder="{{'OPERATOR.PLACEHOLDERS.USER_NAME'|translate}}" type="text" formControlName="user_userName" [ngClass]="{ 'is-invalid': submitted && addOperatorForm1.controls.user_userName.errors }">
+                                    <div *ngIf="submitted && addOperatorForm1.controls.user_userName.errors" class="form-control-feedback" style="color: red">
+                                        <p *ngIf="submitted && addOperatorForm1.controls.user_userName.errors?.required">
+                                            {{'OPERATOR.VALIDATION.FIELD_REQUIRED' | translate}}</p>
+                                        <p *ngIf="addOperatorForm1.controls.user_userName.errors?.minlength && !addOperatorForm1.controls.user_userName.errors?.pattern" class="lbl-err"> {{'OPERATOR.VALIDATION.MIN_CHARACTER' | translate}}</p>
+                                        <p *ngIf="addOperatorForm1.controls.user_userName.errors?.maxlength && !addOperatorForm1.controls.user_userName.errors?.pattern" class="lbl-err"> {{'OPERATOR.VALIDATION.MAX_CHARACTER' | translate}}</p>
+                                        <p *ngIf="submitted && addOperatorForm1.controls.user_userName.errors?.pattern">
+                                            {{'OPERATOR.VALIDATION.USERNAME_INVALID'|translate}} </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ---first & last Name -->
+                        <div class="form-group  row">
+                            <div class="col-lg-6">
+
+                                <div class="col-lg-12">
+                                    <label for="example-text-input" class="col-form-label">
+                                        {{'OPERATOR.LABEL.FIRST_NAME' | translate }} *
+                                    </label>
+                                </div>
+                                <div class="col-lg-12">
+                                    <input class="form-control m-input m-login__form-input--last" placeholder="{{'OPERATOR.PLACEHOLDERS.FIRST_NAME'|translate}}" type="text" formControlName="user_firstName" [ngClass]="{ 'is-invalid': submitted && addOperatorForm1.controls.user_firstName.errors }">
+                                    <div *ngIf="submitted && addOperatorForm1.controls.user_firstName.errors" class="form-control-feedback" style="color: red">
+                                        <p *ngIf="submitted && addOperatorForm1.controls.user_firstName.errors?.required">
+                                            {{'OPERATOR.VALIDATION.FIELD_REQUIRED' | translate}}</p>
+                                        <p *ngIf="addOperatorForm1.controls.user_firstName.errors?.minlength && !addOperatorForm1.controls.user_firstName.errors?.pattern" class="lbl-err"> {{'OPERATOR.VALIDATION.MIN_CHARACTER' | translate}}</p>
+                                        <p *ngIf="addOperatorForm1.controls.user_firstName.errors?.maxlength && !addOperatorForm1.controls.user_firstName.errors?.pattern" class="lbl-err"> {{'OPERATOR.VALIDATION.MAX_CHARACTER' | translate}}</p>
+                                        <p *ngIf="submitted && addOperatorForm1.controls.user_firstName.errors?.pattern">
+                                            {{'OPERATOR.VALIDATION.FIRSTNAME_INVALID'|translate}} </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+
+                                <div class="col-lg-12">
+                                    <label for="example-text-input" class="col-form-label">
+                                        {{'OPERATOR.LABEL.LAST_NAME' | translate }} *
+                                    </label>
+                                </div>
+                                <div class="col-lg-12">
+                                    <input class="form-control m-input m-login__form-input--last" placeholder="{{'OPERATOR.PLACEHOLDERS.LAST_NAME'|translate}}" type="text" formControlName="user_lastName" [ngClass]="{ 'is-invalid': submitted && addOperatorForm1.controls.user_lastName.errors }">
+                                    <div *ngIf="submitted && addOperatorForm1.controls.user_lastName.errors" class="form-control-feedback" style="color: red">
+                                        <p *ngIf="submitted && addOperatorForm1.controls.user_lastName.errors?.required">
+                                            {{'OPERATOR.VALIDATION.FIELD_REQUIRED' | translate}}</p>
+                                        <p *ngIf="addOperatorForm1.controls.user_lastName.errors?.minlength && !addOperatorForm1.controls.user_lastName.errors?.pattern" class="lbl-err"> {{'OPERATOR.VALIDATION.FIELD_REQUIRED' | translate}}</p>
+                                        <p *ngIf="addOperatorForm1.controls.user_lastName.errors?.maxlength && !addOperatorForm1.controls.user_lastName.errors?.pattern" class="lbl-err"> {{'OPERATOR.VALIDATION.MIN_CHARACTER'|translate}}</p>
+                                        <p *ngIf="submitted && addOperatorForm1.controls.user_lastName.errors?.pattern">
+                                            {{'OPERATOR.VALIDATION.LASTNAME_INVALID'|translate}} </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- email -- phone -->
+
+                        <div class="form-group  row">
+                            <div class="col-lg-6">
+                                <div class="col-lg-12">
+                                    <label for="example-text-input" class="col-form-label">
+                                        {{'OPERATOR.LABEL.EMAIL' | translate }} *
+                                    </label>
+                                </div>
+                                <div class="col-lg-12">
+                                    <input class="form-control m-input m-login__form-input--last" placeholder="{{'OPERATOR.PLACEHOLDERS.EMAIL'|translate}}" type="text" formControlName="user_email" [ngClass]="{ 'is-invalid': submitted && addOperatorForm1.controls.user_email.errors }">
+                                    <div *ngIf="submitted && addOperatorForm1.controls.user_email.errors" class="form-control-feedback" style="color: red">
+                                        <p *ngIf="submitted && addOperatorForm1.controls.user_email.errors?.required">
+                                            {{'OPERATOR.VALIDATION.FIELD_REQUIRED'|translate}}</p>
+                                        <p *ngIf="submitted && addOperatorForm1.controls.user_email.errors?.pattern">
+                                            {{'OPERATOR.VALIDATION.EMAIL_INVALID'|translate}} </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="col-lg-12">
+                                    <label for="example-text-input" class="col-form-label">
+                                        {{'OPERATOR.LABEL.MOBILENO' | translate }} *
+                                    </label>
+                                </div>
+                                <!-- <div class="col-lg-12"> -->
+                                <div class="mbl-sct d-flex">
+                                    <div class="col-lg-3">
+                                        <input class="form-control m-input m-login__form-input--last" placeholder="{{'OPERATOR.PLACEHOLDERS.ISD_CODE'|translate}}" type="text" formControlName="user_isdCode" [ngClass]="{ 'is-invalid': submitted && addOperatorForm1.controls.user_isdCode.errors }">
+                                    </div>
+                                    <div class="col-lg-9">
+                                        <input class="form-control m-input m-login__form-input--last" placeholder="{{'OPERATOR.PLACEHOLDERS.MOBILE_NO'|translate}}" type="text" formControlName="user_phoneNumber" [ngClass]="{ 'is-invalid': submitted && addOperatorForm1.controls.user_phoneNumber.errors }">
+                                    </div>
+                                </div>
+                                <div *ngIf="submitted && addOperatorForm1.controls.user_phoneNumber.errors" class="form-control-feedback" style="color: red;margin-top: 10px;padding-left: 10px;">
+                                    <p *ngIf="submitted && addOperatorForm1.controls.user_phoneNumber.errors?.required">
+                                        {{'OPERATOR.VALIDATION.FIELD_REQUIRED'|translate}}</p>
+                                    <p *ngIf="submitted && addOperatorForm1.controls.user_phoneNumber.errors?.pattern">
+                                        {{'OPERATOR.VALIDATION.MOBILENO_INVALID'|translate}} </p>
+                                </div>
+                                <!-- </div> -->
+                            </div>
+                        </div>
+
+                        <!-- ---pass & confirm pass -->
+                        <div class="form-group  row">
+                            <div class="col-lg-6">
+                                <div class="col-lg-12">
+                                    <label for="example-text-input" class="col-form-label">
+                                        {{'OPERATOR.LABEL.PASSWORD' | translate }}*
+                                    </label>
+                                </div>
+                                <div class="col-lg-12">
+                                    <input class="form-control m-input m-login__form-input--last" type="password" placeholder="{{'OPERATOR.PLACEHOLDERS.PASSWORD'|translate}}" formControlName="user_password" (keyup)="onkeyUp($event.target.value)" autocomplete="off" [ngClass]="{ 'is-invalid': submitted && addOperatorForm1.controls.user_password.errors }">
+                                    <div *ngIf="submitted && addOperatorForm1.controls.user_password.errors" class="form-control-feedback" style="color: red">
+                                        <p *ngIf="submitted && addOperatorForm1.controls.user_password.errors?.required">
+                                            {{'OPERATOR.VALIDATION.FIELD_REQUIRED'|translate}}
+                                        </p>
+                                        <p *ngIf="submitted && addOperatorForm1.controls.user_password.errors?.pattern">
+                                            {{'OPERATOR.VALIDATION.PASSWORD_INVALID'|translate}}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="col-lg-12">
+                                    <label for="example-text-input" class="col-form-label">
+                                        {{'OPERATOR.LABEL.CONPASSWORD' | translate }}*
+                                    </label>
+                                </div>
+                                <div class="col-lg-12">
+                                    <input class="form-control m-input m-login__form-input--last" type="password" placeholder="{{'OPERATOR.PLACEHOLDERS.CONFIRM_PASSWORD'|translate}}" formControlName="user_confirm_password" (keyup)="onkeyUp($event.target.value)" autocomplete="off" [ngClass]="{ 'is-invalid': submitted && addOperatorForm1.controls.user_confirm_password.errors }">
+                                    <div *ngIf="submitted && addOperatorForm1.controls.user_confirm_password.errors" class="form-control-feedback" style="color: red">
+                                        <p *ngIf="submitted && addOperatorForm1.controls.user_confirm_password.errors?.required">
+                                            {{'OPERATOR.VALIDATION.FIELD_REQUIRED'|translate}}
+                                        </p>
+                                        <p *ngIf="submitted && addOperatorForm1.controls.user_confirm_password.errors?.pattern">
+                                            {{'OPERATOR.VALIDATION.PASSWORD_INVALID'|translate}}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- verified -- Status -->
+
+                        <div class="form-group  row">
+                            <div class="col-lg-6">
+
+                                <div class="col-lg-12">
+                                    <label for="example-text-input" class="col-form-label">
+                                        {{'OPERATOR.LABEL.VERIFIED_STATUS' | translate }}*
+                                    </label>
+                                </div>
+                                <div class="col-lg-12">
+                                    <select class="form-control m-input" formControlName="user_verifiedStatus" [ngClass]="{ 'is-invalid': submitted && addOperatorForm1.controls.user_verifiedStatus.errors }">
+                                        <option value="0">Pending</option>
+                                        <option value="1">Verified</option>
+                                    </select>
+                                    <div *ngIf="submitted && addOperatorForm1.controls.user_verifiedStatus.errors" class="form-control-feedback" style="color: red">
+                                        <p *ngIf="submitted && addOperatorForm1.controls.user_verifiedStatus.errors?.required">
+                                            {{'OPERATOR.VALIDATION.FIELD_REQUIRED'|translate}}</p>
+                                    </div>
+
+
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <div class="col-lg-12">
+                                    <label for="example-text-input" class="col-form-label">
+                                        {{'OPERATOR.LABEL.STATUS' | translate }}*
+                                    </label>
+                                </div>
+                                <div class="col-lg-12">
+                                    <select class="form-control m-input" formControlName="user_status" [ngClass]="{ 'is-invalid': submitted && addOperatorForm1.controls.user_status.errors }">
+                                        <option value="ACTIVE">{{'OPERATOR.LABEL.ACTIVE'|translate}}</option>
+                                        <option value="INACTIVE">{{'OPERATOR.LABEL.INACTIVE'|translate}}</option>
+                                    </select>
+                                    <div *ngIf="submitted && addOperatorForm1.controls.user_status.errors" class="form-control-feedback" style="color: red">
+                                        <p *ngIf="submitted && addOperatorForm1.controls.user_status.errors?.required">
+                                            {{'OPERATOR.VALIDATION.FIELD_REQUIRED'|translate}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- buttons -->
+                        <div class="form-group  row">
+                            <div class="col-lg-12">
+                                <div class="col-md-12">
+                                    <button type="button" routerLink="/operator/operator-management/list" (click)="back()" class="btn btn-secondary btn-elevate btn-icon-sm mr-3">
+                                        {{'BUTTONS.CANCEL' | translate }}
+                                    </button>
+                                    <button type="submit" (click)="savePersonalDetail()" class="btn btn-brand btn-elevate btn-icon-sm bt-right">
+                                        {{'BUTTONS.SUBMIT' | translate }}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+
+                <!-- ------------------------ tab2 -->
+                <div class="tab-pane fade" [ngClass]="{ 'active show': navObj.link === 'operator' }" *ngIf=" navObj.link === 'operator'" id="subscription_detail" role="tabpanel" aria-labelledby="subscription_detail-tab-1">
+                    <form class="kt-form kt-form__group" name="addOperatorForm2" [formGroup]="addOperatorForm2">
+
+                        <div class="form-group  row">
+                            <!-- <div class="col-lg-6">
+                                <div class="col-lg-12">
+                                    <label for="example-text-input" class="col-form-label">
+                                        {{'OPERATOR.LABEL.DOCUMENT_IMAGE' | translate }}*
+                                    </label>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="kt-avatar" id="kt_user_avatar_2">
+                                        <div class="kt-avatar__holder" [style.background-image]="'url('+url+')'">
+                                        </div>
+                                        <label class="kt-avatar__upload" data-toggle="kt-tooltip" title="" *ngIf="url && url=='../../../../../assets/media/newMedia/add.png'" data-original-title="Change avatar">
+                                            <i class="fa fa-pen"></i>
+                                            <input type="file" name="profile_avatar" accept=".png, .jpg, .jpeg" (change)="onSelectFile($event)">
+                                        </label>
+                                        <span class="kt-avatar__cancel" *ngIf="url && url!='../../../../../assets/media/newMedia/add.png'" style="display:flex;" data-toggle="kt-tooltip" title="" (click)="imageRemove()" data-original-title="Remove Image">
+                                            <i class="fa fa-times"></i>
+                                        </span>
+                                    </div>
+                                    <span class="form-text text-muted">{{'OPERATOR.NOTES.FILE'|translate}}</span>
+                                </div>
+                            </div> -->
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-lg-4">
+                                <div class="col-lg-12">
+                                    <div class="col-lg-12">
+                                        <label for="example-text-input" class="col-form-label">
+                                            {{'OPERATOR.LABEL.DOCUMENT_IMAGE' | translate }}*
+                                        </label>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <div class="kt-avatar" id="kt_user_avatar_2">
+                                            <div class="kt-avatar__holder" [style.background-image]="'url('+url+')'">
+                                            </div>
+                                            <label class="kt-avatar__upload" data-toggle="kt-tooltip" title="" *ngIf="url && url=='../../../../../assets/media/newMedia/add.png'" data-original-title="Change avatar">
+                                                <i class="fa fa-pen"></i>
+                                                <input type="file" name="profile_avatar" accept=".png, .jpg, .jpeg" (change)="onSelectFile($event)">
+                                            </label>
+                                            <span class="kt-avatar__cancel" *ngIf="url && url!='../../../../../assets/media/newMedia/add.png'" style="display:flex;" data-toggle="kt-tooltip" title="" (click)="imageRemove()" data-original-title="Remove Image">
+                                                <i class="fa fa-times"></i>
+                                            </span>
+                                        </div>
+                                        <span class="form-text text-muted">{{'OPERATOR.NOTES.FILE'|translate}}</span>
+                                    </div>
+                                </div>
+                                <!-- operator name -- phone -->
+                                <div class="form-group  row">
+                                    <div class="col-lg-12">
+                                        <div class="col-lg-12">
+                                            <label for="example-text-input" class="col-form-label">
+                                                {{'OPERATOR.LABEL.OPERATOR_NAME' | translate }}*
+                                            </label>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <input class="form-control m-input m-login__form-input--last" placeholder="{{'OPERATOR.PLACEHOLDERS.OPERATOR_NAME'|translate}}" type="text" formControlName="operatorName" [ngClass]="{ 'is-invalid': submitted1 && addOperatorForm2.controls.operatorName.errors }">
+                                            <div *ngIf="submitted1 && addOperatorForm2.controls.operatorName.errors" class="form-control-feedback" style="color: red">
+                                                <p *ngIf="submitted1 && addOperatorForm2.controls.operatorName.errors?.required">
+                                                    {{'OPERATOR.VALIDATION.FIELD_REQUIRED'|translate}}</p>
+                                                <p *ngIf="addOperatorForm2.controls.operatorName.errors?.minlength && !addOperatorForm2.controls.operatorName.errors?.pattern" class="lbl-err">{{'OPERATOR.VALIDATION.MIN_CHARACTER'|translate}}</p>
+                                                <p *ngIf="addOperatorForm2.controls.operatorName.errors?.maxlength && !addOperatorForm2.controls.operatorName.errors?.pattern" class="lbl-err"> {{'OPERATOR.VALIDATION.MAX_CHARACTER'|translate}}</p>
+                                                <p *ngIf="submitted1 && addOperatorForm2.controls.operatorName.errors?.pattern">
+                                                    {{'OPERATOR.VALIDATION.OPERATORNAME_INVALID'|translate}} </p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-12">
+                                        <div class="col-lg-12">
+                                            <label for="example-text-input" class="col-form-label">
+                                                {{'OPERATOR.LABEL.MOBILENO' | translate }}*
+                                            </label>
+                                        </div>
+
+                                        <!-- <div class="col-lg-12"> -->
+                                        <div class="mbl-sct d-flex">
+                                            <div class="col-lg-3">
+                                                <input class="form-control m-input m-login__form-input--last" placeholder="{{'OPERATOR.PLACEHOLDERS.ISD_CODE'|translate}}" type="text" formControlName="operatorIsdCode" [ngClass]="{ 'is-invalid': submitted1 && addOperatorForm2.controls.operatorIsdCode.errors }">
+                                            </div>
+                                            <div class="col-lg-9">
+                                                <input class="form-control m-input m-login__form-input--last" placeholder="{{'OPERATOR.PLACEHOLDERS.MOBILE_NO'|translate}}" type="text" formControlName="operatorPhoneNumber" [ngClass]="{ 'is-invalid': submitted1 && addOperatorForm2.controls.operatorPhoneNumber.errors }">
+                                            </div>
+                                        </div>
+                                        <div *ngIf="submitted1 && addOperatorForm2.controls.operatorPhoneNumber.errors" class="form-control-feedback" style="color: red; margin-top: 10px;padding-left: 10px;">
+                                            <p *ngIf="submitted1 && addOperatorForm2.controls.operatorPhoneNumber.errors?.required">
+                                                {{'OPERATOR.VALIDATION.FIELD_REQUIRED'|translate}}</p>
+                                            <p *ngIf="submitted1 && addOperatorForm2.controls.operatorPhoneNumber.errors?.pattern">
+                                                {{'OPERATOR.PLACEHOLDERS.MOBILE_NO'|translate}} </p>
+                                        </div>
+                                        <!-- </div> -->
+                                    </div>
+                                </div>
+
+                                <!-- License --- -->
+                                <div class="form-group row">
+                                    <div class="col-lg-12">
+                                        <div class="col-lg-12">
+                                            <label for="example-text-input" class="col-form-label">
+                                                {{'OPERATOR.LABEL.LICENCE' | translate }}*
+                                            </label>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <input class="form-control m-input m-login__form-input--last" placeholder="{{'OPERATOR.PLACEHOLDERS.LICENSE_NO'|translate}}" type="text" formControlName="operatorLicenseNumber" [ngClass]="{ 'is-invalid': submitted1 && addOperatorForm2.controls.operatorLicenseNumber.errors }">
+                                            <div *ngIf="submitted1 && addOperatorForm2.controls.operatorLicenseNumber.errors" class="form-control-feedback" style="color: red">
+                                                <p *ngIf="submitted1 && addOperatorForm2.controls.operatorLicenseNumber.errors?.required">
+                                                    {{'OPERATOR.VALIDATION.FIELD_REQUIRED'|translate}}</p>
+                                                <p *ngIf="addOperatorForm2.controls.operatorLicenseNumber.errors?.minlength && !addOperatorForm2.controls.operatorLicenseNumber.errors?.pattern" class="lbl-err">{{'OPERATOR.VALIDATION.MIN_CHARACTER'|translate}}</p>
+                                                <p *ngIf="addOperatorForm2.controls.operatorLicenseNumber.errors?.maxlength && !addOperatorForm2.controls.operatorLicenseNumber.errors?.pattern" class="lbl-err">{{'OPERATOR.VALIDATION.MAX_CHARACTER'|translate}}</p>
+                                                <p *ngIf="submitted1 && addOperatorForm2.controls.operatorLicenseNumber.errors?.pattern">
+                                                    {{'OPERATOR.VALIDATION.LICENSE_INVALID'|translate}} </p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-12">
+                                        <div class="col-lg-12">
+                                            <label for="example-text-input" class="col-form-label">
+                                                {{'OPERATOR.LABEL.CITY_NAME' | translate }}*
+                                            </label>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <select class="form-control m-input m-login__form-input--last" (change)="changeCountry()" formControlName="user_cityId">
+                                                <option value="">{{'OPERATOR.PLACEHOLDERS.SELECT_CITY' | translate}}</option>
+                                                <option value="{{city._id}}" *ngFor="let city of cities">
+                                                    {{city.city_name}}</option>
+                                            </select>
+                                            <div *ngIf="submitted1 && addOperatorForm2.controls.user_cityId.errors" class="form-control-feedback" style="color: red">
+                                                <p *ngIf="submitted1 && addOperatorForm2.controls.user_cityId.errors?.required">
+                                                    {{'OPERATOR.VALIDATION.FIELD_REQUIRED'|translate}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-8">
+                                <div *ngIf="addOperatorForm2.value.user_cityId">
+                                    <agm-map [zoom]="5" [latitude]="lat" [longitude]="lng" (mapReady)="onMapReady($event)" id='agmMap'>
+                                        <agm-marker *ngFor="let m of markers; let i = index" [latitude]="m.lat" [longitude]="m.lng" [label]="m.label">
+                                            <agm-circle *ngIf="markers[i+1]" [latitude]="markers[i+1].lat" [longitude]="markers[i+1].lng" [radius]="markers[i+1].rad" [fillColor]="'red'" [editable]="true">
+                                            </agm-circle>
+                                        </agm-marker>
+                                    </agm-map>
+
+                                    <button (click)='deleteSelected()'>Delete selected Shape</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- buttons -->
+                        <div class="form-group  row">
+                            <div class="col-lg-12">
+                                <div class="col-lg-12">
+                                    <button type="button" routerLink="/operator/operator-management/list" (click)="back()" class="btn btn-secondary btn-elevate btn-icon-sm mr-3">
+                                        {{'BUTTONS.CANCEL' | translate }}
+                                    </button>
+                                    <button type="submit" (click)="saveOperatorDetail()" class="btn btn-brand btn-elevate btn-icon-sm bt-right">
+                                        {{'BUTTONS.SUBMIT' | translate }}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <!-- ------------------------ tab3 -->
+                <div class="tab-pane fade" [ngClass]="{ 'active show': navObj.link === 'bank' }" *ngIf=" navObj.link === 'bank'" id="bank_detail" role="tabpanel" aria-labelledby="bank_detail-tab-1">
+
+                    <form class="kt-form kt-form__group" name="addOperatorForm3" [formGroup]="addOperatorForm3">
+                        <!--- bank name & account holder name-->
+                        <div class="form-group  row">
+                            <div class="col-lg-6">
+                                <div class="col-lg-12">
+                                    <label for="example-text-input" class="col-form-label">
+                                        {{'OPERATOR.LABEL.BANK_NAME' | translate }} *
+                                    </label>
+                                </div>
+                                <div class="col-lg-12">
+                                    <input class="form-control m-input m-login__form-input--last" placeholder="{{'OPERATOR.PLACEHOLDERS.BANK_NAME' | translate}}" type="text" formControlName="bankName" [ngClass]="{ 'is-invalid': submitted2 && addOperatorForm3.controls.bankName.errors }">
+                                    <div *ngIf="submitted2 && addOperatorForm3.controls.bankName.errors" class="form-control-feedback" style="color: red">
+                                        <p *ngIf="submitted2 && addOperatorForm3.controls.bankName.errors?.required">
+                                            {{'OPERATOR.VALIDATION.FIELD_REQUIRED' | translate }}
+                                        </p>
+                                        <p *ngIf="addOperatorForm3.controls.bankName.errors?.minlength && !addOperatorForm3.controls.bankName.errors?.pattern" class="lbl-err">
+                                            {{'OPERATOR.VALIDATION.MIN_CHARACTER' | translate }}
+                                        </p>
+                                        <p *ngIf="addOperatorForm3.controls.bankName.errors?.maxlength && !addOperatorForm3.controls.bankName.errors?.pattern" class="lbl-err">
+                                            {{'OPERATOR.VALIDATION.MAX_CHARACTER' | translate }}
+                                        </p>
+                                        <p *ngIf="submitted2 && addOperatorForm3.controls.bankName.errors?.pattern">
+                                            {{'OPERATOR.VALIDATION.INVALID_BANK_NAME' | translate }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <div class="col-lg-12">
+                                    <label for="example-text-input" class="col-form-label">
+                                        {{'OPERATOR.LABEL.ACCOUNT_HOLDER_NAME' | translate }} *
+                                    </label>
+                                </div>
+                                <div class="col-lg-12">
+                                    <input class="form-control m-input m-login__form-input--last" placeholder="{{'OPERATOR.PLACEHOLDERS.ACCOUNT_HOLDER_NAME' | translate}}" type="text" formControlName="accountHolderName" [ngClass]="{ 'is-invalid': submitted2 && addOperatorForm3.controls.accountHolderName.errors }">
+                                    <div *ngIf="submitted2 && addOperatorForm3.controls.accountHolderName.errors" class="form-control-feedback" style="color: red">
+                                        <p *ngIf="submitted2 && addOperatorForm3.controls.accountHolderName.errors?.required">
+                                            {{'OPERATOR.VALIDATION.FIELD_REQUIRED' | translate }}
+                                        </p>
+                                        <p *ngIf="addOperatorForm3.controls.accountHolderName.errors?.minlength && !addOperatorForm3.controls.accountHolderName.errors?.pattern" class="lbl-err">
+                                            {{'OPERATOR.VALIDATION.MIN_CHARACTER' | translate }}
+                                        </p>
+                                        <p *ngIf="addOperatorForm3.controls.accountHolderName.errors?.maxlength && !addOperatorForm3.controls.accountHolderName.errors?.pattern" class="lbl-err">
+                                            {{'OPERATOR.VALIDATION.MAX_CHARACTER' | translate }}
+                                        </p>
+                                        <p *ngIf="submitted2 && addOperatorForm3.controls.accountHolderName.errors?.pattern">
+                                            {{'OPERATOR.VALIDATION.INVALID_ACCONT_HOLDER' | translate }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Account Number  institution number-->
+                        <div class="form-group  row">
+                            <div class="col-lg-6">
+                                <div class="col-lg-12">
+                                    <label for="example-text-input" class="col-form-label">
+                                        {{'OPERATOR.LABEL.ACCOUNT_NUMBER' | translate }} *
+                                    </label>
+                                </div>
+                                <div class="col-lg-12">
+                                    <input class="form-control m-input m-login__form-input--last" placeholder="{{'OPERATOR.PLACEHOLDERS.ACCOUNT_NUMBER' | translate}}" type="text" formControlName="accountNumber" [ngClass]="{ 'is-invalid': submitted2 && addOperatorForm3.controls.accountNumber.errors }">
+                                    <div *ngIf="submitted2 && addOperatorForm3.controls.accountNumber.errors" class="form-control-feedback" style="color: red">
+                                        <p *ngIf="submitted2 && addOperatorForm3.controls.accountNumber.errors?.required">
+                                            {{'OPERATOR.VALIDATION.FIELD_REQUIRED' | translate }}
+                                        </p>
+                                        <p *ngIf="submitted2 && addOperatorForm3.controls.accountNumber.errors?.pattern">
+                                            {{'OPERATOR.VALIDATION.ACCOUNTNO_INVALID'|translate}} 
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <div class="col-lg-12">
+                                    <label for="example-text-input" class="col-form-label">
+                                        {{'OPERATOR.LABEL.INSTITUTION_NUMBER' | translate }} *
+                                    </label>
+                                </div>
+                                <div class="col-lg-12">
+                                    <input class="form-control m-input m-login__form-input--last" placeholder="{{'OPERATOR.PLACEHOLDERS.INSTITUTION_NUMBER' | translate}}" type="text" formControlName="institutionNumber" [ngClass]="{ 'is-invalid': submitted2 && addOperatorForm3.controls.institutionNumber.errors }">
+                                    <div *ngIf="submitted2 && addOperatorForm3.controls.institutionNumber.errors" class="form-control-feedback" style="color: red">
+                                        <p *ngIf="submitted2 && addOperatorForm3.controls.institutionNumber.errors?.required">
+                                            {{'OPERATOR.VALIDATION.FIELD_REQUIRED' | translate }}
+                                        </p>
+                                        <p *ngIf="submitted2 && addOperatorForm3.controls.institutionNumber.errors?.pattern">
+                                            {{'OPERATOR.VALIDATION.INSTITUTIONNO_INVALID'|translate}} </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group  row">
+                            <div class="col-lg-6">
+                                <div class="col-lg-12">
+                                    <label for="example-text-input" class="col-form-label">
+                                        {{'OPERATOR.LABEL.TRANSIST_NUMBER' | translate }} *
+                                    </label>
+                                </div>
+                                <div class="col-lg-12">
+                                    <input class="form-control m-input m-login__form-input--last" placeholder="{{'OPERATOR.PLACEHOLDERS.TRANSIST_NUMBER' | translate}}" type="text" formControlName="transitNumber" [ngClass]="{ 'is-invalid': submitted2 && addOperatorForm3.controls.transitNumber.errors }">
+                                    <div *ngIf="submitted2 && addOperatorForm3.controls.transitNumber.errors" class="form-control-feedback" style="color: red">
+                                        <p *ngIf="submitted2 && addOperatorForm3.controls.transitNumber.errors?.required">
+                                            {{'OPERATOR.VALIDATION.FIELD_REQUIRED' | translate }}
+                                        </p>
+                                        <p *ngIf="submitted2 && addOperatorForm3.controls.transitNumber.errors?.pattern">
+                                            {{'OPERATOR.VALIDATION.TRANSITNO_INVALID'|translate}} </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- buttons -->
+                        <div class="form-group  row">
+                            <div class="col-lg-12">
+                                <div class="col-lg-12">
+                                    <button type="button" routerLink="/operator/operator-management/list" (click)="back()" class="btn btn-secondary btn-elevate btn-icon-sm mr-3">
+                                        {{'BUTTONS.CANCEL' | translate }}
+                                    </button>
+                                    <button type="submit" (click)="saveBankDetail()" class="btn btn-brand btn-elevate btn-icon-sm bt-right">
+                                        {{'BUTTONS.SUBMIT' | translate }}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <!-- -----------------------Tab4 -->
+                <div class="tab-pane fade" [ngClass]="{ 'active show': navObj.link === 'commission' }" *ngIf=" navObj.link === 'commission'" id="commission_detail" role="tabpanel" aria-labelledby="commission_detail-tab-1">
+
+                    <form class="kt-form kt-form__group" name="addOperatorForm4" [formGroup]="addOperatorForm4">
+                        <!--- fee & frequency type-->
+                        <div class="form-group  row">
+                            <div class="col-lg-6">
+                                <div class="col-lg-12">
+                                    <label for="example-text-input" class="col-form-label">
+                                        {{'OPERATOR.LABEL.FEE' | translate }} *
+                                    </label>
+                                </div>
+                                <div class="col-lg-12">
+                                    <input class="form-control m-input m-login__form-input--last" placeholder="{{'OPERATOR.PLACEHOLDERS.FEE' | translate}}" type="text" formControlName="annualFee" [ngClass]="{ 'is-invalid': submitted3 && addOperatorForm4.controls.annualFee.errors }">
+                                    <div *ngIf="submitted3 && addOperatorForm4.controls.annualFee.errors" class="form-control-feedback" style="color: red">
+                                        <p *ngIf="submitted3 && addOperatorForm4.controls.annualFee.errors?.required">
+                                            {{'OPERATOR.VALIDATION.FIELD_REQUIRED' | translate }}
+                                        </p>
+                                        <p *ngIf="submitted3 && addOperatorForm4.controls.annualFee.errors?.pattern">
+                                            {{'OPERATOR.VALIDATION.FEE_INVALID' | translate }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <div class="col-lg-12">
+                                    <label for="example-text-input" class="col-form-label">
+                                        {{'OPERATOR.LABEL.FREQUENCY_TYPE' | translate }} *
+                                    </label>
+                                </div>
+                                <div class="col-lg-12">
+                                    <select class="form-control m-input" id="frequencyType" formControlName="frequencyType" [ngClass]="{ 'is-invalid': submitted3 && addOperatorForm4.controls.frequencyType.errors }">
+                                        <option value="">{{'OPERATOR.PLACEHOLDERS.FREQUENCY_TYPE' | translate}}</option>
+                                        <option value="{{type['value']['value']}}" *ngFor="let type of operatorFrequencyType | keyvalue ">
+                                            {{type['value']['key']}}
+                                        </option>
+                                    </select>
+                                    <div *ngIf="submitted3 && addOperatorForm4.controls.frequencyType.errors" class="form-control-feedback" style="color: red">
+                                        <p *ngIf="submitted3 && addOperatorForm4.controls.frequencyType.errors?.required">
+                                            {{'OPERATOR.VALIDATION.FIELD_REQUIRED' | translate }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- commission and ride pre-authorised payment-->
+                        <div class="form-group  row">
+                            <div class="col-lg-6">
+                                <div class="col-lg-12">
+                                    <label for="example-text-input" class="col-form-label">
+                                        {{'OPERATOR.LABEL.COMMISSION' | translate }} *
+                                    </label>
+                                </div>
+                                <div class="col-lg-12">
+                                    <input class="form-control m-input m-login__form-input--last" placeholder="{{'OPERATOR.PLACEHOLDERS.COMMISSION' | translate}}" type="text" formControlName="commissionPercentage" [ngClass]="{ 'is-invalid': submitted3 && addOperatorForm4.controls.commissionPercentage.errors }">
+                                    <div *ngIf="submitted3 && addOperatorForm4.controls.commissionPercentage.errors" class="form-control-feedback" style="color: red">
+                                        <p *ngIf="submitted3 && addOperatorForm4.controls.commissionPercentage.errors?.required">
+                                            {{'OPERATOR.VALIDATION.FIELD_REQUIRED' | translate }}
+                                        </p>
+                                        <p *ngIf="submitted3 && addOperatorForm4.controls.commissionPercentage.errors?.pattern">
+                                            {{'OPERATOR.VALIDATION.COMMISSION_INVALID' | translate }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <div class="col-lg-12">
+                                    <label for="example-text-input" class="col-form-label">
+                                        {{'OPERATOR.LABEL.RIDE_PRE_AUTHORISED_PAYMENT' | translate }} *
+                                    </label>
+                                </div>
+                                <div class="col-lg-12">
+                                    <input class="form-control m-input m-login__form-input--last" placeholder="{{'OPERATOR.PLACEHOLDERS.RIDE_PRE_AUTHORISED_PAYMENT' | translate}}" type="text" formControlName="ridePreAuthorisedPayment" [ngClass]="{ 'is-invalid': submitted3 && addOperatorForm4.controls.ridePreAuthorisedPayment.errors }">
+                                    <div *ngIf="submitted3 && addOperatorForm4.controls.ridePreAuthorisedPayment.errors" class="form-control-feedback" style="color: red">
+                                        <p *ngIf="submitted3 && addOperatorForm4.controls.ridePreAuthorisedPayment.errors?.required">
+                                            {{'OPERATOR.VALIDATION.FIELD_REQUIRED' | translate }}
+                                        </p>
+                                        <p *ngIf="submitted3 && addOperatorForm4.controls.ridePreAuthorisedPayment.errors?.pattern">
+                                            {{'OPERATOR.VALIDATION.RIDE_PRE_AUTHORISED_PAYMENT_IINVALID' | translate }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- buttons -->
+                        <div class="form-group  row">
+                            <div class="col-lg-12">
+                                <div class="col-lg-12">
+                                    <button type="button" routerLink="/operator/operator-management/list" (click)="back()" class="btn btn-secondary btn-elevate btn-icon-sm mr-3">
+                                        {{'BUTTONS.CANCEL' | translate }}
+                                    </button>
+                                    <button type="submit" (click)="saveCommissionDetail()" class="btn btn-brand btn-elevate btn-icon-sm bt-right">
+                                        {{'BUTTONS.SUBMIT' | translate }}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- -----------------------Tab5 -->
+                <div class="tab-pane fade" [ngClass]="{ 'active show': navObj.link === 'invoice' }" *ngIf=" navObj.link === 'invoice'" id="invoice_detail" role="tabpanel" aria-labelledby="invoice_detail-tab-1">
+
+                    <form class="kt-form kt-form__group" name="addOperatorForm5" [formGroup]="addOperatorForm5">
+                        <!-- address1 and address2 -->
+                        <div class="form-group  row">
+                            <div class="col-lg-6">
+                                <div class="col-lg-12">
+                                    <label for="example-text-input" class="col-form-label">
+                                        {{'OPERATOR.LABEL.ADDRESS1' | translate }} *
+                                    </label>
+                                </div>
+                                <div class="col-lg-12">
+                                    <textarea class="form-control m-textarea m-login__form-textarea--last" placeholder="{{'OPERATOR.PLACEHOLDERS.ADDRESS1' | translate}}" type="text" formControlName="address1" [ngClass]="{ 'is-invalid': submitted4 && addOperatorForm5.controls.address1.errors }"></textarea>
+                                    <div *ngIf="submitted4 && addOperatorForm5.controls.address1.errors" class="form-control-feedback" style="color: red">
+                                        <p *ngIf="submitted4 && addOperatorForm5.controls.address1.errors?.required">
+                                            {{'OPERATOR.VALIDATION.FIELD_REQUIRED' | translate }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="col-lg-12">
+                                    <label for="example-text-input" class="col-form-label">
+                                        {{'OPERATOR.LABEL.ADDRESS2' | translate }} *
+                                    </label>
+                                </div>
+                                <div class="col-lg-12">
+                                    <textarea class="form-control m-textarea m-login__form-textarea--last" placeholder="{{'OPERATOR.PLACEHOLDERS.ADDRESS2' | translate}}" type="text" formControlName="address2" [ngClass]="{ 'is-invalid': submitted4 && addOperatorForm5.controls.address2.errors }"></textarea>
+                                    <div *ngIf="submitted4 && addOperatorForm5.controls.address2.errors" class="form-control-feedback" style="color: red">
+                                        <p *ngIf="submitted4 && addOperatorForm5.controls.address2.errors?.required">
+                                            {{'OPERATOR.VALIDATION.FIELD_REQUIRED' | translate }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--- postal code & province-->
+                        <div class="form-group  row">
+                            <div class="col-lg-6">
+                                <div class="col-lg-12">
+                                    <label for="example-text-input" class="col-form-label">
+                                        {{'OPERATOR.LABEL.POSTAL_CODE' | translate }} *
+                                    </label>
+                                </div>
+                                <div class="col-lg-12">
+                                    <input class="form-control m-input m-login__form-input--last" placeholder="{{'OPERATOR.PLACEHOLDERS.POSTAL_CODE' | translate}}" type="number" formControlName="postalCode" [ngClass]="{ 'is-invalid': submitted4 && addOperatorForm5.controls.postalCode.errors }">
+                                    <div *ngIf="submitted4 && addOperatorForm5.controls.postalCode.errors" class="form-control-feedback" style="color: red">
+                                        <p *ngIf="submitted4 && addOperatorForm5.controls.postalCode.errors?.required">
+                                            {{'OPERATOR.VALIDATION.FIELD_REQUIRED' | translate }}
+                                        </p>
+                                        <p *ngIf="submitted4 && addOperatorForm5.controls.postalCode.errors?.maxlength && !addOperatorForm5.controls.postalCode.errors?.pattern " class="lbl-err ">
+                                            {{'OPERATOR.VALIDATION.POSTALCODE_CHARACTER_LENGTH' | translate }}
+                                        </p>
+                                        <p *ngIf="submitted4 && addOperatorForm5.controls.postalCode.errors?.minlength && !addOperatorForm5.controls.postalCode.errors?.pattern " class="lbl-err ">
+                                            {{'OPERATOR.VALIDATION.POSTALCODE_CHARACTER_LENGTH' | translate }}
+                                        </p>
+                                        <p *ngIf="submitted4 && addOperatorForm5.controls.postalCode.errors?.pattern">
+                                            {{'OPERATOR.VALIDATION.INVALID_POSTALCODE' | translate }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <div class="col-lg-12">
+                                    <label for="example-text-input" class="col-form-label">
+                                        {{'OPERATOR.LABEL.PROVINCE' | translate }} *
+                                    </label>
+                                </div>
+                                <div class="col-lg-12">
+                                    <input class="form-control m-input m-login__form-input--last" placeholder="{{'OPERATOR.PLACEHOLDERS.PROVINCE' | translate}}" type="text" formControlName="province" [ngClass]="{ 'is-invalid': submitted4 && addOperatorForm5.controls.province.errors }">
+                                    <div *ngIf="submitted4 && addOperatorForm5.controls.province.errors" class="form-control-feedback" style="color: red">
+                                        <p *ngIf="submitted4 && addOperatorForm5.controls.province.errors?.required">
+                                            {{'OPERATOR.VALIDATION.FIELD_REQUIRED' | translate }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- mobile no and email -->
+                        <div class="form-group  row">
+                            <div class="col-lg-6">
+                                <div class="col-lg-12">
+                                    <label for="example-text-input" class="col-form-label">
+                                        {{'OPERATOR.LABEL.MOBILENO' | translate }} *
+                                    </label>
+                                </div>
+                                <!-- <div class="col-lg-12"> -->
+                                <div class="mbl-sct d-flex">
+                                    <div class="col-lg-3">
+                                        <input class="form-control m-input m-login__form-input--last" placeholder="{{'OPERATOR.PLACEHOLDERS.ISD_CODE'|translate}}" type="number" formControlName="isdCode" [ngClass]="{ 'is-invalid': submitted4 && addOperatorForm5.controls.isdCode.errors }">
+                                    </div>
+                                    <div class="col-lg-9">
+                                        <input class="form-control m-input m-login__form-input--last" placeholder="{{'OPERATOR.PLACEHOLDERS.MOBILE_NO'|translate}}" type="text" formControlName="contectNumber" [ngClass]="{ 'is-invalid': submitted4 && addOperatorForm5.controls.contectNumber.errors }">
+                                    </div>
+                                </div>
+                                <div *ngIf="submitted4 && addOperatorForm5.controls.contectNumber.errors" class="form-control-feedback" style="color: red; margin-top: 10px;padding-left: 10px;">
+                                    <p *ngIf="submitted4 && addOperatorForm5.controls.contectNumber.errors?.required">
+                                        {{'OPERATOR.VALIDATION.FIELD_REQUIRED'|translate}}</p>
+                                    <p *ngIf="submitted4 && addOperatorForm5.controls.contectNumber.errors?.pattern">
+                                        {{'OPERATOR.VALIDATION.MOBILENO_INVALID'|translate}} </p>
+                                </div>
+                                <!-- </div> -->
+                            </div>
+
+                            <div class="col-lg-6">
+                                <div class="col-lg-12">
+                                    <label for="example-text-input" class="col-form-label">
+                                        {{'OPERATOR.LABEL.EMAIL' | translate }} *
+                                    </label>
+                                </div>
+                                <div class="col-lg-12">
+                                    <input class="form-control m-input m-login__form-input--last" placeholder="{{'OPERATOR.PLACEHOLDERS.EMAIL'|translate}}" type="text" formControlName="email" [ngClass]="{ 'is-invalid': submitted4 && addOperatorForm5.controls.email.errors }">
+                                    <div *ngIf="submitted4 && addOperatorForm5.controls.email.errors" class="form-control-feedback" style="color: red">
+                                        <p *ngIf="submitted4 && addOperatorForm5.controls.email.errors?.required">
+                                            {{'OPERATOR.VALIDATION.FIELD_REQUIRED'|translate}}</p>
+                                        <p *ngIf="submitted4 && addOperatorForm5.controls.email.errors?.pattern">
+                                            {{'OPERATOR.VALIDATION.EMAIL_INVALID'|translate}} </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- buttons -->
+                        <div class="form-group  row">
+                            <div class="col-lg-12">
+                                <div class="col-lg-12">
+                                    <button type="button" routerLink="/operator/operator-management/list" (click)="back()" class="btn btn-secondary btn-elevate btn-icon-sm mr-3">
+                                        {{'BUTTONS.CANCEL' | translate }}
+                                    </button>
+                                    <button type="submit" (click)="saveInvoiceDetail()" class="btn btn-brand btn-elevate btn-icon-sm bt-right">
+                                        {{'BUTTONS.SUBMIT' | translate }}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>

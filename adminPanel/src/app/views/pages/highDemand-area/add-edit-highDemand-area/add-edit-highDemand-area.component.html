@@ -1,0 +1,280 @@
+<div class="kt-portlet">
+    <div class="kt-portlet__head">
+        <div class="kt-portlet__head-label">
+            <h3 class="kt-portlet__head-title" *ngIf="isAdd">{{'HIGHDEMANDAREA.ADD' | translate }} </h3>
+            <h3 class="kt-portlet__head-title" *ngIf="!isAdd">{{'HIGHDEMANDAREA.EDIT' | translate }}</h3>
+        </div>
+        <div class="btn kt-portlet__head-label">
+            <a href="javascript:;" routerLink="/highDemand-area/list" class="btn btn-brand btn-elevate btn-icon-sm">
+                <i class="la la-left-arrow"></i>{{'BUTTONS.BACK' | translate }}</a>
+        </div>
+    </div>
+    <div class="kt-portlet__body">
+        <form class="kt-form kt-form__group" name="addEditHighDemandAreaForm" [formGroup]="addEditHighDemandAreaForm">
+            <div class="kt-portlet__body">
+                <!-- country & city -->
+                <div class="form-group  row">
+                    <!-- <div class="col-lg-6">
+                        <div class="col-lg-6">
+                            <label for="example-text-input" class="col-form-label">
+                                {{'HIGHDEMANDAREA.LABEL.COUNTRY' | translate }} *
+                            </label>
+                        </div>
+                        <div class="col-lg-12">
+                            <select class="form-control m-input" id="country" (change)="changeCountry($event.target.value)" formControlName="highDemandArea_countryId"
+                                [ngClass]="{ 'is-invalid': submitted && addEditHighDemandAreaForm.controls.highDemandArea_countryId.errors }"
+                                *ngIf="isAdd">
+                                <option value="">{{'HIGHDEMANDAREA.PLACEHOLDERS.SELECT_COUNTRY' | translate}}</option>
+                                <option value="{{country._id}}" *ngFor="let country of countries">
+                                    {{country.country_name }}</option>
+                            </select>
+                            <select class="form-control m-input" id="country" (change)="changeCountry($event.target.value)" formControlName="highDemandArea_countryId"
+                                [ngClass]="{ 'is-invalid': submitted && addEditHighDemandAreaForm.controls.highDemandArea_countryId.errors }"
+                                *ngIf="!isAdd" disabled>
+                                <option value="">{{'HIGHDEMANDAREA.PLACEHOLDERS.SELECT_COUNTRY' | translate}}</option>
+                                <option value="{{country._id}}" *ngFor="let country of countries">
+                                    {{country.country_name }}</option>
+                            </select>
+                            <div *ngIf="submitted && addEditHighDemandAreaForm.controls.highDemandArea_countryId.errors" class="form-control-feedback"
+                                style="color: red">
+                                <p *ngIf="submitted && addEditHighDemandAreaForm.controls.highDemandArea_countryId.errors?.required">
+                                    {{'HIGHDEMANDAREA.VALIDATION.FIELD_REQUIRED' | translate }}
+                                </p>
+                            </div>
+                        </div>
+                    </div> -->
+                    <div class="col-lg-6">
+                        <div class="col-lg-6">
+                            <label for="example-text-input" class="col-form-label">
+                                {{'HIGHDEMANDAREA.LABEL.CITY' | translate }} *
+                            </label>
+                        </div>
+                        <div class="col-lg-12">
+                            <select class="form-control m-input" id="city" formControlName="highDemandArea_cityId" (change)="changeCity($event.target.value)"
+                                [ngClass]="{ 'is-invalid': submitted && addEditHighDemandAreaForm.controls.highDemandArea_cityId.errors }"
+                                *ngIf="isAdd">
+                                <option value="">{{'HIGHDEMANDAREA.PLACEHOLDERS.SELECT_CITY' | translate}}</option>
+                                <option value="{{city._id}}" *ngFor="let city of cities">{{city.city_name}}
+                                </option>
+                            </select>
+                            <select class="form-control m-input" id="city" formControlName="highDemandArea_cityId" (change)="changeCity($event.target.value)"
+                                [ngClass]="{ 'is-invalid': submitted && addEditHighDemandAreaForm.controls.highDemandArea_cityId.errors }"
+                                *ngIf="!isAdd" disabled>
+                                <option value="">{{'HIGHDEMANDAREA.PLACEHOLDERS.SELECT_CITY' | translate}}</option>
+                                <option value="{{city._id}}" *ngFor="let city of cities">{{city.city_name}}
+                                </option>
+                            </select>
+                            <div *ngIf="submitted && addEditHighDemandAreaForm.controls.highDemandArea_cityId.errors" class="form-control-feedback" style="color: red">
+                                <p *ngIf="submitted && addEditHighDemandAreaForm.controls.highDemandArea_cityId.errors?.required">
+                                    {{'HIGHDEMANDAREA.VALIDATION.FIELD_REQUIRED' | translate }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- franchises & Status -->
+                <div class="form-group  row">
+                    <div class="col-lg-6">
+                        <div class="col-lg-6">
+                            <label for="example-text-input" class="col-form-label">
+                                {{'HIGHDEMANDAREA.LABEL.FRANCHISE' | translate }} *
+                            </label>
+                        </div>
+                        <div class="col-lg-12">
+                            <select class="form-control m-input" id="operatorName" formControlName="highDemandArea_franchiseId" [ngClass]="{ 'is-invalid': submitted && addEditHighDemandAreaForm.controls.highDemandArea_franchiseId.errors }">
+                                <option value="">{{'HIGHDEMANDAREA.LABEL.SELECT_OPERATOR' | translate}}</option>
+                                <option value="{{operator._id}}" *ngFor="let operator of operators">
+                                    {{operator.operatorName}}</option>
+                            </select>
+                            <div *ngIf="submitted && addEditHighDemandAreaForm.controls.highDemandArea_franchiseId.errors" class="form-control-feedback"
+                                style="color: red">
+                                <p *ngIf="submitted && addEditHighDemandAreaForm.controls.highDemandArea_franchiseId.errors?.required">
+                                    {{'HIGHDEMANDAREA.VALIDATION.FIELD_REQUIRED' | translate }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="col-lg-12">
+                            <label for="example-text-input" class="col-form-label">
+                                {{'HIGHDEMANDAREA.LABEL.STATUS' | translate}}*
+                            </label>
+                        </div>
+                        <div class="col-lg-12">
+                            <select class="form-control m-input" id="highDemandArea_status" formControlName="highDemandArea_status" [ngClass]="{ 'is-invalid': submitted && addEditHighDemandAreaForm.controls.highDemandArea_status.errors }">
+                                <option value="{{'HIGHDEMANDAREA.PLACEHOLDERS.ACTIVE' | translate}}" selected>{{'HIGHDEMANDAREA.LABEL.ACTIVE' | translate}}</option>
+                                <option value="{{'HIGHDEMANDAREA.PLACEHOLDERS.INACTIVE' | translate}}">{{'HIGHDEMANDAREA.LABEL.INACTIVE' | translate}}</option>
+                            </select>
+                            <div *ngIf="submitted && addEditHighDemandAreaForm.controls.highDemandArea_status.errors" class="form-control-feedback" style="color: red">
+                                <p *ngIf="submitted && addEditHighDemandAreaForm.controls.highDemandArea_status.errors?.required">
+                                    {{'HIGHDEMANDAREA.VALIDATION.FIELD_REQUIRED' |translate}}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <table style="width:100%">
+                    <tr>
+                        <th>
+                            <label for="example-text-input" class="col-form-label">
+                                {{'HIGHDEMANDAREA.LABEL.THRESHOLD_NAME' | translate}}
+                            </label>
+                        </th>
+                        <th>
+                            <label for="example-text-input" class="col-form-label">
+                                {{'HIGHDEMANDAREA.LABEL.PRICE_PERCENTAGE' | translate}}
+                            </label>
+                        </th>
+                        <th>
+                            <label for="example-text-input" class="col-form-label">
+                                {{'HIGHDEMANDAREA.LABEL.RIDE_REQUEST' | translate}}*
+                            </label>
+                        </th>
+                        <th>
+                            <label for="example-text-input" class="col-form-label">
+                                {{'HIGHDEMANDAREA.LABEL.COOL_DOWN_RIDE_REQ' | translate}}*
+                            </label>
+                        </th>
+                        <th>
+                            <label for="example-text-input" class="col-form-label">
+                                {{'HIGHDEMANDAREA.LABEL.DRIVER_SEARCH_RADIUS' | translate}}*
+                            </label>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th>
+                            <label for="example-text-input" class="col-form-label">
+                                {{'HIGHDEMANDAREA.LABEL.THRESHOLD_NAME_X1' | translate}}
+                            </label>
+                        </th>
+                        <th>
+                            <input class="form-control m-input m-login__form-input--last" formControlName="highDemandArea_price_per_x1" type="text" [ngClass]="{ 'is-invalid': submitted && addEditHighDemandAreaForm.controls.highDemandArea_price_per_x1.errors }">
+                            <div *ngIf="submitted && addEditHighDemandAreaForm.controls.highDemandArea_price_per_x1.errors" class="form-control-feedback"
+                                style="color: red">
+                                <p *ngIf="submitted && addEditHighDemandAreaForm.controls.highDemandArea_price_per_x1.errors?.required">
+                                    {{'HIGHDEMANDAREA.VALIDATION.FIELD_REQUIRED' | translate}}
+                                </p>
+                            </div>
+                        </th>
+                        <th>
+                            <input class="form-control m-input m-login__form-input--last" formControlName="highDemandArea_ride_request_x1" type="text"
+                                [ngClass]="{ 'is-invalid': submitted && addEditHighDemandAreaForm.controls.highDemandArea_ride_request_x1.errors }">
+                            <div *ngIf="submitted && addEditHighDemandAreaForm.controls.highDemandArea_ride_request_x1.errors" class="form-control-feedback"
+                                style="color: red">
+                                <p *ngIf="submitted && addEditHighDemandAreaForm.controls.highDemandArea_ride_request_x1.errors?.required">
+                                    {{'HIGHDEMANDAREA.VALIDATION.FIELD_REQUIRED' | translate}}
+                                </p>
+                            </div>
+                        </th>
+                        <th>
+                            <input class="form-control m-input m-login__form-input--last" formControlName="highDemandArea_coolDown_rideReq_x1" type="text"
+                                [ngClass]="{ 'is-invalid': submitted && addEditHighDemandAreaForm.controls.highDemandArea_coolDown_rideReq_x1.errors }">
+                            <div *ngIf="submitted && addEditHighDemandAreaForm.controls.highDemandArea_coolDown_rideReq_x1.errors" class="form-control-feedback"
+                                style="color: red">
+                                <p *ngIf="submitted && addEditHighDemandAreaForm.controls.highDemandArea_coolDown_rideReq_x1.errors?.required">
+                                    {{'HIGHDEMANDAREA.VALIDATION.FIELD_REQUIRED' | translate}}
+                                </p>
+                            </div>
+                        </th>
+                        <th>
+                            <input class="form-control m-input m-login__form-input--last" formControlName="highDemandArea_driver_search_radius_x1" type="text"
+                                [ngClass]="{ 'is-invalid': submitted && addEditHighDemandAreaForm.controls.highDemandArea_driver_search_radius_x1.errors }">
+                            <div *ngIf="submitted && addEditHighDemandAreaForm.controls.highDemandArea_driver_search_radius_x1.errors" class="form-control-feedback"
+                                style="color: red">
+                                <p *ngIf="submitted && addEditHighDemandAreaForm.controls.highDemandArea_driver_search_radius_x1.errors?.required">
+                                    {{'HIGHDEMANDAREA.VALIDATION.FIELD_REQUIRED' | translate}}
+                                </p>
+                            </div>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th>
+                            <label for="example-text-input" class="col-form-label">
+                                {{'HIGHDEMANDAREA.LABEL.THRESHOLD_NAME_X2' | translate}}
+                            </label>
+                        </th>
+                        <th>
+                            <input class="form-control m-input m-login__form-input--last" formControlName="highDemandArea_price_per_x2" type="text" [ngClass]="{ 'is-invalid': submitted && addEditHighDemandAreaForm.controls.highDemandArea_price_per_x2.errors }">
+                            <div *ngIf="submitted && addEditHighDemandAreaForm.controls.highDemandArea_price_per_x2.errors" class="form-control-feedback"
+                                style="color: red">
+                                <p *ngIf="submitted && addEditHighDemandAreaForm.controls.highDemandArea_price_per_x2.errors?.required">
+                                    {{'HIGHDEMANDAREA.VALIDATION.FIELD_REQUIRED' | translate}}
+                                </p>
+                            </div>
+                        </th>
+                        <th>
+                            <input class="form-control m-input m-login__form-input--last" formControlName="highDemandArea_ride_request_x2" type="text"
+                                [ngClass]="{ 'is-invalid': submitted && addEditHighDemandAreaForm.controls.highDemandArea_ride_request_x2.errors }">
+                            <div *ngIf="submitted && addEditHighDemandAreaForm.controls.highDemandArea_ride_request_x2.errors" class="form-control-feedback"
+                                style="color: red">
+                                <p *ngIf="submitted && addEditHighDemandAreaForm.controls.highDemandArea_ride_request_x2.errors?.required">
+                                    {{'HIGHDEMANDAREA.VALIDATION.FIELD_REQUIRED' | translate}}
+                                </p>
+                            </div>
+                        </th>
+                        <th>
+                            <input class="form-control m-input m-login__form-input--last" formControlName="highDemandArea_coolDown_rideReq_x2" type="text"
+                                [ngClass]="{ 'is-invalid': submitted && addEditHighDemandAreaForm.controls.highDemandArea_coolDown_rideReq_x2.errors }">
+                            <div *ngIf="submitted && addEditHighDemandAreaForm.controls.highDemandArea_coolDown_rideReq_x2.errors" class="form-control-feedback"
+                                style="color: red">
+                                <p *ngIf="submitted && addEditHighDemandAreaForm.controls.highDemandArea_coolDown_rideReq_x2.errors?.required">
+                                    {{'HIGHDEMANDAREA.VALIDATION.FIELD_REQUIRED' | translate}}
+                                </p>
+                            </div>
+                        </th>
+                        <th>
+                            <input class="form-control m-input m-login__form-input--last" formControlName="highDemandArea_driver_search_radius_x2" type="text"
+                                [ngClass]="{ 'is-invalid': submitted && addEditHighDemandAreaForm.controls.highDemandArea_driver_search_radius_x2.errors }">
+                            <div *ngIf="submitted && addEditHighDemandAreaForm.controls.highDemandArea_driver_search_radius_x2.errors" class="form-control-feedback"
+                                style="color: red">
+                                <p *ngIf="submitted && addEditHighDemandAreaForm.controls.highDemandArea_driver_search_radius_x2.errors?.required">
+                                    {{'HIGHDEMANDAREA.VALIDATION.FIELD_REQUIRED' | translate}}
+                                </p>
+                            </div>
+                        </th>
+                    </tr>
+                </table>
+                <br>
+                <div>
+                    <button type="submit" (click)="onAddAddress()" class="btn btn-brand btn-elevate btn-icon-sm mr-3"> {{'HIGHDEMANDAREA.BUTTONS.ADD_ADDRESS' | translate }}
+                    </button>
+                </div>
+
+
+                <div class="form-group row ">
+                    <div class="col-xl-12 ">
+                        <div class="col-xl-12 ">
+                            <button type="button" (click)="onCancel()" class="btn btn-secondary btn-elevate btn-icon-sm mr-3 ">{{'BUTTONS.CANCEL' | translate }}</button>
+                            <button type="submit" (click)="onSubmit() " onSubmit class="btn btn-brand btn-elevate btn-icon-sm bt-right"> {{'BUTTONS.SUBMIT' | translate }}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <!-- <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" [disableDefaultUI]="false" [zoomControl]="false" (mapClick)="mapClicked($event)"> -->
+                    <!-- <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" [disableDefaultUI]="false" [zoomControl]="false">
+
+                        <agm-marker *ngFor="let m of markings; let i = index" [latitude]="m.lat" [longitude]="m.lng" [label]="m.label">
+
+                            <agm-circle *ngIf="markings[i+1]" [latitude]="markings[i+1].lat" [longitude]="markings[i+1].lng" [radius]="markings[i+1].rad"
+                                [fillColor]="'red'" [editable]="true">
+                            </agm-circle>
+                        </agm-marker>
+                    </agm-map> -->
+                    <div *ngIf="addEditHighDemandAreaForm.value.highDemandArea_cityId">
+                    <agm-map [zoom]="5" [latitude]="lat" [longitude]="lng" (mapReady)="onMapReady($event)" id='agmMap'>
+                        <agm-marker *ngFor="let m of markings; let i = index" [latitude]="m.lat" [longitude]="m.lng" [label]="m.label">
+                            <agm-circle *ngIf="markings[i+1]" [latitude]="markings[i+1].lat" [longitude]="markings[i+1].lng" [radius]="markings[i+1].rad"
+                                [fillColor]="'red'" [editable]="true">
+                            </agm-circle>
+                        </agm-marker>
+                    </agm-map>
+                    <button (click)='deleteSelected()'>Delete selected Shape</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

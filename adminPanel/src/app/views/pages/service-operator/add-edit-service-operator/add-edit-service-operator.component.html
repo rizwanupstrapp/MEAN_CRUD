@@ -1,0 +1,171 @@
+<div class="kt-portlet">
+    <div class="kt-portlet__head">
+        <div class="kt-portlet__head-label">
+            <h3 class="kt-portlet__head-title" *ngIf="isAdd">{{'SERVICEOPERATOR.ADD' | translate }} </h3>
+            <h3 class="kt-portlet__head-title" *ngIf="!isAdd">{{'SERVICEOPERATOR.EDIT' | translate }}</h3>
+        </div>
+        <div class="btn kt-portlet__head-label">
+            <a href="javascript:;" routerLink="/service-operator/list" class="btn btn-brand btn-elevate btn-icon-sm"><i
+                    class="la la-left-arrow"></i>{{'BUTTONS.BACK' | translate }}</a>
+        </div>
+    </div>
+    <div class="kt-portlet__body">
+        <form class="kt-form kt-form__group" name="addEditServiceOperatorForm" [formGroup]="addEditServiceOperatorForm">
+            <div class="kt-portlet__body">
+                <!-- <div *ngIf="Editor">    
+                    <ckeditor  #editor [editor]="Editor"  class="form-control" type="text" placeholder="Enter Contant" formControlName="cms_content_ar"            [ngClass]="{ 'is-invalid': submitted && addEditServiceOperatorForm.controls.cms_content_ar.errors }"></ckeditor></div> -->
+                <!-- -----------country  city-->
+                <div class="form-group  row">
+                    <!-- <div class="col-lg-6">
+                        <div class="col-lg-12">
+                            <label for="example-text-input" class="col-form-label">
+                                {{'SERVICEOPERATOR.LABEL.CITY_COUNTRY_NAME' | translate}}*
+                            </label>
+                        </div>
+                        <div class="col-lg-12">
+                            <select class="form-control m-input" id="country"
+                                (change)="changeCountry($event.target.value)"
+                                formControlName="serviceOperator_countryId"
+                                [ngClass]="{ 'is-invalid': submitted && addEditServiceOperatorForm.controls.serviceOperator_countryId.errors }">
+                                <option value="">{{'SERVICEOPERATOR.PLACEHOLDERS.SELECT_COUNTRY' | translate}}</option>
+                                <option value="{{country._id}}" *ngFor="let country of countries">
+                                    {{country.country_name}}</option>
+                            </select>
+                            <div *ngIf="submitted && addEditServiceOperatorForm.controls.serviceOperator_countryId.errors"
+                                class="form-control-feedback" style="color: red">
+                                <p
+                                    *ngIf="submitted && addEditServiceOperatorForm.controls.serviceOperator_countryId.errors?.required">
+                                    {{'SERVICEOPERATOR.VALIDATION.FIELD_REQUIRED' |translate}}
+                                </p>
+                            </div>
+                        </div>
+                    </div> -->
+                    <div class="col-lg-6">
+                        <div class="col-lg-12">
+                            <label for="example-text-input" class="col-form-label">
+                                {{'SERVICEOPERATOR.LABEL.COUNTRY_CITY_NAME' | translate}}*
+                            </label>
+                        </div>
+                        <!-- cityId -->
+                       <div class="col-lg-12">
+                            <select *ngIf="isAdd" class="form-control m-input" id="city" formControlName="serviceOperator_cityId" (change)="changeCity($event.target.value,1)"
+                                [ngClass]="{ 'is-invalid': submitted && addEditServiceOperatorForm.controls.serviceOperator_cityId.errors }">
+                                <option value="">{{'SERVICEOPERATOR.PLACEHOLDERS.SELECT_CITY' | translate}}</option>
+                                <option value="{{city._id}}" *ngFor="let city of cities">
+                                    {{city.city_name}}
+                                </option>
+                            </select>
+                            <select *ngIf="!isAdd" class="form-control m-input" id="city" formControlName="serviceOperator_cityId" (change)="changeCity($event.target.value,1)"
+                                [ngClass]="{ 'is-invalid': submitted && addEditServiceOperatorForm.controls.serviceOperator_cityId.errors }"
+                                disabled>
+                                <option value="">{{'SERVICEOPERATOR.PLACEHOLDERS.SELECT_CITY' | translate}}</option>
+                                <option value="{{city._id}}" *ngFor="let city of cities">
+                                    {{city.city_name}}
+                                </option>
+                            </select>
+                            <div *ngIf="submitted && addEditServiceOperatorForm.controls.serviceOperator_cityId.errors" class="form-control-feedback"
+                                style="color: red">
+                                <p *ngIf="submitted && addEditServiceOperatorForm.controls.serviceOperator_cityId.errors?.required">
+                                    {{'SERVICEOPERATOR.VALIDATION.FIELD_REQUIRED' |translate}}
+                                </p>
+                            </div>
+                        </div>
+
+                    </div>
+               
+                    <div class="col-lg-6">
+                        <div class="col-lg-12">
+                            <label for="example-text-input" class="col-form-label">
+                                {{'SERVICEOPERATOR.LABEL.SERVICEOPERATOR_NAME' | translate}}*
+                            </label>
+                        </div>
+                        <!-- Operator Name -->
+                        <div class="col-lg-12">
+                            <select class="form-control m-input" id="operatorName"
+                                formControlName="serviceOperator_serviceOperatorId"
+                                [ngClass]="{ 'is-invalid': submitted && addEditServiceOperatorForm.controls.serviceOperator_serviceOperatorId.errors }">
+                                <option value="">{{'SERVICEOPERATOR.PLACEHOLDERS.SELECT_OPERATOR' | translate}}</option>
+                                <option value="{{operator._id}}" *ngFor="let operator of operators">
+                                    {{operator.operatorName}}</option>
+                            </select>
+                            <div *ngIf="submitted && addEditServiceOperatorForm.controls.serviceOperator_serviceOperatorId.errors"
+                                class="form-control-feedback" style="color: red">
+                                <p
+                                    *ngIf="submitted && addEditServiceOperatorForm.controls.serviceOperator_serviceOperatorId.errors?.required">
+                                    {{'SERVICEOPERATOR.VALIDATION.FIELD_REQUIRED' |translate}}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- -----------serviceType Name  Operator Name-->
+                <div class="form-group  row">
+                
+                    <div class="col-lg-6">
+                        <div class="col-lg-12">
+                            <label for="example-text-input" class="col-form-label">
+                                {{'SERVICEOPERATOR.LABEL.SERVICETYPE_NAME' | translate}}*
+                            </label>
+                        </div>
+                        <!-- service type id -->
+                        <div class="col-lg-12 multiselect_drpdwn">
+                            <angular2-multiselect [data]="serviceTypes" [(ngModel)]="selectedItemsServices"
+                                [settings]="dropdownSettingsServices"
+                                (onSelect)="onItemServicesSelect($event)"
+                                (onDeSelect)="onItemServicesDeSelect($event)"
+                                (onSelectAll)="onServicesSelectAll($event)"
+                                (onDeSelectAll)="onServicesDeSelectAll($event)"
+                                formControlName="serviceOperator_serviceTypeId">
+                            </angular2-multiselect>
+                            <div *ngIf="submitted && addEditServiceOperatorForm.controls.serviceOperator_serviceTypeId.errors"
+                                class="form-control-feedback" style="color: red">
+                                <p
+                                    *ngIf="submitted && addEditServiceOperatorForm.controls.serviceOperator_serviceTypeId.errors?.required">
+                                    {{'SERVICEOPERATOR.VALIDATION.FIELD_REQUIRED' |translate}}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div class="col-lg-6">
+                        <div class="col-lg-12">
+                            <label for="example-text-input" class="col-form-label">
+                                {{'SERVICEOPERATOR.LABEL.STATUS' | translate}}*
+                            </label>
+                        </div>
+                        <!-- Operator Name -->
+                        <div class="col-lg-12">
+                            <select class="form-control m-input" id="serviceOperator_status"
+                                formControlName="serviceOperator_status"
+                                [ngClass]="{ 'is-invalid': submitted && addEditServiceOperatorForm.controls.serviceOperator_status.errors }">
+                                <!-- <option value="">{{'SERVICEOPERATOR.PLACEHOLDERS.STATUS' | translate}}</option> -->
+                                <option value="ACTIVE" selected>{{'SERVICEOPERATOR.LABEL.ACTIVE' | translate}}</option>
+                                <option value="INACTIVE">{{'SERVICEOPERATOR.LABEL.INACTIVE' | translate}}</option>
+                            </select>
+                            <div *ngIf="submitted && addEditServiceOperatorForm.controls.serviceOperator_status.errors"
+                                class="form-control-feedback" style="color: red">
+                                <p
+                                    *ngIf="submitted && addEditServiceOperatorForm.controls.serviceOperator_status.errors?.required">
+                                    {{'SERVICEOPERATOR.VALIDATION.FIELD_REQUIRED' |translate}}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+              
+                <div class="form-group  row">
+                    <div class="col-xl-12">
+                        <div class="col-xl-12">
+                            <button type="button" routerLink="/service-operator/list" class="btn btn-secondary btn-elevate btn-icon-sm mr-3">
+                                {{'BUTTONS.CANCEL' | translate }}
+                            </button>
+                            <button type="submit" (click)="onSubmit()" 
+                                class="btn btn-brand btn-elevate btn-icon-sm bt-right"> {{'BUTTONS.SUBMIT' | translate }}
+                            </button>
+                        </div>
+                   </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

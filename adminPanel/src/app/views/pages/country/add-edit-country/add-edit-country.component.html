@@ -1,0 +1,422 @@
+<div class="kt-portlet">
+    <div class="kt-portlet__head">
+        <div class="kt-portlet__head-label">
+            <h3 class="kt-portlet__head-title" *ngIf="isAdd">{{'COUNTRY.ADD' | translate }} </h3>
+            <h3 class="kt-portlet__head-title" *ngIf="!isAdd">{{'COUNTRY.EDIT' | translate }}</h3>
+
+        </div>
+        <div class="btn kt-portlet__head-label">
+            <a href="javascript:;" routerLink="/country/list" class="btn btn-brand btn-elevate btn-icon-sm"><i
+                    class="la la-left-arrow"></i>{{'BUTTONS.BACK' | translate }}</a>
+        </div>
+    </div>
+
+    <div class="kt-portlet__body">
+
+        <form class="kt-form kt-form__group" name="addEditCountryForm" [formGroup]="addEditCountryForm">
+            <div class="kt-portlet__body">
+                <!-- -----------control name en-->
+                <div class="form-group  row">
+                    <div class="col-lg-6">
+
+                        <div class="col-lg-6">
+                            <label for="example-text-input" class="col-form-label">
+                                {{'COUNTRY.LABEL.COUNTRY_NAME_EN' | translate}}*
+                            </label>
+                        </div>
+                        <!-- country_name_en -->
+                        <div class="col-lg-12">
+                            <input class="form-control m-input m-login__form-input--last"
+                                placeholder="{{'COUNTRY.PLACEHOLDERS.COUNTRY_NAME' | translate}}" type="text"
+                                formControlName="country_name_en"
+                                [ngClass]="{ 'is-invalid': submitted && addEditCountryForm.controls.country_name_en.errors }">
+                            <div *ngIf="submitted && addEditCountryForm.controls.country_name_en.errors"
+                                class="form-control-feedback" style="color: red">
+                                <p *ngIf="submitted && addEditCountryForm.controls.country_name_en.errors?.required">
+                                    {{'COUNTRY.VALIDATION.FIELD_REQUIRED' | translate }}
+                                </p>
+                                <p *ngIf="addEditCountryForm.controls.country_name_en.errors?.minlength && !addEditCountryForm.controls.country_name_en.errors?.pattern"
+                                    class="lbl-err">
+                                    {{'COUNTRY.VALIDATION.MIN_CHARACTER' | translate }}
+                                </p>
+                                <p *ngIf="addEditCountryForm.controls.country_name_en.errors?.maxlength && !addEditCountryForm.controls.country_name_en.errors?.pattern"
+                                    class="lbl-err">
+                                    {{'COUNTRY.VALIDATION.MAX_CHARACTER' | translate }}
+                                </p>
+                                <p *ngIf="submitted && addEditCountryForm.controls.country_name_en.errors?.pattern">
+                                    {{'COUNTRY.VALIDATION.INVALID_TITLE' | translate }}
+                                </p>
+                                <!-- <p *ngIf="submitted && addEditCountryForm.controls.country_name_en.errors?.pattern">
+                                    {{'COUNTRY.VALIDATION.FIRSTNAME_INVALID'|translate}} 
+                                </p> -->
+                            </div>
+                        </div>
+                    </div>
+  
+                </div>
+
+
+                <!-- -----------country isd -->
+                <div class="form-group  row">
+                    <div class="col-lg-6">
+                        <div class="col-lg-6">
+                            <label for="example-text-input" class="col-form-label">
+                                {{'COUNTRY.LABEL.COUNTRY_ISD_EN' | translate}}*
+                            </label>
+                        </div>
+                        <!-- country_isd_en -->
+                        <div class="col-lg-12">
+                            <input class="form-control m-input m-login__form-input--last"
+                                placeholder="{{'COUNTRY.PLACEHOLDERS.COUNTRY_ISD' | translate}}" type="text"
+                                formControlName="country_isd_en"
+                                [ngClass]="{ 'is-invalid': submitted && addEditCountryForm.controls.country_isd_en.errors }">
+                            <div *ngIf="submitted && addEditCountryForm.controls.country_isd_en.errors"
+                                class="form-control-feedback" style="color: red">
+                                <p *ngIf="submitted && addEditCountryForm.controls.country_isd_en.errors?.required">
+                                    {{'COUNTRY.VALIDATION.FIELD_REQUIRED' | translate }}
+                                </p>
+                                <p *ngIf="addEditCountryForm.controls.country_isd_en.errors?.minlength && !addEditCountryForm.controls.country_isd_en.errors?.pattern"
+                                    class="lbl-err">
+                                    {{'COUNTRY.VALIDATION.MIN_CHARACTER' | translate }}
+                                </p>
+                                <p *ngIf="addEditCountryForm.controls.country_isd_en.errors?.maxlength && !addEditCountryForm.controls.country_isd_en.errors?.pattern"
+                                    class="lbl-err">
+                                    {{'COUNTRY.VALIDATION.MAX_CHARACTER' | translate }}
+                                </p>
+                                <p *ngIf="submitted && addEditCountryForm.controls.country_isd_en.errors?.pattern">
+                                    {{'COUNTRY.VALIDATION.INVALID_TITLE' | translate }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+             
+                    <div class="col-lg-6">
+                        <div class="col-lg-6">
+                            <label for="example-text-input" class="col-form-label">
+                                {{'COUNTRY.LABEL.COUNTRY_ISO_EN' | translate}}*
+                            </label>
+                        </div>
+                        <!-- country_iso_en -->
+                        <div class="col-lg-12">
+                            <input class="form-control m-input m-login__form-input--last"
+                                placeholder="{{'COUNTRY.PLACEHOLDERS.COUNTRY_ISO' | translate}}" type="text"
+                                formControlName="country_iso_en"
+                                [ngClass]="{ 'is-invalid': submitted && addEditCountryForm.controls.country_iso_en.errors }">
+                            <div *ngIf="submitted && addEditCountryForm.controls.country_iso_en.errors"
+                                class="form-control-feedback" style="color: red">
+                                <p *ngIf="submitted && addEditCountryForm.controls.country_iso_en.errors?.required">
+                                    {{'COUNTRY.VALIDATION.FIELD_REQUIRED' | translate }}
+                                </p>
+                                <p *ngIf="addEditCountryForm.controls.country_iso_en.errors?.minlength && !addEditCountryForm.controls.country_iso_en.errors?.pattern"
+                                    class="lbl-err">
+                                    {{'COUNTRY.VALIDATION.MIN_CHARACTER' | translate }}
+                                </p>
+                                <p *ngIf="addEditCountryForm.controls.country_iso_en.errors?.maxlength && !addEditCountryForm.controls.country_iso_en.errors?.pattern"
+                                    class="lbl-err">
+                                    {{'COUNTRY.VALIDATION.MAX_CHARACTER' | translate }}
+                                </p>
+                                <p *ngIf="submitted && addEditCountryForm.controls.country_iso_en.errors?.pattern">
+                                    {{'COUNTRY.VALIDATION.INVALID_TITLE' | translate }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group  row">
+                    <div class="col-lg-6">
+                        <!-- -----------country code -->
+                        <div class="col-lg-6">
+                            <label for="example-text-input" class="col-form-label">
+                                {{'COUNTRY.LABEL.COUNTRY_CODE' | translate}}*
+                            </label>
+                        </div>
+                        <div class="col-lg-12">
+                            <input class="form-control m-input m-login__form-input--last"
+                                placeholder="{{'COUNTRY.PLACEHOLDERS.COUNTRY_CODE' | translate}}" type="text"
+                                formControlName="country_code"
+                                [ngClass]="{ 'is-invalid': submitted && addEditCountryForm.controls.country_code.errors }">
+                            <div *ngIf="submitted && addEditCountryForm.controls.country_code.errors"
+                                class="form-control-feedback" style="color: red">
+                                <p *ngIf="submitted && addEditCountryForm.controls.country_code.errors?.required">
+                                    {{'COUNTRY.VALIDATION.FIELD_REQUIRED' | translate }}
+                                </p>
+                                <p *ngIf="addEditCountryForm.controls.country_code.errors?.minlength && !addEditCountryForm.controls.country_code.errors?.pattern"
+                                    class="lbl-err">
+                                    {{'COUNTRY.VALIDATION.MIN_CHARACTER' | translate }}
+                                </p>
+                                <p *ngIf="addEditCountryForm.controls.country_code.errors?.maxlength && !addEditCountryForm.controls.country_code.errors?.pattern"
+                                    class="lbl-err">
+                                    {{'COUNTRY.VALIDATION.MAX_CHARACTER' | translate }}
+                                </p>
+                                <p *ngIf="submitted && addEditCountryForm.controls.country_code.errors?.pattern">
+                                    {{'COUNTRY.VALIDATION.INVALID_TITLE' | translate }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <!-- -----------country currency -->
+                        <div class="col-lg-6">
+                            <label for="example-text-input" class="col-form-label">
+                                {{'COUNTRY.LABEL.COUNTRY_CURRENCY' | translate}}*
+                            </label>
+                        </div>
+                        <div class="col-lg-12">
+                            <input class="form-control m-input m-login__form-input--last"
+                                placeholder="{{'COUNTRY.PLACEHOLDERS.COUNTRY_CURRENCY' | translate}}" type="text"
+                                formControlName="country_currency"
+                                [ngClass]="{ 'is-invalid': submitted && addEditCountryForm.controls.country_currency.errors }">
+                            <div *ngIf="submitted && addEditCountryForm.controls.country_currency.errors"
+                                class="form-control-feedback" style="color: red">
+                                <p *ngIf="submitted && addEditCountryForm.controls.country_currency.errors?.required">
+                                    {{'COUNTRY.VALIDATION.FIELD_REQUIRED' | translate }}
+                                </p>
+                                <p *ngIf="addEditCountryForm.controls.country_currency.errors?.minlength && !addEditCountryForm.controls.country_currency.errors?.pattern"
+                                    class="lbl-err">
+                                    {{'COUNTRY.VALIDATION.MIN_CHARACTER' | translate }}
+                                </p>
+                                <p *ngIf="addEditCountryForm.controls.country_currency.errors?.maxlength && !addEditCountryForm.controls.country_currency.errors?.pattern"
+                                    class="lbl-err">
+                                    {{'COUNTRY.VALIDATION.MAX_CHARACTER' | translate }}
+                                </p>
+                                <p *ngIf="submitted && addEditCountryForm.controls.country_currency.errors?.pattern">
+                                    {{'COUNTRY.VALIDATION.INVALID_TITLE' | translate }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group  row">
+                    <div class="col-lg-6">
+                        <!-- country_phoneFormat -->
+                        <div class="col-lg-6">
+                            <label for="example-text-input" class="col-form-label">
+                                {{'COUNTRY.LABEL.COUNTRY_PHONEFORMAT' | translate}}*
+                            </label>
+                        </div>
+                        <div class="col-lg-12">
+                            <input class="form-control m-input m-login__form-input--last"
+                                placeholder="{{'COUNTRY.PLACEHOLDERS.COUNTRY_PHONEFORMAT' | translate}}" type="text"
+                                formControlName="country_phoneFormat"
+                                [ngClass]="{ 'is-invalid': submitted && addEditCountryForm.controls.country_phoneFormat.errors }">
+                            <div *ngIf="submitted && addEditCountryForm.controls.country_phoneFormat.errors"
+                                class="form-control-feedback" style="color: red">
+                                <p
+                                    *ngIf="submitted && addEditCountryForm.controls.country_phoneFormat.errors?.required">
+                                    {{'COUNTRY.VALIDATION.FIELD_REQUIRED' | translate }}
+                                </p>
+                                <p *ngIf="submitted && addEditCountryForm.controls.country_phoneFormat.errors?.pattern">
+                                    {{'COUNTRY.VALIDATION.INVALID_PHONE' | translate }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <!-- -----------country_phoneHint -->
+                        <div class="col-lg-6">
+                            <label for="example-text-input" class="col-form-label">
+                                {{'COUNTRY.LABEL.COUNTRY_PHONEHINT' | translate}}*
+                            </label>
+                        </div>
+                        <div class="col-lg-12">
+                            <input class="form-control m-input m-login__form-input--last"
+                                placeholder="{{'COUNTRY.PLACEHOLDERS.COUNTRY_PHONEHINT' | translate}}" type="text"
+                                formControlName="country_phoneHint"
+                                [ngClass]="{ 'is-invalid': submitted && addEditCountryForm.controls.country_phoneHint.errors }">
+                            <div *ngIf="submitted && addEditCountryForm.controls.country_phoneHint.errors"
+                                class="form-control-feedback" style="color: red">
+                                <p *ngIf="submitted && addEditCountryForm.controls.country_phoneHint.errors?.required">
+                                    {{'COUNTRY.VALIDATION.FIELD_REQUIRED' | translate }}
+                                </p>
+                                <p *ngIf="addEditCountryForm.controls.country_phoneHint.errors?.minlength && !addEditCountryForm.controls.country_phoneHint.errors?.pattern"
+                                    class="lbl-err">
+                                    {{'COUNTRY.VALIDATION.MIN_CHARACTER' | translate }}
+                                </p>
+                                <p *ngIf="addEditCountryForm.controls.country_phoneHint.errors?.maxlength && !addEditCountryForm.controls.country_phoneHint.errors?.pattern"
+                                    class="lbl-err">
+                                    {{'COUNTRY.VALIDATION.MAX_CHARACTER' | translate }}
+                                </p>
+                                <p *ngIf="submitted && addEditCountryForm.controls.country_phoneHint.errors?.pattern">
+                                    {{'COUNTRY.VALIDATION.INVALID_TITLE' | translate }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- -----------country lat -->
+                <div class="form-group  row">
+                    <div class="col-lg-6">
+                        <div class="col-lg-6">
+                            <label for="example-text-input" class="col-form-label">
+                                {{'COUNTRY.LABEL.COUNTRY_LATITUDE' | translate}}*
+                            </label>
+                        </div>
+                        <!-- country lat -->
+                        <div class="col-lg-12">
+                            <input class="form-control m-input m-login__form-input--last"
+                                placeholder="{{'COUNTRY.PLACEHOLDERS.COUNTRY_LATITUDE' | translate}}" type="text"
+                                formControlName="country_lat"
+                                [ngClass]="{ 'is-invalid': submitted && addEditCountryForm.controls.country_lat.errors }">
+                            <div *ngIf="submitted && addEditCountryForm.controls.country_lat.errors"
+                            class="form-control-feedback" style="color: red">
+                                <p *ngIf="submitted && addEditCountryForm.controls.country_lat.errors?.required">
+                                    {{'COUNTRY.VALIDATION.FIELD_REQUIRED' | translate }}
+                                </p>
+                                <p *ngIf="addEditCountryForm.controls.country_lat.errors?.minlength && !addEditCountryForm.controls.country_lat.errors?.pattern"
+                                    class="lbl-err">
+                                    {{'COUNTRY.VALIDATION.MIN_CHARACTER' | translate }}
+                                </p>
+                                <p *ngIf="addEditCountryForm.controls.country_lat.errors?.maxlength && !addEditCountryForm.controls.country_lat.errors?.pattern"
+                                    class="lbl-err">
+                                    {{'COUNTRY.VALIDATION.MAX_CHARACTER' | translate }}
+                                </p>
+                                <p *ngIf="submitted && addEditCountryForm.controls.country_lat.errors?.pattern">
+                                    {{'COUNTRY.VALIDATION.INVALID_LONG' | translate }}
+                                </p>
+                        </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <!-- -----------country long -->
+                        <div class="col-lg-6">
+                            <label for="example-text-input" class="col-form-label">
+                                {{'COUNTRY.LABEL.COUNTRY_LONGITUDE' | translate}}*
+                            </label>
+                        </div>
+                        <div class="col-lg-12">
+                            <input class="form-control m-input m-login__form-input--last"
+                                placeholder="{{'COUNTRY.PLACEHOLDERS.COUNTRY_LONGITUDE' | translate}}" type="text"
+                                formControlName="country_long"
+                                [ngClass]="{ 'is-invalid': submitted && addEditCountryForm.controls.country_long.errors }">
+                            <div *ngIf="submitted && addEditCountryForm.controls.country_long.errors"
+                            class="form-control-feedback" style="color: red">
+                                <p *ngIf="submitted && addEditCountryForm.controls.country_long.errors?.required">
+                                    {{'COUNTRY.VALIDATION.FIELD_REQUIRED' | translate }}
+                                </p>
+                                <p *ngIf="addEditCountryForm.controls.country_long.errors?.minlength && !addEditCountryForm.controls.country_long.errors?.pattern"
+                                    class="lbl-err">
+                                    {{'COUNTRY.VALIDATION.MIN_CHARACTER' | translate }}
+                                </p>
+                                <p *ngIf="addEditCountryForm.controls.country_long.errors?.maxlength && !addEditCountryForm.controls.country_long.errors?.pattern"
+                                    class="lbl-err">
+                                    {{'COUNTRY.VALIDATION.MAX_CHARACTER' | translate }}
+                                </p>
+                                <p *ngIf="submitted && addEditCountryForm.controls.country_long.errors?.pattern">
+                                    {{'COUNTRY.VALIDATION.INVALID_LONG' | translate }}
+                                </p>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group  row">
+                    <div class="col-lg-6">
+                        <!-- -----------country_riderDirectionAPILimit -->
+                        <div class="col-lg-6">
+                            <label for="example-text-input" class="col-form-label">
+                                {{'COUNTRY.LABEL.COUNTRY_RIDERAPI' | translate}}*
+                            </label>
+                        </div>
+                        <div class="col-lg-12">
+                            <input class="form-control m-input m-login__form-input--last"
+                                placeholder="{{'COUNTRY.PLACEHOLDERS.COUNTRY_RIDERAPI' | translate}}" type="text"
+                                formControlName="country_riderDirectionAPILimit"
+                                [ngClass]="{ 'is-invalid': submitted && addEditCountryForm.controls.country_riderDirectionAPILimit.errors }">
+                            <div *ngIf="submitted && addEditCountryForm.controls.country_riderDirectionAPILimit.errors"
+                                class="form-control-feedback" style="color: red">
+                                <p
+                                    *ngIf="submitted && addEditCountryForm.controls.country_riderDirectionAPILimit.errors?.required">
+                                    {{'COUNTRY.VALIDATION.FIELD_REQUIRED' | translate }}
+                                </p>
+                                <p *ngIf="addEditCountryForm.controls.country_riderDirectionAPILimit.errors?.minlength && !addEditCountryForm.controls.country_riderDirectionAPILimit.errors?.pattern"
+                                    class="lbl-err">
+                                    {{'COUNTRY.VALIDATION.MIN_CHARACTER' | translate }}
+                                </p>
+                                <p *ngIf="addEditCountryForm.controls.country_riderDirectionAPILimit.errors?.maxlength && !addEditCountryForm.controls.country_riderDirectionAPILimit.errors?.pattern"
+                                    class="lbl-err">
+                                    {{'COUNTRY.VALIDATION.MAX_CHARACTER' | translate }}
+                                </p>
+                                <p
+                                    *ngIf="submitted && addEditCountryForm.controls.country_riderDirectionAPILimit.errors?.pattern">
+                                    {{'COUNTRY.VALIDATION.INVALID_TITLE' | translate }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <!-- -----------country_driverDirectionAPILimit -->
+                        <div class="col-lg-6">
+                            <label for="example-text-input" class="col-form-label">
+                                {{'COUNTRY.LABEL.COUNTRY_DRIVERAPI' | translate}}*
+                            </label>
+                        </div>
+                        <div class="col-lg-12">
+                            <input class="form-control m-input m-login__form-input--last"
+                                placeholder="{{'COUNTRY.PLACEHOLDERS.COUNTRY_DRIVERAPI' | translate}}" type="text"
+                                formControlName="country_driverDirectionAPILimit"
+                                [ngClass]="{ 'is-invalid': submitted && addEditCountryForm.controls.country_driverDirectionAPILimit.errors }">
+                            <div *ngIf="submitted && addEditCountryForm.controls.country_driverDirectionAPILimit.errors"
+                                class="form-control-feedback" style="color: red">
+                                <p
+                                    *ngIf="submitted && addEditCountryForm.controls.country_driverDirectionAPILimit.errors?.required">
+                                    {{'COUNTRY.VALIDATION.FIELD_REQUIRED' | translate }}
+                                </p>
+                                <p *ngIf="addEditCountryForm.controls.country_driverDirectionAPILimit.errors?.minlength && !addEditCountryForm.controls.country_driverDirectionAPILimit.errors?.pattern"
+                                    class="lbl-err">
+                                    {{'COUNTRY.VALIDATION.MIN_CHARACTER' | translate }}
+                                </p>
+                                <p *ngIf="addEditCountryForm.controls.country_driverDirectionAPILimit.errors?.maxlength && !addEditCountryForm.controls.country_driverDirectionAPILimit.errors?.pattern"
+                                    class="lbl-err">
+                                    {{'COUNTRY.VALIDATION.MAX_CHARACTER' | translate }}
+                                </p>
+                                <p
+                                    *ngIf="submitted && addEditCountryForm.controls.country_driverDirectionAPILimit.errors?.pattern">
+                                    {{'COUNTRY.VALIDATION.INVALID_TITLE' | translate }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <!-- status -->
+                    <div class="col-lg-6">
+                        <div class="col-lg-6">
+                            <label for="example-text-input" class="col-form-label">
+                                {{'COUNTRY.LABEL.COUNTRY_STATUS' | translate}}*
+                            </label>
+                        </div>
+                        <!-- country_status -->
+                        <div class="col-lg-12">
+                            <select class="form-control m-input" id="specific" formControlName="country_status"
+                                [ngClass]="{ 'is-invalid': submitted && addEditCountryForm.controls.country_status.errors }">
+                                <option value="{{'COUNTRY.PLACEHOLDERS.ACTIVE' | translate}}">{{'COUNTRY.LABEL.ACTIVE' | translate }}</option>
+                                <option value="{{'COUNTRY.PLACEHOLDERS.INACTIVE' | translate}}">{{'COUNTRY.LABEL.INACTIVE' | translate }}</option>
+                            </select>
+                            <div *ngIf="submitted && addEditCountryForm.controls.country_status.errors"
+                                class="form-control-feedback" style="color: red">
+                                <p *ngIf="submitted && addEditCountryForm.controls.country_status.errors?.required">
+                                    {{'COUNTRY.VALIDATION.FIELD_REQUIRED' | translate }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group  row">
+                    <div class="col-xl-12">
+                        <div class="col-xl-12">
+                            <button type="button" routerLink="/country/list"
+                                class="btn btn-secondary btn-elevate btn-icon-sm mr-3">{{'BUTTONS.CANCEL' | translate }}</button>
+                            <button type="submit" (click)="onSubmit()" 
+                                class="btn btn-brand btn-elevate btn-icon-sm bt-right"> {{'BUTTONS.SUBMIT' | translate }}
+                            </button>
+                       </div>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+    </div>
+</div>

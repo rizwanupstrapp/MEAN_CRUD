@@ -1,0 +1,111 @@
+<div class="kt-portlet">
+    <div class="kt-portlet__head">
+        <div class="kt-portlet__head-label">
+            <h3 class="kt-portlet__head-title" *ngIf="isAdd">{{'MODEL.ADD' | translate}}</h3>
+            <h3 class="kt-portlet__head-title" *ngIf="!isAdd">{{'MODEL.EDIT' | translate}}</h3>
+        </div>
+        <div class="btn kt-portlet__head-label">
+            <a href="javascript:;" routerLink="/model/list" class="btn btn-brand btn-elevate btn-icon-sm"><i
+                    class="la la-left-arrow"></i>{{'BUTTONS.BACK' | translate }}</a>
+        </div>
+    </div>
+    <div class="kt-portlet__body">
+        <form class="kt-form kt-form__group" name="addEditModelForm" [formGroup]="addEditModelForm">
+            <div class="kt-portlet__body">
+                <div class="form-group row">
+                    <!-- Brand name -->
+                    <div class="col-lg-6">
+                        <div class="col-lg-6">
+                            <label for="example-text-input" class="col-form-label">
+                                {{'MODEL.LABEL.BRAND' | translate}}*
+                            </label>
+                        </div>
+                        <div class="col-lg-12">
+                            <select class="form-control m-input" id="brand" formControlName="model_brandId" [ngClass]="{'is-invalid': submitted && addEditModelForm.controls.model_brandId.errors}">
+                                    <option value="">{{'MODEL.PLACEHOLDERS.BRAND' | translate}}</option>
+                                    <option value="{{brand._id}}" *ngFor="let brand of brands"> {{brand.brand_name}} </option>
+                            </select>
+                            <div *ngIf="submitted && addEditModelForm.controls.model_brandId.errors" class="form-control-feedback" style="color:red">
+                                <p *ngIf="submitted && addEditModelForm.controls.model_brandId.errors?.required">
+                                    {{"MODEL.VALIDATION.FIELD_REQUIRED" | translate}}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Model  name -->
+                    <div class="col-lg-6">
+                        <div class="col-lg-6">
+                            <label for="example-text-input" class="col-form-label">
+                                {{'MODEL.LABEL.MODEL' | translate}}*
+                            </label>
+                        </div>
+                        <div class="col-lg-12">
+                            <input class="form-control m-input m-login__form-input--last" placeholder="{{'MODEL.PLACEHOLDERS.MODEL' | translate}}" type="text" formControlName="model_name" [ngClass]="{'is-invalid': submitted && addEditModelForm.controls.model_name.errors}">
+                            <div *ngIf="submitted && addEditModelForm.controls.model_name.errors" class="form-control-feedback" style="color:red">
+                                <p *ngIf="submitted && addEditModelForm.controls.model_name.errors?.required">
+                                    {{'MODEL.VALIDATION.FIELD_REQUIRED' | translate}}
+                                </p>
+                                <p *ngIf="addEditModelForm.controls.model_name.errors?.minlength && !addEditModelForm.controls.model_name.errors?.pattern">
+                                    {{'MODEL.VALIDATION.MIN_CHARACTER' | translate}}
+                                </p>
+                                <p *ngIf="addEditModelForm.controls.model_name.errors?.maxlength && !addEditModelForm.controls.model_name.errors?.pattern">
+                                    {{'MODEL.VALIDATION.MAX_CHARACTER' | translate}}
+                                </p>
+                                <p *ngIf="submitted && addEditModelForm.controls.model_name.errors?.pattern">
+                                    {{'MODEL.VALIDATION.INVALID_MODEL' | translate}}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <!--Model color -->
+                    <div class="col-lg-6">
+                        <div class="col-lg-6">
+                            <label for="example-text-input" class="col-form-label">
+                                {{'MODEL.LABEL.COLOR' | translate}}*
+                            </label>
+                        </div>
+                        <div class="col-lg-12 multiselect_drpdwn">
+                            <angular2-multiselect [data]="colors" [(ngModel)]="selectedItemsColor" [settings]="dropdownSettingsColor" (onSelect)="onItemColorSelect($event)" (onDeSelect)="onItemColorDeSelect($event)" (onSelectAll)="onColorSelectAll($event)" (onDeSelectAll)="onColorDeSelectAll($event)"
+                                formControlName="model_color">
+                            </angular2-multiselect>
+                            <div *ngIf="submitted && addEditModelForm.controls.model_color.errors" class="form-control-feedback" style="color: red">
+                                <p *ngIf="submitted && addEditModelForm.controls.model_color.errors?.required">
+                                    {{'MODEL.VALIDATION.FIELD_REQUIRED' |translate}}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Status -->
+                    <div class="col-lg-6">
+                        <div class="col-lg-6">
+                            <label for="example-text-input" class="col-form-label">
+                                {{'MODEL.LABEL.STATUS' | translate}}*
+                            </label>
+                        </div>
+                        <div class="col-lg-12">
+                            <select class="form-control m-input" id="specific" formControlName="model_status" [ngClass]="{'is-invalid': submitted && addEditModelForm.controls.model_status.errors}">
+                                    <option value="{{'MODEL.LABEL.ACTIVE' | translate}}">{{'MODEL.LABEL.ACTIVE' | translate}}</option>
+                                    <option value="{{'MODEL.LABEL.INACTIVE' | translate}}">{{'MODEL.LABEL.INACTIVE' | translate}}</option>
+                            </select>
+                            <div *ngIf="submitted && addEditModelForm.controls.model_status.errors" class="form-control-feedback" style="color:red">
+                                <p *ngIf="submitted && addEditModelForm.controls.model_status.errors?.required">
+                                    {{'MODEL.VALIDTION.FIELD_REQUIRED' | translate}}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-xl-12">
+                        <div class="col-xl-12">
+                            <button type="button" routerLink="/model/list" class="btn btn-secondary btn-elevate btn-icon-sm mr-3">{{'BUTTONS.CANCEL' | translate}}</button>
+                            <button type="submit" (click)="onSubmit()" class="btn btn-brand btn-elevate btn-icon-sm bt-right">{{'BUTTONS.SUBMIT' | translate}}</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

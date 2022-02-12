@@ -1,0 +1,107 @@
+<div class="kt-portlet">
+    <div class="kt-portlet__head">
+        <div class="kt-portlet__head-label">
+            <h3 class="kt-portlet__head-title" *ngIf="isAdd">{{'COMPLAINT.ADD' | translate }} </h3>
+            <h3 class="kt-portlet__head-title" *ngIf="!isAdd">{{'COMPLAINT.EDIT' | translate }}</h3>
+
+        </div>
+        <div class="btn kt-portlet__head-label">
+            <a href="javascript:;" routerLink="/complaint/list" class="btn btn-brand btn-elevate btn-icon-sm"><i
+                    class="la la-left-arrow"></i>{{'BUTTONS.BACK' | translate }}</a>
+        </div>
+    </div>
+
+    <div class="kt-portlet__body">
+
+        <form class="kt-form kt-form__group" name="addEditComplaintForm" [formGroup]="addEditComplaintForm">
+            <div class="kt-portlet__body">
+                <!-- complain comment & status -->
+                <div class="form-group  row">
+                    <div class="col-lg-6">
+                        <div class="col-lg-12">
+                            <label for="example-text-input" class="col-form-label">
+                                {{'COMPLAINT.LABEL.COMPLAINT_COMMENT' | translate}}*
+                            </label>
+                        </div>
+                        <div class="col-lg-12" *ngIf="Editor">
+                            <ckeditor #editor [editor]="Editor" class="form-control ht-auto" type="text"
+                                placeholder="Enter Content" formControlName="complaint_comment"
+                                [ngClass]="{ 'is-invalid': submitted && addEditComplaintForm.controls.complaint_comment.errors }">
+                            </ckeditor>
+
+                            <div *ngIf="submitted && addEditComplaintForm.controls.complaint_comment.errors"
+                                class="form-control-feedback" style="color: red">
+                                <p *ngIf="submitted && addEditComplaintForm.controls.complaint_comment.errors?.required">
+                                    {{'COMPLAINT.VALIDATION.FIELD_REQUIRED' | translate }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                            <div class="col-lg-12">
+                                <label for="example-text-input" class="col-form-label">
+                                    {{'COMPLAINT.LABEL.STATUS' | translate}}*
+                                </label>
+                            </div>
+                        <!-- complaint_status -->
+                            <div class="col-lg-12">
+                                <select class="form-control m-input" id="specific" formControlName="complaint_status"
+                                    [ngClass]="{ 'is-invalid': submitted && addEditComplaintForm.controls.complaint_status.errors }">
+                                    <option value="{{'COMPLAINT.PLACEHOLDERS.PENDING' | translate}}">
+                                        {{'COMPLAINT.LABEL.PENDING' | translate }}</option>
+                                    <option value="{{'COMPLAINT.PLACEHOLDERS.INPROGRESS' | translate}}">
+                                        {{'COMPLAINT.LABEL.INPROGRESS' | translate }}</option>
+                                    <option value="{{'COMPLAINT.PLACEHOLDERS.RESOLVE' | translate}}">
+                                        {{'COMPLAINT.LABEL.RESOLVE' | translate }}</option>
+                                    <option value="{{'COMPLAINT.PLACEHOLDERS.REJECT' | translate}}">
+                                        {{'COMPLAINT.LABEL.REJECT' | translate }}</option>
+                                </select>
+                                <div *ngIf="submitted && addEditComplaintForm.controls.complaint_status.errors"
+                                    class="form-control-feedback" style="color: red">
+                                    <p *ngIf="submitted && addEditComplaintForm.controls.complaint_status.errors?.required">
+                                        {{'COMPLAINT.VALIDATION.FIELD_REQUIRED' | translate }}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group  row">
+                        <div class="col-xl-12">
+                            <div class="col-xl-12">
+                                    <button type="button" routerLink="/complaint/list"
+                                    class="btn btn-secondary btn-elevate btn-icon-sm mr-3">{{'BUTTONS.CANCEL' | translate }}</button>
+                                    <button type="submit" (click)="onSubmit()" 
+                                    class="btn btn-brand btn-elevate btn-icon-sm bt-right"> {{'BUTTONS.SUBMIT' | translate }}
+                                   </button>
+                            </div>
+                        </div>
+                    </div>
+                <!-- table -->
+                    <div class="form-group row">
+                        <div class="col-lg-12">
+                            <table class="table pd-b-5 table-bordered tbl_headclr">
+                                <thead>
+                                    <tr>
+                                        <th>{{'COMPLAINT.LABEL.ROLE' | translate }}</th>
+                                        <th>{{'COMPLAINT.LABEL.FROM_USER' | translate }}</th>
+                                        <th>{{'COMPLAINT.LABEL.TO_USER' | translate }}</th>
+                                        <th>{{'COMPLAINT.LABEL.COMMENT' | translate }}</th>
+                                        <th>{{'COMPLAINT.LABEL.SEND_DATE' | translate }}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    <tr *ngFor="let complaint of complaints">
+                                        <td>{{complaint.complaint_rideId}}</td>
+                                        <td>{{complaint.complaint_reportedUser}}</td>
+                                        <td></td>
+                                        <td>{{complaint.complaint_comment}}</td>
+                                        <td>{{complaint.complaint_createdOn}}</td>
+                                    </tr>
+                            </table>
+                        </div>
+                    </div>
+            </div>
+        </form>
+    </div>
+</div>

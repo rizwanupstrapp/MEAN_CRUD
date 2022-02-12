@@ -1,0 +1,333 @@
+<div class="kt-portlet">
+    <div class="kt-portlet__head">
+        <div class="kt-portlet__head-label">
+            <h3 class="kt-portlet__head-title">{{'BUSINESS_OWNER.EDIT' | translate }} </h3>
+        </div>
+    </div>
+    <div class="kt-portlet__body">
+        <div class="example-preview">
+            <ul class="nav nav-tabs" id="myTab1" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link" [ngClass]="{ 'active': navObj.link == 'personal' }" id="persnol_detail-tab-1"
+                        data-toggle="tab" href="javascript:;" (click)="clickLink('personal')">
+                        <span class="nav-icon"><i class="flaticon2-chat-1"></i></span>
+                        <span class="nav-text">{{'BUSINESS_OWNER.TAB.PERSONAL' | translate }}</span>
+                    </a>
+                </li>
+                <!-- <li class="nav-item">
+                    <a class="nav-link" [ngClass]="{ 'active': navObj.link == 'otherDocument' }"
+                        id="driver_other_document-tab-1" data-toggle="tab" href="javascript:;"
+                        (click)="clickLink('otherDocument')" aria-controls="profile">
+                        <span class="nav-icon"><i class="flaticon2-layers-1"></i></span>
+                        <span class="nav-text">{{'BUSINESS_OWNER.TAB.BUSINESS_OWNER_OTHER_DOCUMENT' | translate }}</span>
+                    </a>
+                </li> -->
+            </ul>
+            <div class="tab-content mt-5" id="myTabContent1">
+                <!--START PERSONAL DATA-->
+                <div class="tab-pane fade" [ngClass]="{ 'active show': navObj.link === 'personal' }" id="persnol_detail"
+                    *ngIf=" navObj.link === 'personal'" role="tabpanel" aria-labelledby="persnol_detail-tab-1">
+                    <form class="kt-form kt-form__group" name="personalInfoForm" [formGroup]="personalInfoForm">
+                        <div class="form-group  row">
+                            <!------ country -->
+                            <div class="col-lg-6">
+                                <div class="col-lg-12">
+                                    <label for="example-text-input" class="col-form-label">
+                                        {{'BUSINESS_OWNER.LABEL.COUNTRY' | translate }}*
+                                    </label>
+                                </div>
+
+                                <div class="col-lg-12">
+                                    <select class="form-control m-input" id="user_countryId"
+                                        formControlName="user_countryId"
+                                        [ngClass]="{ 'is-invalid': personalInfoSubmitted && personalInfoForm.controls.user_countryId.errors }">
+                                        <option value="">{{'BUSINESS_OWNER.PLACEHOLDERS.SELECT_COUNTRY' | translate}}
+                                        </option>
+                                        <option value="{{country._id}}" *ngFor="let country of countries">
+                                            {{country.country_name}}</option>
+                                    </select>
+                                    <div *ngIf="personalInfoSubmitted && personalInfoForm.controls.user_countryId.errors"
+                                        class="form-control-feedback" style="color: red">
+                                        <p
+                                            *ngIf="personalInfoSubmitted && personalInfoForm.controls.user_countryId.errors?.required">
+                                            {{'BUSINESS_OWNER.VALIDATION.FIELD_REQUIRED' | translate }}
+                                        </p>
+                                        <p *ngIf="personalInfoForm.controls.user_countryId.errors?.minlength && !personalInfoForm.controls.user_countryId.errors?.pattern"
+                                            class="lbl-err">
+                                            {{'BUSINESS_OWNER.VALIDATION.MIN_CHARACTER' | translate }}
+                                        </p>
+                                        <p *ngIf="personalInfoForm.controls.user_countryId.errors?.maxlength && !personalInfoForm.controls.user_countryId.errors?.pattern"
+                                            class="lbl-err">
+                                            {{'BUSINESS_OWNER.VALIDATION.MAX_CHARACTER' | translate }}
+                                        </p>
+                                        <p
+                                            *ngIf="personalInfoSubmitted && personalInfoForm.controls.user_countryId.errors?.pattern">
+                                            {{'BUSINESS_OWNER.VALIDATION.COUNTRY_INVALID' | translate }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <div class="col-lg-12">
+                                    <label for="example-text-input" class="col-form-label">
+                                        {{'BUSINESS_OWNER.LABEL.USER_PROFILE_IMAGE' | translate }}*
+                                    </label>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="kt-avatar" id="kt_user_avatar_2">
+                                        <div class="kt-avatar__holder" [style.background-image]="'url('+url+')'">
+                                        </div>
+                                        <label class="kt-avatar__upload" data-toggle="kt-tooltip" title="User Image"
+                                            *ngIf="url && url=='../../../../../assets/media/newMedia/add.png'"
+                                            data-original-title="Change avatar">
+                                            <i class="fa fa-pen"></i>
+                                            <input type="file" name="profile_avatar" accept=".png, .jpg, .jpeg"
+                                                (change)="onSelectUserImage($event)">
+                                        </label>
+                                        <span class="kt-avatar__cancel"
+                                            *ngIf="url && url!='../../../../../assets/media/newMedia/add.png'"
+                                            style="display:flex;" data-toggle="kt-tooltip" title=""
+                                            (click)="removeUserImage()" data-original-title="Remove Image">
+                                            <i class="fa fa-times"></i>
+                                        </span>
+                                    </div>
+                                    <span class="form-text text-muted">{{'DRIVER.NOTES.IMAGE'|translate}}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- ---first & last Name -->
+                        <div class="form-group  row">
+                            <div class="col-lg-6">
+                                <div class="col-lg-12">
+                                    <label for="example-text-input" class="col-form-label">
+                                        {{'BUSINESS_OWNER.LABEL.FIRST_NAME' | translate }} *
+                                    </label>
+                                </div>
+                                <div class="col-lg-12">
+                                    <input class="form-control m-input m-login__form-input--last"
+                                        placeholder="{{'BUSINESS_OWNER.PLACEHOLDERS.FIRST_NAME' | translate}}"
+                                        type="text" formControlName="user_firstName"
+                                        [ngClass]="{ 'is-invalid': personalInfoSubmitted && personalInfoForm.controls.user_firstName.errors }">
+                                    <div *ngIf="personalInfoSubmitted && personalInfoForm.controls.user_firstName.errors"
+                                        class="form-control-feedback" style="color: red">
+                                        <p
+                                            *ngIf="personalInfoSubmitted && personalInfoForm.controls.user_firstName.errors?.required">
+                                            {{'BUSINESS_OWNER.VALIDATION.FIELD_REQUIRED' | translate }}
+                                        </p>
+                                        <p *ngIf="personalInfoForm.controls.user_firstName.errors?.minlength && !personalInfoForm.controls.user_firstName.errors?.pattern"
+                                            class="lbl-err">
+                                            {{'BUSINESS_OWNER.VALIDATION.MIN_CHARACTER' | translate }}
+                                        </p>
+                                        <p *ngIf="personalInfoForm.controls.user_firstName.errors?.maxlength && !personalInfoForm.controls.user_firstName.errors?.pattern"
+                                            class="lbl-err">
+                                            {{'BUSINESS_OWNER.VALIDATION.MAX_CHARACTER' | translate }}
+                                        </p>
+                                        <p
+                                            *ngIf="personalInfoSubmitted && personalInfoForm.controls.user_firstName.errors?.pattern">
+                                            {{'BUSINESS_OWNER.VALIDATION.FIRSTNAME_INVALID' | translate }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="col-lg-12">
+                                    <label for="example-text-input" class="col-form-label">
+                                        {{'BUSINESS_OWNER.LABEL.LAST_NAME' | translate }} *
+                                    </label>
+                                </div>
+                                <div class="col-lg-12">
+                                    <input class="form-control m-input m-login__form-input--last"
+                                        placeholder="{{'BUSINESS_OWNER.PLACEHOLDERS.LAST_NAME' | translate}}"
+                                        type="text" formControlName="user_lastName"
+                                        [ngClass]="{ 'is-invalid': personalInfoSubmitted && personalInfoForm.controls.user_lastName.errors }">
+                                    <div *ngIf="personalInfoSubmitted && personalInfoForm.controls.user_lastName.errors"
+                                        class="form-control-feedback" style="color: red">
+                                        <p
+                                            *ngIf="personalInfoSubmitted && personalInfoForm.controls.user_lastName.errors?.required">
+                                            {{'BUSINESS_OWNER.VALIDATION.FIELD_REQUIRED' | translate }}
+                                        </p>
+                                        <p *ngIf="personalInfoForm.controls.user_lastName.errors?.minlength && !personalInfoForm.controls.user_lastName.errors?.pattern"
+                                            class="lbl-err">
+                                            {{'BUSINESS_OWNER.VALIDATION.MIN_CHARACTER' | translate }}
+                                        </p>
+                                        <p *ngIf="personalInfoForm.controls.user_lastName.errors?.maxlength && !personalInfoForm.controls.user_lastName.errors?.pattern"
+                                            class="lbl-err">
+                                            {{'BUSINESS_OWNER.VALIDATION.MAX_CHARACTER' | translate }}
+                                        </p>
+                                        <p
+                                            *ngIf="personalInfoSubmitted && personalInfoForm.controls.user_lastName.errors?.pattern">
+                                            {{'BUSINESS_OWNER.VALIDATION.LASTNAME_INVALID' | translate }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- email -- phone & isd-->
+                        <div class="form-group  row">
+                            <div class="col-lg-6">
+                                <div class="col-lg-12">
+                                    <label for="example-text-input" class="col-form-label">
+                                        {{'BUSINESS_OWNER.LABEL.EMAIL' | translate }} *
+                                    </label>
+                                </div>
+                                <div class="col-lg-12">
+                                    <input class="form-control m-input m-login__form-input--last"
+                                        placeholder="{{'BUSINESS_OWNER.PLACEHOLDERS.USER_EMAIL' | translate}}"
+                                        type="text" formControlName="user_email"
+                                        [ngClass]="{ 'is-invalid': personalInfoSubmitted && personalInfoForm.controls.user_email.errors }">
+                                    <div *ngIf="personalInfoSubmitted && personalInfoForm.controls.user_email.errors"
+                                        class="form-control-feedback" style="color: red">
+                                        <p
+                                            *ngIf="personalInfoSubmitted && personalInfoForm.controls.user_email.errors?.required">
+                                            {{'BUSINESS_OWNER.VALIDATION.FIELD_REQUIRED' | translate }}
+                                        </p>
+                                        <p
+                                            *ngIf="personalInfoSubmitted && personalInfoForm.controls.user_email.errors?.pattern">
+                                            {{'BUSINESS_OWNER.VALIDATION.EMAIL_INVALID' | translate }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="col-lg-12">
+                                    <label for="example-text-input" class="col-form-label">
+                                        {{'BUSINESS_OWNER.LABEL.MOBILE_NO' | translate }} *
+                                    </label>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="d-flex mbl-sct">
+                                        <input class="form-control m-input m-login__form-input--last"
+                                            placeholder="{{'BUSINESS_OWNER.PLACEHOLDERS.USER_MOBILE' | translate}}"
+                                            type="text" formControlName="user_phoneNumber"
+                                            [ngClass]="{ 'is-invalid': personalInfoSubmitted && personalInfoForm.controls.user_phoneNumber.errors }">
+                                    </div>
+                                    <div *ngIf="personalInfoSubmitted && personalInfoForm.controls.user_phoneNumber.errors"
+                                        class="form-control-feedback" style="color: red">
+                                        <p
+                                            *ngIf="personalInfoSubmitted && personalInfoForm.controls.user_phoneNumber.errors?.required">
+                                            {{'BUSINESS_OWNER.VALIDATION.FIELD_REQUIRED' | translate }}
+                                        </p>
+                                        <p
+                                            *ngIf="personalInfoSubmitted && personalInfoForm.controls.user_phoneNumber.errors?.pattern">
+                                            {{'BUSINESS_OWNER.VALIDATION.MOBILENO_INVALID' | translate }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!---- invitation code & premium ------->
+                        <div class="form-group  row">
+                            <div class="col-lg-6">
+                                <div class="col-lg-12">
+                                    <label for="example-text-input" class="col-form-label">
+                                        {{'BUSINESS_OWNER.LABEL.INVITATION_CODE' | translate }} *
+                                    </label>
+                                </div>
+                                <div class="col-lg-12">
+                                    <input class="form-control m-input m-login__form-input--last"
+                                        placeholder="{{'BUSINESS_OWNER.PLACEHOLDERS.INVITATION_CODE' | translate}}"
+                                        type="text" formControlName="user_invitationCode"
+                                        [ngClass]="{ 'is-invalid': personalInfoSubmitted && personalInfoForm.controls.user_invitationCode.errors }">
+                                    <div *ngIf="personalInfoSubmitted && personalInfoForm.controls.user_invitationCode.errors"
+                                        class="form-control-feedback" style="color: red">
+                                        <p
+                                            *ngIf="personalInfoSubmitted && personalInfoForm.controls.user_invitationCode.errors?.required">
+                                            {{'BUSINESS_OWNER.VALIDATION.FIELD_REQUIRED' | translate }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="col-lg-12">
+                                    <label for="example-text-input" class="col-form-label">
+                                        {{'BUSINESS_OWNER.LABEL.PREMIUM_USER' | translate }} *
+                                    </label>
+                                </div>
+                                <div class="col-lg-12">
+                                    <select class="form-control m-input" formControlName="user_premiumUser"
+                                        [ngClass]="{ 'is-invalid': personalInfoSubmitted && personalInfoForm.controls.user_premiumUser.errors }">
+                                        <option value="0">{{'BUSINESS_OWNER.LABEL.YES' | translate}}</option>
+                                        <option value="1">{{'BUSINESS_OWNER.LABEL.NO' | translate}}</option>
+                                    </select>
+                                    <div *ngIf="personalInfoSubmitted && personalInfoForm.controls.user_premiumUser.errors"
+                                        class="form-control-feedback" style="color: red">
+                                        <p
+                                            *ngIf="personalInfoSubmitted && personalInfoForm.controls.user_premiumUser.errors?.required">
+                                            {{'BUSINESS_OWNER.VALIDATION.FIELD_REQUIRED' | translate }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- verified -- Status -->
+                        <div class="form-group  row">
+                            <div class="col-lg-6">
+                                <div class="col-lg-12">
+                                    <label for="example-text-input" class="col-form-label">
+                                        {{'BUSINESS_OWNER.LABEL.VERIFIED_STATUS' | translate }}*
+                                    </label>
+                                </div>
+                                <div class="col-lg-12">
+                                    <select class="form-control m-input" formControlName="user_verifiedStatus"
+                                        [ngClass]="{ 'is-invalid': personalInfoSubmitted && personalInfoForm.controls.user_verifiedStatus.errors }">
+                                        <option value=0>{{'BUSINESS_OWNER.LABEL.PENDING' | translate}}</option>
+                                        <option value=1>{{'BUSINESS_OWNER.LABEL.VARIFIED' | translate}}</option>
+                                        <option value=2>{{'BUSINESS_OWNER.LABEL.UNVARIFIED' | translate}}</option>
+                                    </select>
+                                    <div *ngIf="personalInfoSubmitted && personalInfoForm.controls.user_verifiedStatus.errors"
+                                        class="form-control-feedback" style="color: red">
+                                        <p
+                                            *ngIf="personalInfoSubmitted && personalInfoForm.controls.user_verifiedStatus.errors?.required">
+                                            {{'BUSINESS_OWNER.VALIDATION.FIELD_REQUIRED' | translate }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="col-lg-12">
+                                    <label for="example-text-input" class="col-form-label">
+                                        {{'BUSINESS_OWNER.LABEL.STATUS' | translate }}*
+                                    </label>
+                                </div>
+                                <div class="col-lg-12">
+                                    <select class="form-control m-input" formControlName="user_status"
+                                        [ngClass]="{ 'is-invalid': personalInfoSubmitted && personalInfoForm.controls.user_status.errors }">
+                                        <option value="ACTIVE">{{'BUSINESS_OWNER.LABEL.ACTIVE' | translate}}</option>
+                                        <option value="INACTIVE">{{'BUSINESS_OWNER.LABEL.INACTIVE' | translate}}
+                                        </option>
+                                    </select>
+                                    <div *ngIf="personalInfoSubmitted && personalInfoForm.controls.user_status.errors"
+                                        class="form-control-feedback" style="color: red">
+                                        <p
+                                            *ngIf="personalInfoSubmitted && personalInfoForm.controls.user_status.errors?.required">
+                                            {{'BUSINESS_OWNER.VALIDATION.FIELD_REQUIRED' | translate }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- buttons -->
+                        <div class="form-group  row">
+                            <div class="col-lg-12">
+                                <div class="col-lg-12">
+                                    <button type="button" routerLink="/business-owner-management/list"
+                                        class="btn btn-secondary btn-elevate btn-icon-sm mr-3">
+                                        {{'BUTTONS.CANCEL' | translate }}
+                                    </button>
+                                    <button type="submit" (click)="savePersonalDetail()"
+                                        class="btn btn-brand btn-elevate btn-icon-sm bt-right">
+                                        {{'BUTTONS.SUBMIT' | translate }}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <!--END PERSONAL DATA-->
+            </div>
+        </div>
+    </div>
+</div>

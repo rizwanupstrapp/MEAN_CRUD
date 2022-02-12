@@ -1,0 +1,373 @@
+<div class="kt-portlet">
+    <div class="kt-portlet__head">
+        <div class="kt-portlet__head-label btn-addVehicle">
+            <h3 class="kt-portlet__head-title" *ngIf="isAdd">{{'VEHICLE.ADD' | translate }} </h3>
+            <h3 class="kt-portlet__head-title" *ngIf="!isAdd">{{'VEHICLE.EDIT' | translate }}</h3>
+        </div>
+        <div class="btn kt-portlet__head-label">
+            <a href="javascript:;" (click)=cancle() class="btn btn-brand btn-elevate btn-icon-sm"><i
+                    class="la la-left-arrow"></i>{{'BUTTONS.BACK' | translate }}</a>
+        </div>
+    </div>
+
+    <div class="kt-portlet__body">
+        <form class="kt-form kt-form__group" name="addDriverForm2" [formGroup]="addDriverForm2">
+            <!-- brand & Insurance image -->
+            <div class="form-group  row">
+              <div class="col-lg-6">
+                    <div class="col-lg-12">
+                        <label for="example-text-input" class="col-form-label">
+                            {{'DRIVER.LABEL.SERVICETYPE_NAME' | translate }}*
+                        </label>
+                    </div>
+
+                    <div class="col-lg-12" *ngIf="serviceTypes">
+                        <select class="form-control m-input" id="carType" formControlName="carType" [ngClass]="{ 'is-invalid': submitted1 && addDriverForm2.controls.carType.errors }">
+                            <option value="">{{'DRIVER.PLACEHOLDERS.SELECT_SERVICETYPE' | translate}}</option>
+                            <option value="{{carType._id}}" *ngFor="let carType of serviceTypes">
+                                {{carType.serviceType_name}}</option>
+                        </select>
+                        <div *ngIf="submitted1 && addDriverForm2.controls.carType.errors" class="form-control-feedback" style="color: red">
+                            <p *ngIf="submitted1 && addDriverForm2.controls.carType.errors?.required">
+                                {{'DRIVER.VALIDATION.FIELD_REQUIRED' | translate }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="col-lg-12">
+                        <label for="example-text-input" class="col-form-label">
+                            {{'DRIVER.LABEL.BRAND_NAME' | translate }}*
+                        </label>
+                    </div>
+                    <div class="col-lg-12">
+                        <select class="form-control m-input" id="brandName" (change)="changeBrand($event.target.value)" formControlName="brandName" [ngClass]="{ 'is-invalid': submitted1 && addDriverForm2.controls.brandName.errors }">
+                            <option value="">{{'DRIVER.PLACEHOLDERS.SELECT_BRAND'|translate}}</option>
+                            <option value="{{brand._id}}" *ngFor="let brand of brands">{{brand.brand_name}}
+                            </option>
+                        </select>
+                        <div *ngIf="submitted1 && addDriverForm2.controls.brandName.errors" class="form-control-feedback" style="color: red">
+                            <p *ngIf="submitted1 && addDriverForm2.controls.brandName.errors?.required">
+                                {{'DRIVER.VALIDATION.FIELD_REQUIRED' | translate }}
+                            </p>
+                            <p *ngIf="submitted1 && addDriverForm2.controls.brandName.errors?.pattern">
+                                {{'DRIVER.VALIDATION.BRANDNAME_INVALID' | translate }}
+                            </p>
+                        </div>
+                    </div>
+                </div>   
+            </div>
+            <div class="form-group  row">
+                
+                
+                <div class="col-lg-6">
+                    <div class="col-lg-12">
+                        <label for="example-text-input" class="col-form-label">
+                            {{'DRIVER.LABEL.INSURANCE_IMAGE' | translate }}*
+                        </label>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="kt-avatar" id="kt_user_avatar_2">
+                            <div class="kt-avatar__holder" [style.background-image]="'url('+url+')'">
+                            </div>
+                            <label class="kt-avatar__upload" data-toggle="kt-tooltip" title="Insurance Image" *ngIf="url && url=='../../../../../assets/media/newMedia/add.png'" data-original-title="Change avatar">
+                                <i class="fa fa-pen"></i>
+                                <input type="file" name="profile_avatar" accept=".png, .jpg, .jpeg"
+                                    (change)="onSelectFile($event)">
+                            </label>
+                            <span class="kt-avatar__cancel" *ngIf="url && url!='../../../../../assets/media/newMedia/add.png'" style="display:flex;" data-toggle="kt-tooltip" title="" (click)="imageRemove()" data-original-title="Remove Image">
+                                <i class="fa fa-times"></i>
+                            </span>
+                        </div>
+                        <span class="form-text text-muted">{{'DRIVER.NOTES.IMAGE'|translate}}
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <!-- model name  & number plate-->
+            <div class="form-group  row">
+                <div class="col-lg-6">
+                    <div class="col-lg-12">
+                        <label for="example-text-input" class="col-form-label">
+                            {{'DRIVER.LABEL.MODEL_NAME' | translate }}*
+                        </label>
+                    </div>
+                    <div class="col-lg-12">
+                        <select class="form-control m-input" id="brandName" (change)="changeModel($event.target.value)" formControlName="vehicleModelName" [ngClass]="{ 'is-invalid': submitted1 && addDriverForm2.controls.vehicleModelName.errors }">
+                            <option value="">{{'DRIVER.PLACEHOLDERS.SELECT_MODEL' | translate}}</option>
+                            <option value="{{model._id}}" *ngFor="let model of models">{{model.model_name}}
+                            </option>
+                        </select>
+                        <div *ngIf="submitted1 && addDriverForm2.controls.vehicleModelName.errors" class="form-control-feedback" style="color: red">
+                            <p *ngIf="submitted1 && addDriverForm2.controls.vehicleModelName.errors?.required">
+                                {{'DRIVER.VALIDATION.FIELD_REQUIRED' | translate }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="col-lg-12">
+                        <label for="example-text-input" class="col-form-label">
+                            {{'DRIVER.LABEL.REGISTARTION_DOC_IMAGE' | translate }}*
+                        </label>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="kt-avatar" id="kt_user_avatar_2">
+                            <div class="kt-avatar__holder" [style.background-image]="'url('+url2+')'">
+                            </div>
+                            <label class="kt-avatar__upload" data-toggle="kt-tooltip" title="Number Plate" *ngIf="url2 && url2=='../../../../../assets/media/newMedia/add.png'" data-original-title="Change avatar">
+                                <i class="fa fa-pen"></i>
+                                <input type="file" name="profile_avatar" accept=".png, .jpg, .jpeg"
+                                    (change)="onSelectFileRegistrationDocImage($event)">
+                                <!-- formControlName= "registrationNoImage" -->
+                            </label>
+                            <span class="kt-avatar__cancel" *ngIf="url2 && url2!='../../../../../assets/media/newMedia/add.png'" style="display:flex;" data-toggle="kt-tooltip" title="" (click)="imageRemoveRegistrationDoc()" data-original-title="Remove Image">
+                                <i class="fa fa-times"></i>
+                            </span>
+                        </div>
+                        <span class="form-text text-muted">{{'DRIVER.NOTES.IMAGE'|translate}}
+                        </span>
+                        <!-- <div *ngIf="submitted1 && addDriverForm2.controls.registrationNoImage.errors"
+                        class="form-control-feedback" style="color: red">
+                        <p
+                            *ngIf="submitted1 && addDriverForm2.controls.registrationNoImage.errors?.required">
+                            {{'DRIVER.VALIDATION.FIELD_REQUIRED' | translate }}
+                        </p>
+                       </div> -->
+                    </div>
+                </div>
+            </div>
+            <!-- Trim & inspection image  -->
+            <div class="form-group row">
+                <div class="col-lg-6">
+                    <div class="col-lg-12">
+                        <label for="example-text-input" class="col-form-label">
+                            {{'DRIVER.LABEL.TRIM_NAME' | translate }}*
+                        </label>
+                    </div>
+                    <div class="col-lg-12">
+                        <select class="form-control m-input" id="brandName" formControlName="vehicleTrimName" [ngClass]="{ 'is-invalid': submitted1 && addDriverForm2.controls.vehicleTrimName.errors }">
+                            <option value="">{{'DRIVER.PLACEHOLDERS.SELECT_TRIM' | translate}}</option>
+                            <option value="{{trim._id}}" *ngFor="let trim of trims">{{trim.trim_name}}
+                            </option>
+                        </select>
+                        <div *ngIf="submitted1 && addDriverForm2.controls.vehicleTrimName.errors" class="form-control-feedback" style="color: red">
+                            <p *ngIf="submitted1 && addDriverForm2.controls.vehicleTrimName.errors?.required">
+                                {{'DRIVER.VALIDATION.FIELD_REQUIRED' | translate }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="col-lg-12">
+                        <label for="example-text-input" class="col-form-label">
+                            {{'DRIVER.LABEL.INSPECTION_IMAGE' | translate }}*
+                        </label>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="kt-avatar" id="kt_user_avatar_2">
+                            <div class="kt-avatar__holder" [style.background-image]="'url('+url3+')'">
+                            </div>
+                            <label class="kt-avatar__upload" data-toggle="kt-tooltip" title="Inspection Image" *ngIf="url3 && url3=='../../../../../assets/media/newMedia/add.png'" data-original-title="Change avatar">
+                                <i class="fa fa-pen"></i>
+                                <input type="file" name="profile_avatar" accept=".png, .jpg, .jpeg"
+                                    (change)="onSelectInspectionFile($event)">
+                            </label>
+                            <span class="kt-avatar__cancel" *ngIf="url3 && url3!='../../../../../assets/media/newMedia/add.png'" style="display:flex;" data-toggle="kt-tooltip" title="" (click)="imageInspectionRemove()" data-original-title="Remove Image">
+                                <i class="fa fa-times"></i>
+                            </span>
+                        </div>
+                        <span class="form-text text-muted">{{'DRIVER.NOTES.IMAGE'|translate}}
+                        </span>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-------color and Car Icon-->
+            <div class="form-group  row">
+                <div class="col-lg-6">
+                    <div class="col-lg-12">
+                        <label for="example-text-input" class="col-form-label">
+                            {{'DRIVER.LABEL.VEHICLE_COLOR' | translate }}*
+                        </label>
+                    </div>
+                    <div class="col-lg-12">
+                        <select class="form-control m-input" id="color" formControlName="color" [ngClass]="{ 'is-invalid': submitted1 && addDriverForm2.controls.color.errors }">
+                            <option value="">{{'DRIVER.PLACEHOLDERS.SELECT_COLOR' | translate }}</option>
+                            <option value="{{color._id}}" *ngFor="let color of colors">{{color.color_name}}</option>
+                        </select>
+                        <div *ngIf="submitted1 && addDriverForm2.controls.color.errors" class="form-control-feedback" style="color: red">
+                            <p *ngIf="submitted1 && addDriverForm2.controls.color.errors?.required">
+                                {{'DRIVER.VALIDATION.FIELD_REQUIRED' | translate }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-lg-6">
+                    <div class="col-lg-12">
+                        <label for="example-text-input" class="col-form-label">
+                            {{'DRIVER.LABEL.CAR_ICON' | translate }}*
+                        </label>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="kt-avatar" id="kt_user_avatar_2">
+                            <div class="kt-avatar__holder" [style.background-image]="'url('+url1+')'">
+                            </div>
+                            <label class="kt-avatar__upload" data-toggle="kt-tooltip" title="Car Icon" *ngIf="url1 && url1=='../../../../../assets/media/newMedia/add.png'" data-original-title="Change avatar">
+                                <i class="fa fa-pen"></i>
+                                <input type="file" name="profile_avatar" accept=".png, .jpg, .jpeg"
+                                    (change)="onSelectFileIcon($event)">
+                                    <img [src]="imgUrl" height="200"   *ngIf= "imgUrl">
+                            </label>
+                            <span class="kt-avatar__cancel" *ngIf="url1 && url1!='../../../../../assets/media/newMedia/add.png'" style="display:flex;" data-toggle="kt-tooltip" title="" (click)="imageRemoveIcon()" data-original-title="Remove Image">
+                                <i class="fa fa-times"></i>
+                            </span>
+                        </div>
+                         
+                        <!-- <lib-ngx-image-zoom class= "img-zoom"
+                            [thumbImage]=myThumbnail
+                            [fullImage]=myFullresImage
+                            [magnification]="1"
+                            [enableScrollZoom]="true"
+                            [enableLens]="true"
+                            [lensWidth]="200"
+                        ></lib-ngx-image-zoom> -->
+                        <span class="form-text text-muted">{{'DRIVER.NOTES.IMAGE'|translate}}
+                        </span>
+                        <!-- <div *ngIf="submitted1 && addDriverForm2.controls.carIconImage.errors"
+                        class="form-control-feedback" style="color: red">
+                        <p
+                            *ngIf="submitted1 && addDriverForm2.controls.carIconImage.errors?.required">
+                            {{'DRIVER.VALIDATION.FIELD_REQUIRED' | translate }}
+                        </p>
+                       </div> -->
+                       <!-- <ngx-img-zoom
+                       [zoomImageSrc]="zoomImageSrc"
+                       [previewImageSrc]="previewImageSrc" 
+                       [imgStyle]="'width:515px; height:515px; bottom:0;  left:0;  right:0;  top:0;  margin:0 auto; border:1px solid #dcdcdc;'" 
+                       [resultStyle]="`width:824px; height:824px; background-repeat: no-repeat; z-index: 2; position:absolute;
+                                   -webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+                                       box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); top: 0;left: 100%;`"
+                       [lensStyle]="'width:155px; height:155px"
+                       [enableZoom] = "enableZoom"
+                       [containerStyle]=""
+                   ></ngx-img-zoom> -->
+                    </div>
+                </div>
+
+            </div>
+            <!-- amemities &  year -->
+            <div class="form-group row">
+                <div class="col-lg-6">
+                    <div class="col-lg-6">
+                        <label for="example-text-input" class="col-form-label">
+                            {{'DRIVER.LABEL.AMMENITIES' | translate}}*
+                        </label>
+                    </div>
+
+                    <div class="col-lg-12 muti_select">
+                        <angular2-multiselect [data]="allAmmenities" [(ngModel)]="selectedItemsAmmenities" [settings]="dropdownSettingsAmmenities" (onSelect)="onItemAmmenitiesSelect($event,selectedItemsAmmenities)" (onDeSelect)="onItemAmmenitiesDeSelect($event,selectedItemsAmmenities)"
+                            (onSelectAll)="onAmmenitiesSelectAll($event)" (onDeSelectAll)="onAmmenitiesDeSelectAll($event)" formControlName="ammenities">
+                        </angular2-multiselect>
+                        <div *ngIf="submitted1 && addDriverForm2.controls.ammenities.errors" class="form-control-feedback" style="color: red">
+                            <p *ngIf="submitted1 && addDriverForm2.controls.ammenities.errors?.required">
+                                {{'DRIVER.VALIDATION.FIELD_REQUIRED' | translate }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="col-lg-12">
+                        <label for="example-text-input" class="col-form-label">
+                            {{'DRIVER.LABEL.YEAR_OF_VEHICLE' | translate }}*
+                        </label>
+                    </div>
+                    <div class="col-lg-12">
+                        <select class="form-control m-input" id="year" formControlName="year" [ngClass]="{ 'is-invalid': submitted1 && addDriverForm2.controls.year.errors }">
+                            <option value="">{{'DRIVER.PLACEHOLDERS.SELECT_YEAR' | translate}}</option>
+                            <option value="{{year}}" *ngFor="let year of years">{{year}}
+                            </option>
+                        </select>
+                        <div *ngIf="submitted1 && addDriverForm2.controls.year.errors" class="form-control-feedback" style="color: red">
+                            <p *ngIf="submitted1 && addDriverForm2.controls.year.errors?.required">
+                                {{'DRIVER.VALIDATION.FIELD_REQUIRED' | translate }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- ---- Driver status & Name Plate -->
+            <div class="form-group  row">
+                <div class="col-lg-6">
+                    <div class="col-lg-6">
+                        <label for="example-text-input" class="col-form-label">
+                            {{'DRIVER.LABEL.DRIVER_STATUS' | translate}}*
+                        </label>
+                    </div>
+
+                    <div class="col-lg-12">
+                        <select class="form-control m-input" id="verifiedStatus" formControlName="verifiedStatus" (change)="selectVerifiedValue($event)" [ngClass]="{ 'is-invalid': submitted1 && addDriverForm2.controls.verifiedStatus.errors }">
+                            <option value="">{{'DRIVER.PLACEHOLDERS.SELECT_STATUS' | translate}}</option>
+                            <option value="{{status.value}}"
+                                *ngFor="let status of driverDocumentVerifiedStatus | keyvalue ">{{status.key}}
+                            </option>
+                        </select>
+                        <div *ngIf="submitted1 && addDriverForm2.controls.verifiedStatus.errors" class="form-control-feedback" style="color: red">
+                            <p *ngIf="submitted1 && addDriverForm2.controls.verifiedStatus.errors?.required">
+                                {{'DRIVER.VALIDATION.FIELD_REQUIRED' | translate }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="col-lg-12 mrgn_tp_ckb">
+                        <label for="example-text-input" class="col-form-label">
+                            {{'DRIVER.LABEL.IS_VEHICLE_DEFAULT' | translate}}*
+                        </label>
+                        <input class="form-control m-input m-login__form-input--last inln_ckbx" type="checkbox" formControlName="isDefault">
+                    </div>
+                    <!-- (change)="status = $event.target.checked ? 1: 0"
+                     (change)="changeCheckBox($event.target.value)"     -->
+                </div>
+            </div>
+
+            <div class="form-group row" *ngIf="!isVerifiedSelected">
+                <div class="col-lg-6">
+                    <div class="col-lg-12">
+                        <label for="example-text-input" class="col-form-label">
+                            {{'DRIVER.LABEL.REJECTED_REASON' | translate }} *
+                        </label>
+                    </div>
+                    <div class="col-lg-12">
+                        <input class="form-control m-input m-login__form-input--last" placeholder="{{'DRIVER.PLACEHOLDERS.REJECTED_REASON' | translate}}" type="text" formControlName="rejectedReason" [ngClass]="{ 'is-invalid': submitted1 && addDriverForm2.controls.rejectedReason.errors }">
+                        <div *ngIf="submitted1 && addDriverForm2.controls.rejectedReason.errors" class="form-control-feedback" style="color: red">
+                            <p *ngIf="submitted1 && addDriverForm2.controls.rejectedReason.errors?.required">
+                                {{'DRIVER.VALIDATION.FIELD_REQUIRED' | translate }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- buttons -->
+            <div class="form-group  row">
+                <div class="col-lg-12">
+                    <div class="col-lg-12">
+                        <button type="button" (click)=cancle() class="btn btn-secondary btn-elevate btn-icon-sm mr-3">
+                            {{'BUTTONS.CANCEL' | translate }}
+                        </button>
+                        <button type="submit" (click)="saveVehicleDetail()" class="btn btn-brand btn-elevate btn-icon-sm bt-right">
+                            {{'BUTTONS.SUBMIT' | translate }}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
